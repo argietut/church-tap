@@ -6,6 +6,6 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Text("Hello World"),);
+    return const Scaffold(body: Text("Hello World"),);
   }
 }
