@@ -10,6 +10,11 @@ class Events extends StatefulWidget {
 class _EventsState extends State<Events> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold();
+    return Scaffold(
+      appBar:AppBar(
+        title: const Text('Events'),
+      ),
+
+    );
   }
 }
