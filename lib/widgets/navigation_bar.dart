@@ -1,10 +1,9 @@
 import 'package:bethel_app_final/constant/colors.dart';
-import 'package:bethel_app_final/screen_pages/event_page.dart';
-import 'package:bethel_app_final/screen_pages/home_page.dart';
-import 'package:bethel_app_final/screen_pages/message_page.dart';
-import 'package:bethel_app_final/screen_pages/profile_page.dart';
+import 'package:bethel_app_final/screens/event_page.dart';
+import 'package:bethel_app_final/screens/home_page.dart';
+import 'package:bethel_app_final/screens/message_page.dart';
+import 'package:bethel_app_final/screens/profile_page.dart';
 import 'package:flutter/material.dart';
-
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -31,16 +30,23 @@ class _HomePageState extends State<HomePage> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         elevation: 6,
-        backgroundColor: Colors.grey[400], // Set the background color to grey
+        backgroundColor: Colors.grey[400],
         selectedItemColor: Constants.green,
         unselectedItemColor: Colors.grey[800],
         type: BottomNavigationBarType.fixed,
-        iconSize: 10.0, // Adjust the icon size
-        selectedFontSize: 12.0, // Adjust the font size for selected items
-        unselectedFontSize: 12.0, // Adjust the font size for unselected items
+        iconSize: 10.0,
+        selectedFontSize: 12.0,
+        unselectedFontSize: 12.0,
         onTap: (int value) {
           setState(() {
             _currentTab = value;
+            if (_currentTab == 1) { // Check if the selected tab is the "Events" tab
+              // Navigator.push(
+              //   context
+              //   MaterialPageRoute(builder: (context) => const Events()),
+              //
+              // );
+            }
           });
         },
         currentIndex: _currentTab,
@@ -96,7 +102,7 @@ class _HomePageState extends State<HomePage> {
           // Handle the onPressed event
         },
         child: const Icon(Icons.add),
-        backgroundColor: Colors.blue, // Customize the background color
+        backgroundColor: Colors.blue,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
