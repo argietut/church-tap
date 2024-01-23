@@ -1,3 +1,4 @@
+import 'package:bethel_app_final/screens/home_page.dart';
 import 'package:bethel_app_final/widgets/navigation_bar.dart';
 import 'package:flutter/material.dart';
 
