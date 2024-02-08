@@ -1,4 +1,4 @@
-import 'package:bethel_app_final/constant/colors.dart';
+import 'package:bethel_app_final/constant/color.dart';
 import 'package:bethel_app_final/screens/event_page.dart';
 import 'package:bethel_app_final/screens/home_page.dart';
 import 'package:bethel_app_final/screens/message_page.dart';

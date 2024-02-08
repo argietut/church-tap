@@ -1,27 +1,37 @@
-import 'package:bethel_app_final/screen_pages/home_screen_pages/calendar.dart';
-import 'package:bethel_app_final/screen_pages/home_screen_pages/my_profile.dart';
-import 'package:bethel_app_final/screen_pages/home_screen_pages/settings.dart';
-import 'package:bethel_app_final/screen_pages/home_screen_pages/signout.dart';
+import 'package:bethel_app_final/screens/screen_pages/home_screen_pages/calendar.dart';
+import 'package:bethel_app_final/screens/screen_pages/home_screen_pages/my_profile.dart';
+import 'package:bethel_app_final/screens/screen_pages/home_screen_pages/notification.dart';
+import 'package:bethel_app_final/screens/screen_pages/home_screen_pages/settings.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key});
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
+void signUserOut() {
+  FirebaseAuth.instance.signOut();
+}
+
 class _HomeScreenState extends State<HomeScreen> {
+  String _selectedOption = 'Option 1';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Home Screen'),
+        title: const Text('Home'),
         actions: [
           IconButton(
             icon: const Icon(Icons.notifications),
             onPressed: () {
-              // Handle notification icon tap
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const NotificationScreen()),
+              );
             },
           ),
         ],
@@ -87,11 +97,32 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             ListTile(
               leading: const Icon(Icons.exit_to_app),
-              title: const Text('Sign Out'),
+              title:
+                  const Text('Sign Out', style: TextStyle(color: Colors.red)),
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const SignOut()),
+                showDialog(
+                  context: context, // Make sure to have access to the context
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: const Text('Confirm Sign Out'),
+                      content: const Text('Are you sure you want to sign out?'),
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop(); // Close the dialog
+                          },
+                          child: const Text('No'),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            FirebaseAuth.instance.signOut();
+                            Navigator.of(context).pop(); // Close the dialog
+                          },
+                          child: const Text('Yes'),
+                        ),
+                      ],
+                    );
+                  },
                 );
               },
             ),
@@ -102,33 +133,29 @@ class _HomeScreenState extends State<HomeScreen> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            InkWell(
-              onTap: () {
-                // Handle search icon tap
+            DropdownButton<String>(
+              value: _selectedOption,
+              onChanged: (String? newValue) {
+                setState(() {
+                  _selectedOption = newValue!;
+                });
               },
-              child: Row(
-                children: [
-                  const Icon(Icons.search, size: 30), // Increase the size as needed
-                  const SizedBox(width: 8.0),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Where to?',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyText1!
-                              .copyWith(fontWeight: FontWeight.bold),
-                        ),
-                        // Add more content related to the search or any other widgets
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+              items: <String>[].map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
             ),
-            // Other content of your home screen
+            const SizedBox(height: 8.0),
+            Text(
+              'Locate outreach churches?',
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyText1!
+                  .copyWith(fontWeight: FontWeight.bold),
+            ),
+            // Add more content related to the search or any other widgets
           ],
         ),
       ),
