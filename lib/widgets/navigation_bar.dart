@@ -1,8 +1,8 @@
 import 'package:bethel_app_final/constant/color.dart';
-import 'package:bethel_app_final/screens/event_page.dart';
-import 'package:bethel_app_final/screens/home_page.dart';
-import 'package:bethel_app_final/screens/message_page.dart';
-import 'package:bethel_app_final/screens/profile_page.dart';
+import 'package:bethel_app_final/memberScreens/event_page.dart';
+import 'package:bethel_app_final/memberScreens/home_page.dart';
+import 'package:bethel_app_final/memberScreens/message_page.dart';
+import 'package:bethel_app_final/memberScreens/profile_page.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -15,7 +15,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _currentTab = 0;
   final List<StatefulWidget> _children = [
-    const HomeScreen(),
+    const MemberHomePage(),
     const Events(),
     const Messages(),
     const Profile(),
