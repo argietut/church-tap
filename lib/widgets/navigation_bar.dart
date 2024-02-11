@@ -30,9 +30,9 @@ class _HomePageState extends State<HomePage> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         elevation: 6,
-        backgroundColor: Colors.grey[400],
-        selectedItemColor: Constants.green,
-        unselectedItemColor: Colors.grey[800],
+        backgroundColor: appGreen,
+        selectedItemColor: appWhite,
+        unselectedItemColor: appWhite,
         type: BottomNavigationBarType.fixed,
         iconSize: 10.0,
         selectedFontSize: 12.0,
@@ -53,7 +53,7 @@ class _HomePageState extends State<HomePage> {
         items: const [
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.home,
+              Icons.home_outlined,
               size: 20,
             ),
             label: 'Home',
@@ -101,10 +101,11 @@ class _HomePageState extends State<HomePage> {
         onPressed: () {
           // Handle the onPressed event
         },
-        child: const Icon(Icons.add),
-        backgroundColor: Colors.blue,
+        child: const Icon(Icons.add, color: appWhite),
+        backgroundColor: appGreen,
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButtonLocation:
+       FloatingActionButtonLocation.centerDocked,
     );
   }
 }

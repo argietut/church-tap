@@ -42,11 +42,10 @@ flutter:
   assets:
     - assets/images/
 
-
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
+  fonts:
+    - family: ProtestRiot
+      fonts:
+        - asset: assets/fonts/ProtestRiot-Regular.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro
