@@ -1,8 +1,8 @@
-import 'package:bethel_app_final/Services/Functions/member_functions/member_auth_functions.dart';
 import 'package:bethel_app_final/authentications/auth_components/login_button.dart';
 import 'package:bethel_app_final/authentications/auth_components/my_textfield.dart';
-import 'package:bethel_app_final/authentications/forgot_password.dart';
+import 'package:bethel_app_final/authentications/auth_components/forgot_password.dart';
 import 'package:bethel_app_final/constant/color.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class MemberLoginPage extends StatefulWidget {
@@ -26,33 +26,56 @@ class _MemberLoginPageState extends State<MemberLoginPage> {
       String email = emailController.text.trim();
       String password = passwordController.text.trim();
 
-      if (email.isEmpty || password.isEmpty) {
+      if (email.isEmpty && password.isEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text('Please enter email and password.'),
+            content: Text('Please enter both email and password.'),
+            duration: Duration(seconds: 3),
+          ),
+        );
+        return;
+      }
+      if (email.isEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Please enter your email.'),
+            duration: Duration(seconds: 3),
+          ),
+        );
+        return;
+      }
+      if (password.isEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Please enter your password.'),
             duration: Duration(seconds: 3),
           ),
         );
         return;
       }
 
-      await MemberAuthServices.signinUser(email, password); // Sign in the user
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Signed in successfully."),
-          duration: Duration(seconds: 3),
-        ),
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email,
+        password: password,
       );
-      // Clear text field controllers after successful sign in
-      emailController.clear();
-      passwordController.clear();
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text("Failed to sign in: $e"),
-          duration: const Duration(seconds: 3),
-        ),
-      );
+    } on FirebaseAuthException catch (e) {
+      print('FirebaseAuthException occurred: ${e.message}');
+      if (e.code == 'wrong-password') {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content:
+                Text('Incorrect password. Please double-check and try again.'),
+            duration: Duration(seconds: 3),
+          ),
+        );
+      } else if (e.code == 'user-not-found') {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Email address not found. Please create an account.'),
+            duration: Duration(seconds: 3),
+          ),
+        );
+      }
     }
   }
 
@@ -60,10 +83,7 @@ class _MemberLoginPageState extends State<MemberLoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-      title: const Text(''),
-      automaticallyImplyLeading: true
-      ),
+      appBar: AppBar(title: const Text(''), automaticallyImplyLeading: true),
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
@@ -119,7 +139,6 @@ class _MemberLoginPageState extends State<MemberLoginPage> {
                           'Forgot Password?',
                           style: TextStyle(
                             color: appGreen,
-                           
                           ),
                         ),
                       ),

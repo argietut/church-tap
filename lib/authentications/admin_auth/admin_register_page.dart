@@ -1,4 +1,3 @@
-import 'package:bethel_app_final/Services/Functions/admin_functions/admin_auth_functions.dart';
 import 'package:bethel_app_final/authentications/auth_components/signup_button.dart';
 import 'package:bethel_app_final/authentications/auth_components/my_textfield.dart';
 import 'package:bethel_app_final/constant/color.dart';
@@ -27,77 +26,80 @@ class _AdminRegisterPageState extends State<AdminRegisterPage> {
   //sign up method
   void signUserUp() async {
     try {
-      String username = usernameController.text.trim();
-      String email = emailController.text.trim();
-      String password = passwordController.text.trim();
-      String confirmPassword = confirmPasswordController.text.trim();
+    String username = usernameController.text.trim();
+    String email = emailController.text.trim();
+    String password = passwordController.text.trim();
+    String confirmPassword = confirmPasswordController.text.trim();
 
-      if (username.isEmpty || email.isEmpty || password.isEmpty || confirmPassword.isEmpty) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text("Please fill up all fields."),
-            duration: Duration(seconds: 3),
-          ),
-        );
-        return;
-      }
-
-      // Your email validation logic
-      if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(email)) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text("Please enter a valid email address."),
-            duration: Duration(seconds: 3),
-          ),
-        );
-        return;
-      }
-
-      // Password validation logic
-      if (!RegExp(r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$').hasMatch(password)) {
-        // Your password validation error handling
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text("Password must be at least 8 characters long and contain letters and numbers."),
-            duration: Duration(seconds: 3),
-          ),
-        );
-        return;
-      }
-
-      if (password != confirmPassword) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text("Passwords don't match!"),
-            duration: Duration(seconds: 3),
-          ),
-        );
-        return;
-      }
-
-      await AdminAuthServices.signupAdmin(email, password, username); // Sign up the user
+    // Validate input fields
+    if (username.isEmpty ||
+        email.isEmpty ||
+        password.isEmpty ||
+        confirmPassword.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text("Account created successfully."),
+          content: Text("Please fill up all fields."),
           duration: Duration(seconds: 3),
         ),
       );
-      // Clear text field controllers after successful sign up
-      usernameController.clear();
-      emailController.clear();
-      passwordController.clear();
-      confirmPasswordController.clear();
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text("Failed to create account: $e"),
-          duration: Duration(seconds: 3),
-        ),
-      );
+      return;
     }
+
+    // Email validation logic
+    if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(email)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Please enter a valid email address format."),
+          duration: Duration(seconds: 3),
+        ),
+      );
+      return;
+    }
+    if (!email.endsWith("@gmail.com")) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Please enter a valid email address format."),
+          duration: Duration(seconds: 3),
+        ),
+      );
+      return;
+    }
+
+    // Password validation logic
+    if (password.length < 8) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Password must be at least 8 characters long."),
+          duration: Duration(seconds: 3),
+        ),
+      );
+      return;
+    }
+
+    if (!RegExp(r'^(?=.*[a-zA-Z])(?=.*\d)[A-Za-z\d]+$').hasMatch(password)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Password must contain both letters and numbers."),
+          duration: Duration(seconds: 3),
+        ),
+      );
+      return;
+    }
+
+    if (password != confirmPassword) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Passwords don't match!"),
+          duration: Duration(seconds: 3),
+        ),
+      );
+      return;
+    }
+  } catch (e) {
+    print(e.toString());
+    // Handle exceptions if necessary
   }
-
-
+}
   @override
   Widget build(BuildContext context) {
     return Scaffold(

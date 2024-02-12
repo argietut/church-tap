@@ -45,33 +45,42 @@ class _MemberRegisterPageState extends State<MemberRegisterPage> {
       if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(email)) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text("Please enter a valid email address."),
+            content: Text("Please enter a valid email address format."),
             duration: Duration(seconds: 3),
           ),
         );
         return;
       }
+      if (!email.endsWith("@gmail.com")) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Please enter a valid email address format."),
+          duration: Duration(seconds: 3),
+        ),
+      );
+      return;
+    }
 
-      // Password validation logic
-      if (password.length < 8) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text("Password must be at least 8 characters long."),
-            duration: Duration(seconds: 3),
-          ),
-        );
-        return;
-      }
+     // Password validation logic
+    if (password.length < 8) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Password must be at least 8 characters long."),
+          duration: Duration(seconds: 3),
+        ),
+      );
+      return;
+    }
 
-      if (!RegExp(r'^[A-Za-z0-9]+$').hasMatch(password)) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text("Password must contain letters and numbers only."),
-            duration: Duration(seconds: 3),
-          ),
-        );
-        return;
-      }
+    if (!RegExp(r'^(?=.*[a-zA-Z])(?=.*\d)[A-Za-z\d]+$').hasMatch(password)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Password must contain both letters and numbers."),
+          duration: Duration(seconds: 3),
+        ),
+      );
+      return;
+    }
 
       if (password != confirmPassword) {
         ScaffoldMessenger.of(context).showSnackBar(
