@@ -1,77 +1,280 @@
+
+import 'package:bethel_app_final/memberScreens/screen_pages/profile_screen_pages/calendar.dart';
+import 'package:bethel_app_final/memberScreens/screen_pages/profile_screen_pages/my_profile.dart';
+import 'package:bethel_app_final/memberScreens/screen_pages/profile_screen_pages/settings.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+
+void main()=>runApp(
+    const MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home : Profile(),
+    )
+);
+void signUserOut(){
+  FirebaseAuth.instance.signOut();
+}
+
 class Profile extends StatefulWidget {
-  const Profile({Key? key}) : super(key: key);
+  const Profile({super.key});
+
 
   @override
-  State<Profile> createState() => _ProfileState();
+  _ProfileState createState() => _ProfileState();
 }
 
 class _ProfileState extends State<Profile> {
+  final textStyleState = const TextStyle(
+      fontSize: 11.0,
+      color: Colors.white
+  );
+
+  final textStyleTop = const TextStyle(
+      fontSize: 22.0,
+      fontWeight: FontWeight.bold,
+      color: Colors.white
+  );
+
+  final textStyle2 = const TextStyle(
+      color: Colors.white
+
+  );
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-         automaticallyImplyLeading: false,
-        title: const Text('Profile'),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const CircleAvatar(
-              radius: 60,
-              backgroundImage: NetworkImage(
-                'https://example.com/your-profile-image.jpg', // Replace with the actual profile image URL
+      body:ListView(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(25),
+            child: Row(
+              children: [
+                Container(
+                  width: 60.0,
+                  height: 60.0,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Colors.grey[300],
+                  ),
+                  child: const Icon(
+                    Icons.person,
+                    size: 40.0,
+                    color: Colors.black,
+                  ),
+                ),
+
+                const SizedBox(width: 15,),
+
+                const Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("Profile",style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 24,
+                        color: Colors.black87
+                    ),),
+                  ],
+                )
+              ],
+            ),
+          ),
+          ClipRRect(
+            child: Container(
+              margin: const EdgeInsets.only(bottom: 5.0),
+              decoration: const BoxDecoration(
+                color: Colors.black12,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black87,
+                    offset: Offset(0.0, 1.0), //(x,y)
+                    blurRadius: 5.0,
+                  ),
+                ],
+              ),
+              width: 50,
+              height: 1,
+            ),
+          ),
+          Padding(
+            padding:  const EdgeInsets.all(15),
+            child: Text("Account settings".toUpperCase(),
+              style: const TextStyle(color: Colors.grey,fontSize: 15,
               ),
             ),
-            const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () {
-                // Handle Edit Profile button tap
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+            ),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) =>  const MyProfile()),
+              );
+            },
+            child: const Padding(
+              padding: EdgeInsets.all(15),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Expanded(
+                    child: Text(
+                      "Personal informations",
+                      style: TextStyle(color: Colors.black, fontSize: 17, fontWeight: FontWeight.w300),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  Icon(
+                    Icons.person,
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 30),
+            decoration: const BoxDecoration(
+              color: Colors.black12,
+            ),
+            width: 50,
+            height: 1,
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+            ),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const Calendar()),
+              );
+            },
+            child: const Padding(
+              padding: EdgeInsets.all(15),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Expanded(
+                    child: Text(
+                      "Calendar",
+                      style: TextStyle(color: Colors.black, fontSize: 17, fontWeight: FontWeight.w300),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  Icon(
+                    Icons.calendar_month_outlined,
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 30),
+            decoration: const BoxDecoration(
+              color: Colors.black12,
+            ),
+            width: 50,
+            height: 1,
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+            ),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const Settings()),
+              );
+            },
+            child: const Padding(
+              padding: EdgeInsets.all(15),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Expanded(
+                    child: Text(
+                      "Settings",
+                      style: TextStyle(color: Colors.black, fontSize: 17, fontWeight: FontWeight.w300),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  Icon(
+                    Icons.settings,
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 30),
+            decoration: const BoxDecoration(
+              color: Colors.black12,
+            ),
+            width: 50,
+            height: 1,
+          ),
+         
+         
+
+          Padding(
+            padding:  const EdgeInsets.all(15),
+            child: Text("Log out".toUpperCase(),style: const TextStyle(color: Colors.grey,fontSize: 15,),),
+          ),
+
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 30),
+            decoration: const BoxDecoration(
+              color: Colors.black12,
+            ),
+            width: 50,
+            height: 1,
+          ),
+
+         ListTile(
+              leading: const Icon(Icons.exit_to_app),
+              title: const Text('Sign Out', style: TextStyle(color: Colors.red)),
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: const Text('Confirm Sign Out'),
+                      content: const Text('Are you sure you want to sign out?'),
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: const Text('No'),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            FirebaseAuth.instance.signOut();
+                            Navigator.of(context).pop();
+                          },
+                          child: const Text('Yes'),
+                        ),
+                      ],
+                    );
+                  },
+                );
               },
-              child: const Text('Edit Profile'),
             ),
-            const SizedBox(height: 16),
-            const ProfileDetail(title: 'Name', value: 'Argiezu'),
-            const ProfileDetail(title: 'Address', value: 'New York City'),
-            const ProfileDetail(title: 'Date of Birth', value: 'January 1, 19999'),
-            const ProfileDetail(title: 'Gender', value: 'Male'),
-          ],
-        ),
-      ),
-    );
-  }
-}
 
-class ProfileDetail extends StatelessWidget {
-  final String title;
-  final String value;
-
-  const ProfileDetail({
-    Key? key,
-    required this.title,
-    required this.value,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            '$title: ',
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 30),
+            decoration: const BoxDecoration(
+              color: Colors.black12,
+            ),
+            width: 50,
+            height: 1,
+          ),
+          const Padding(
+            padding:  EdgeInsets.all(15),
+            child: Text("Version 2.14.2024",
+              style: TextStyle(color: Colors.black,fontSize: 12,
+              ),
             ),
           ),
-          Text(
-            value,
-            style: const TextStyle(fontSize: 16),
-          ),
+
         ],
       ),
     );

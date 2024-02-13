@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:bethel_app_final/screens/option_page.dart';
+import 'package:bethel_app_final/screens/option_components/option_page.dart';
 import 'package:bethel_app_final/constant/color.dart';
 import 'package:flutter/material.dart';
 

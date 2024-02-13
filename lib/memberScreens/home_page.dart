@@ -1,8 +1,5 @@
 import 'package:bethel_app_final/constant/color.dart';
-import 'package:bethel_app_final/memberScreens/screen_pages/home_screen_pages/calendar.dart';
-import 'package:bethel_app_final/memberScreens/screen_pages/home_screen_pages/my_profile.dart';
-import 'package:bethel_app_final/memberScreens/screen_pages/home_screen_pages/notification.dart';
-import 'package:bethel_app_final/memberScreens/screen_pages/home_screen_pages/settings.dart';
+import 'package:bethel_app_final/screens/map_components/map_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -18,118 +15,98 @@ void signUserOut() {
 }
 
 class _MemberHomePageState extends State<MemberHomePage> {
+  bool _isSearching = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Home'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.notifications),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const NotificationScreen()),
-              );
-            },
+        automaticallyImplyLeading: false,
+        toolbarHeight: 128,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                color: appBlack.withOpacity(0.1),
+                blurRadius: 1.0,
+                spreadRadius: 1.0,
+                offset: const Offset(0.0, 1.0),
+              )
+            ],
           ),
-        ],
-      ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            const DrawerHeader(
-              decoration: BoxDecoration(
-                color: appGreen,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CircleAvatar(
-                    radius: 40,
-                    backgroundImage: NetworkImage(
-                      'https://example.com/your-profile-image.jpg',
+          child: Stack(
+            children: [
+              Positioned(
+                right: 16.0,
+                top: 20.0,
+                child: IconButton(
+                  onPressed: () {},
+                  style: IconButton.styleFrom(
+                    shape: const CircleBorder(
+                      side: BorderSide(color: appGrey, width: 1.0),
                     ),
                   ),
-                  SizedBox(height: 8),
-                  Text(
-                    'User Name', // Replace with the actual user name
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                ],
+                  icon: const Icon(Icons.tune),
+                ),
               ),
-            ),
-            ListTile(
-              leading: const Icon(Icons.person),
-              title: const Text('My Profile'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const MyProfile()),
-                );
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.calendar_today),
-              title: const Text('Calendar'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const Calendar()),
-                );
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.settings),
-              title: const Text('Settings'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const Settings()),
-                );
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.exit_to_app),
-              title:
-                  const Text('Sign Out', style: TextStyle(color: Colors.red)),
-              onTap: () {
-                showDialog(
-                  context: context, // Make sure to have access to the context
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: const Text('Confirm Sign Out'),
-                      content: const Text('Are you sure you want to sign out?'),
-                      actions: <Widget>[
-                        TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pop(); // Close the dialog
-                          },
-                          child: const Text('No'),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            FirebaseAuth.instance.signOut();
-                            Navigator.of(context).pop(); // Close the dialog
-                          },
-                          child: const Text('Yes'),
-                        ),
-                      ],
-                    );
+              Positioned(
+                left: 16.0,
+                right: 72.0,
+                top: 20.0,
+                child: GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      _isSearching = !_isSearching;
+                    });
                   },
-                );
-              },
-            ),
-          ],
+                  child: Hero(
+                    tag: 'planning',
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16.0,
+                        vertical: 8.0,
+                      ),
+                      decoration: BoxDecoration(
+                        color: appWhite,
+                        border: Border.all(color: appGrey, width: 1.0),
+                        borderRadius: BorderRadius.circular(32.0),
+                        boxShadow: [
+                          BoxShadow(
+                            color: appGrey.withOpacity(0.5),
+                            blurRadius: 8.0,
+                            spreadRadius: 8.0,
+                            offset: const Offset(0, 4.0),
+                          ),
+                        ],
+                      ),
+                      child: Row(
+                        children: [
+                          const Icon(Icons.search),
+                          const SizedBox(width: 8.0),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Where to?',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1!
+                                    .copyWith(fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
+      body: _isSearching ? MapPage() : Container(), // Conditionally display MapPage
     );
   }
 }
