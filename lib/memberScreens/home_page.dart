@@ -22,7 +22,7 @@ class _MemberHomePageState extends State<MemberHomePage> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        toolbarHeight: 128,
+        toolbarHeight: 90,
         flexibleSpace: Container(
           decoration: BoxDecoration(
             color: Colors.white,
@@ -35,7 +35,7 @@ class _MemberHomePageState extends State<MemberHomePage> {
               )
             ],
           ),
-          child: Stack(
+           child: Stack(
             children: [
               Positioned(
                 right: 16.0,
@@ -82,13 +82,13 @@ class _MemberHomePageState extends State<MemberHomePage> {
                       ),
                       child: Row(
                         children: [
-                          const Icon(Icons.search),
+                          const Icon(Icons.maps_home_work_outlined),
                           const SizedBox(width: 8.0),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Where to?',
+                                'locate outreach churches',
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyText1!
@@ -106,7 +106,19 @@ class _MemberHomePageState extends State<MemberHomePage> {
           ),
         ),
       ),
-      body: _isSearching ? MapPage() : Container(), // Conditionally display MapPage
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 300),
+              height: _isSearching ? MediaQuery.of(context).size.height - 90 : 0,
+              child: _isSearching ? MapPage() : null,
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
+
+

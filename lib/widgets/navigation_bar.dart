@@ -42,12 +42,6 @@ class _HomePageState extends State<HomePage> {
           setState(() {
             _currentTab = value;
             if (_currentTab == 1) {
-              // Check if the selected tab is the "Events" tab
-              // Navigator.push(
-              //   context
-              //   MaterialPageRoute(builder: (context) => const Events()),
-              //
-              // );
             }
           });
         },

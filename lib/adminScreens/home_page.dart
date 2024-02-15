@@ -1,8 +1,8 @@
 import 'package:bethel_app_final/constant/color.dart';
-import 'package:bethel_app_final/memberScreens/screen_pages/home_screen_pages/calendar.dart';
-import 'package:bethel_app_final/memberScreens/screen_pages/home_screen_pages/my_profile.dart';
-import 'package:bethel_app_final/memberScreens/screen_pages/home_screen_pages/notification.dart';
-import 'package:bethel_app_final/memberScreens/screen_pages/home_screen_pages/settings.dart';
+import 'package:bethel_app_final/memberScreens/screen_pages/profile_screen_pages/calendar.dart';
+import 'package:bethel_app_final/memberScreens/screen_pages/profile_screen_pages/my_profile.dart';
+import 'package:bethel_app_final/memberScreens/screen_pages/profile_screen_pages/notification.dart';
+import 'package:bethel_app_final/memberScreens/screen_pages/profile_screen_pages/settings.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -42,7 +42,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
           padding: EdgeInsets.zero,
           children: [
             const DrawerHeader(
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 color:appGreen,
               ),
               child: Column(

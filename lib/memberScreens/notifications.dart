@@ -13,8 +13,9 @@ class _NotificationsState extends State<Notifications> {
     return Scaffold(
       appBar: AppBar(
          automaticallyImplyLeading: false,
-        title: const Text('Messages'),
+        title: const Text('Notifications'),
         actions: [
+           const Divider(),
           IconButton(
             icon: const Icon(Icons.more_vert),
             onPressed: () {
@@ -23,12 +24,14 @@ class _NotificationsState extends State<Notifications> {
           ),
         ],
       ),
+      
       body: const Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            
             Icon(
-              Icons.email,
+              Icons.notification_important_outlined,
               size: 50,
               color: Colors.blue,
             ),
@@ -43,7 +46,7 @@ class _NotificationsState extends State<Notifications> {
             ),
             SizedBox(height: 8),
             Text(
-              'No messages yet. Stay tuned, amazing conversations are on the way!',
+              'No notification yet. Stay tuned, amazing conversations are on the way!',
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 16,
