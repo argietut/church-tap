@@ -12,7 +12,20 @@
           "package_name": "com.example.bethel_app_final"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "358950522813-lknebmc8tgmlgl4c930pc4l924pv8sje.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.bethel_app_final",
+            "certificate_hash": "da39a3ee5e6b4b0d3255bfef95601890afd80709"
+          }
+        },
+        {
+          "client_id": "358950522813-bs415u17fn6ulrpmhmpb00u5b3vh1eda.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyAecl2YbchQUyyHShKdqJmRw1E9EHiWPyI"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "358950522813-bs415u17fn6ulrpmhmpb00u5b3vh1eda.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

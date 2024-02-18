@@ -1,10 +1,10 @@
 import 'dart:ui';
 import 'package:bethel_app_final/authentications/admin_auth/admin_auth_page.dart';
-import 'package:bethel_app_final/authentications/member_auth/member_auth_page.dart';
+import 'package:bethel_app_final/authentications/option_to_loginform/option_what_account_to_use.dart';
+import 'package:bethel_app_final/colors/color.dart';
 import 'package:bethel_app_final/screens/option_components/about_us.dart';
 import 'package:bethel_app_final/screens/option_components/contact_us.dart';
 import 'package:bethel_app_final/screens/option_components/support_resources.dart';
-import 'package:bethel_app_final/constant/color.dart';
 import 'package:flutter/material.dart';
 
 class OptionPage extends StatelessWidget {
@@ -136,7 +136,7 @@ class OptionPage extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const MemberAuthPage()),
+                                builder: (context) => const OptionToPlatformToLogin()),
                           );
                         },
                         child: const Column(

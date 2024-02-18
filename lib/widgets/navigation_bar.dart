@@ -1,4 +1,4 @@
-import 'package:bethel_app_final/constant/color.dart';
+import 'package:bethel_app_final/colors/color.dart';
 import 'package:bethel_app_final/memberScreens/appointment_page.dart';
 import 'package:bethel_app_final/memberScreens/event_page.dart';
 import 'package:bethel_app_final/memberScreens/home_page.dart';
@@ -32,8 +32,8 @@ class _HomePageState extends State<HomePage> {
       bottomNavigationBar: BottomNavigationBar(
         elevation: 6,
         backgroundColor: appGreen,
-        selectedItemColor: appWhite,
-        unselectedItemColor: appWhite,
+        selectedItemColor: appBlack,
+        unselectedItemColor: appBlack,
         type: BottomNavigationBarType.fixed,
         iconSize: 10.0,
         selectedFontSize: 12.0,
@@ -100,7 +100,7 @@ class _HomePageState extends State<HomePage> {
             MaterialPageRoute(builder: (context) => const AppointmentPage()),
           );
         },
-        child: const Icon(Icons.add, color: appWhite),
+        child: const Icon(Icons.add, color: appBlack),
         backgroundColor: appGreen,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

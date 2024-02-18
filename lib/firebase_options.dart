@@ -56,6 +56,7 @@ class DefaultFirebaseOptions {
     projectId: 'congregationmanagementsy-39f48',
     authDomain: 'congregationmanagementsy-39f48.firebaseapp.com',
     storageBucket: 'congregationmanagementsy-39f48.appspot.com',
+    measurementId: 'G-JVKLRRX2YV',
   );
 
   static const FirebaseOptions android = FirebaseOptions(

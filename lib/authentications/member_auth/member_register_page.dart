@@ -1,8 +1,7 @@
-import 'package:bethel_app_final/Services/Functions/member_functions/member_auth_functions.dart';
-import 'package:bethel_app_final/authentications/auth_components/signup_button.dart';
-import 'package:bethel_app_final/authentications/auth_components/my_textfield.dart';
+import 'package:bethel_app_final/Services/Functions/Member_Functions/member_functions.dart';
+import 'package:bethel_app_final/authentications/auth_classes/class_page.dart';
 import 'package:bethel_app_final/authentications/member_auth/member_login_page.dart';
-import 'package:bethel_app_final/constant/color.dart';
+import 'package:bethel_app_final/colors/color.dart';
 import 'package:flutter/material.dart';
 
 class MemberRegisterPage extends StatefulWidget {

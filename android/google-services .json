@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "358950522813",
+    "project_id": "congregationmanagementsy-39f48",
+    "storage_bucket": "congregationmanagementsy-39f48.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:358950522813:android:5e5443949b971629c60cd4",
+        "android_client_info": {
+          "package_name": "com.example.bethel_app_final"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "358950522813-bs415u17fn6ulrpmhmpb00u5b3vh1eda.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAecl2YbchQUyyHShKdqJmRw1E9EHiWPyI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "358950522813-bs415u17fn6ulrpmhmpb00u5b3vh1eda.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
