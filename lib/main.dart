@@ -1,4 +1,4 @@
-import 'package:bethel_app_final/screens/splash_screen.dart';
+import 'package:bethel_app_final/FRONT_END/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
