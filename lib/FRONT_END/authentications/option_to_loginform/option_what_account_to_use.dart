@@ -12,9 +12,12 @@ class OptionToPlatformToLogin extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: appGreen2,
       appBar: AppBar(
-
+         automaticallyImplyLeading: true,
         title: const Text(''),
+        backgroundColor: appGreen2,
+        
       ),
 
       body:Center(
@@ -22,24 +25,30 @@ class OptionToPlatformToLogin extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text('Step into a place where love thrive',
+              Image.asset(
+                  'assets/images/churchmain.png',
+                   width: 400,
+                  height: 250,
+                ),
+                const SizedBox(height: 100),
+              const Text('Welcome To',
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 30,
-                  fontFamily:'GreatVibes',
-                    color: appGreen,
+                      fontSize: 20,
+                 // fontFamily:'GreatVibes',
+                    color: appBlack,
                   ),
               ),
-              const Text('and faith grows.',
+              const Text('Church Tap',
                   style: TextStyle(
-                      fontSize: 30,
+                      fontSize: 36,
                   fontWeight: FontWeight.bold,
-                  fontFamily: 'GreatVibes',
-                    color: appGreen
+                  fontFamily: 'ProtestRiot',
+                    color: appBlack
 
                   )
               ),
-              const SizedBox(height: 120),
+              const SizedBox(height: 30),
               Container(
                 width: 280,
                 height: 45,
@@ -163,6 +172,7 @@ class OptionToPlatformToLogin extends StatelessWidget {
                     child: const Text('Login now',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
+                      color: appGreen,
                       fontSize: 14
                     ),),
                   ),
@@ -185,7 +195,11 @@ class OptionToPlatformToLogin extends StatelessWidget {
                               MaterialPageRoute(builder: (context) => const Terms()),
                             );
                           },
-                          child: const Text('Terms'),
+                          child: const Text('Terms',
+                          style: TextStyle(color: appBlack,
+                          decoration: TextDecoration.underline
+                          ),
+                          ),
                         ),
                         const Text('and'),
                         TextButton(
@@ -195,7 +209,11 @@ class OptionToPlatformToLogin extends StatelessWidget {
                               MaterialPageRoute(builder: (context) => const PrivacyPolicy()),
                             );
                           },
-                          child: const Text('Privacy Policy'),
+                          child: const Text('Privacy Policy',
+                           style: TextStyle(color: appBlack,
+                          decoration: TextDecoration.underline
+                          ),
+                          ),
                         ),
                       ],
                     ),

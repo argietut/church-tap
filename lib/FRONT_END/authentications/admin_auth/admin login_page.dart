@@ -22,7 +22,7 @@ class _AdminLoginState extends State<AdminLogin> {
   final passwordController = TextEditingController();
 
   // sign user in method
- void signUserIn() async {
+  void signUserIn() async {
     try {
       String email = emailController.text.trim();
       String password = passwordController.text.trim();
@@ -84,9 +84,9 @@ class _AdminLoginState extends State<AdminLogin> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-     appBar: AppBar(
-      automaticallyImplyLeading: true, 
-      title: const Text(''),
+      appBar: AppBar(
+        automaticallyImplyLeading: true,
+        title: const Text(''),
       ),
       body: SafeArea(
         child: Center(
@@ -94,14 +94,13 @@ class _AdminLoginState extends State<AdminLogin> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                
                 // logo
                 Image.asset(
-                  'assets/images/churchmepicture.png',
+                  'assets/images/churchmain.png',
                   width: 300,
                   height: 300,
                 ),
-
+                const SizedBox(height: 40),
                 const Padding(
                   padding: EdgeInsets.only(
                       right: 200), // Adjust the left padding as needed
@@ -134,7 +133,6 @@ class _AdminLoginState extends State<AdminLogin> {
 
                 const SizedBox(height: 10),
 
-                
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25.0),
                   child: Row(

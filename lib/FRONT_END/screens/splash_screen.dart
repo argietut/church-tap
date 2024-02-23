@@ -61,14 +61,14 @@ class _SplashScreenState extends State<SplashScreen>
             ScaleTransition(
               scale: _animation,
               child: Image.asset(
-                'assets/images/churchmepicture.png',
+                'assets/images/churchmain.png',
                 width: 400,
                 height: 400,
               ),
             ),
             const SizedBox(height: 20),
             const Text(
-              'Church me',
+              'Church Tap',
               style: TextStyle(
                 fontSize: 50,
                 fontWeight: FontWeight.bold,
