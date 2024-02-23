@@ -90,16 +90,15 @@ class _MemberLoginPageState extends State<MemberLoginPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const SizedBox(height: 2),
                 Image.asset(
-                  'assets/images/churchmepicture.png',
+                  'assets/images/churchmain.png',
                   width: 400,
                   height: 250,
                 ),
-                const SizedBox(height: 15),
+                const SizedBox(height: 70),
                 const Padding(
                   padding: EdgeInsets.only(
-                      right: 170), // Adjust the left padding as needed
+                      right: 170), 
                   child: Text(
                     'Member Login',
                     style: TextStyle(

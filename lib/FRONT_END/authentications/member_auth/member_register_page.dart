@@ -137,11 +137,11 @@ class _MemberRegisterPageState extends State<MemberRegisterPage> {
             child: Column(
               children: [
                 Image.asset(
-                  'assets/images/churchmepicture.png',
+                  'assets/images/churchmain.png',
                   width: 400,
                   height: 250,
                 ),
-                const SizedBox(height: 15),
+                const SizedBox(height: 30),
                 const Padding(
                   padding: EdgeInsets.only(
                       right: 150), // Adjust the left padding as needed

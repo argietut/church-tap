@@ -15,7 +15,7 @@ class OptionPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Church Me',
+          'Church Tap',
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 34,
@@ -73,7 +73,7 @@ class OptionPage extends StatelessWidget {
               alignment: Alignment.center,
               children: [
                 Image.asset(
-                  'assets/images/churchmepicture.png',
+                  'assets/images/churchmain.png',
                   fit: BoxFit.cover,
                   width: double.infinity,
                   height: double.infinity,
