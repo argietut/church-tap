@@ -156,7 +156,7 @@ class _AdminRegisterPageState extends State<AdminRegisterPage> {
                   children: [
                     Text(
                       'Already have an account?',
-                      style: TextStyle(color: Colors.grey[700]),
+                      style: TextStyle(color: Colors.grey[700]),  
                     ),
                     const SizedBox(width: 4),
                     GestureDetector(

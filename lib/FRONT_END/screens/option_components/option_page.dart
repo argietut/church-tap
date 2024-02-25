@@ -136,7 +136,7 @@ class OptionPage extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const OptionToPlatformToLogin()),
+                                builder: (context) =>  const OptionToPlatformToLogin()),
                           );
                         },
                         child: const Column(
@@ -169,35 +169,6 @@ class OptionPage extends StatelessWidget {
               ],
             ),
           ),
-          // Align(
-          //   alignment: Alignment.bottomCenter,
-          //   child: Padding(
-          //     padding: const EdgeInsets.all(8.0),
-          //     child: Row(
-          //       mainAxisAlignment: MainAxisAlignment.spaceAround,
-          //       children: [
-          //         TextButton(
-          //           onPressed: () {
-          //             // Navigate to Terms & Conditions page
-          //           },
-          //           child: const Text(
-          //             'Terms & Conditions',
-          //             style: TextStyle(color: appBlack),
-          //           ),
-          //         ),
-          //         TextButton(
-          //           onPressed: () {
-          //             // Navigate to Privacy Policy page
-          //           },
-          //           child: const Text(
-          //             'Privacy Policy',
-          //             style: TextStyle(color: appBlack),
-          //           ),
-          //         ),
-          //       ],
-          //     ),
-          //   ),
-          // ),
         ],
       ),
     );

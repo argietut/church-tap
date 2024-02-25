@@ -2,21 +2,25 @@ import 'package:bethel_app_final/BACK_END/Services/Functions/Member_Functions/me
 import 'package:bethel_app_final/FRONT_END/MemberScreens/screen_pages/profile_screen_pages/privacy_policy.dart';
 import 'package:bethel_app_final/FRONT_END/authentications/auth_classes/class_page.dart';
 import 'package:bethel_app_final/FRONT_END/authentications/member_auth/member_auth_page.dart';
+import 'package:bethel_app_final/FRONT_END/authentications/member_auth/member_register_page.dart';
 import 'package:bethel_app_final/FRONT_END/colors/color.dart';
+import 'package:bethel_app_final/FRONT_END/screens/privacy_policy_page.dart';
 import 'package:bethel_app_final/FRONT_END/screens/terms_page.dart';
 import 'package:flutter/material.dart';
 
 class OptionToPlatformToLogin extends StatelessWidget {
   const OptionToPlatformToLogin({Key? key}) : super(key: key);
 
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: appGreen2,
+      // backgroundColor: appGreen2,
       appBar: AppBar(
          automaticallyImplyLeading: true,
         title: const Text(''),
-        backgroundColor: appGreen2,
+        // backgroundColor: appGreen2,
         
       ),
 
@@ -115,11 +119,16 @@ class OptionToPlatformToLogin extends StatelessWidget {
                               const SizedBox(height: 20),
                               TextButton(
                                 onPressed: () {
-                                  // Navigator.push(
-                                  //   context,
-                                  //   MaterialPageRoute(builder: (context)
-                                  //   => const MemberRegisterPage(onTap: () {})),
-                                  // );
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>  MemberRegisterPage(
+                                        onTap: () {
+                                          Navigator.pop(context);
+                                        },
+                                      ),
+                                    ),
+                                  );
                                 },
                                 child: const Row(
                                   children: [
@@ -128,12 +137,14 @@ class OptionToPlatformToLogin extends StatelessWidget {
                                     Text(
                                       'SIGN UP WITH E-MAIL',
                                       style: TextStyle(
-                                          color: appBlack,
-                                          fontSize: 20),
+                                        color: appBlack,
+                                        fontSize: 20,
+                                      ),
                                     ),
                                   ],
                                 ),
                               ),
+
                             ],
                           ),
                         ),
@@ -165,16 +176,19 @@ class OptionToPlatformToLogin extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children:[
                   const Text('Already have an account?'),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => const MemberAuthPage()));
-                    },
-                    child: const Text('Login now',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: appGreen,
-                      fontSize: 14
-                    ),),
+                  GestureDetector(
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context, MaterialPageRoute(builder: (context) => const MemberAuthPage()));
+                      },
+                      child: const Text('Login now',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: appBlack,
+                        fontSize: 14
+                      ),),
+                    ),
                   ),
                 ],
               ),
@@ -188,17 +202,19 @@ class OptionToPlatformToLogin extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         const Text('By signing in you agree to our'),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => const Terms()),
-                            );
-                          },
-                          child: const Text('Terms',
-                          style: TextStyle(color: appBlack,
-                          decoration: TextDecoration.underline
-                          ),
+                        GestureDetector(
+                          child: TextButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => const Terms()),
+                              );
+                            },
+                            child: const Text('Terms',
+                            style: TextStyle(color: appBlack,
+                            decoration: TextDecoration.underline
+                            ),
+                            ),
                           ),
                         ),
                         const Text('and'),
@@ -206,7 +222,7 @@ class OptionToPlatformToLogin extends StatelessWidget {
                           onPressed: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => const PrivacyPolicy()),
+                              MaterialPageRoute(builder: (context) =>  const PrivacyPolicyPage()),
                             );
                           },
                           child: const Text('Privacy Policy',
@@ -220,8 +236,6 @@ class OptionToPlatformToLogin extends StatelessWidget {
                   ),
                 ],
               ),
-
-
             ],
           ),
         ),

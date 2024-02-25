@@ -38,7 +38,7 @@ class Terms extends StatelessWidget {
                 " in the Philippines at Tagum City, Davao del Norte Philippines, Tagum City, Tagum City Davao  "
                 " del Norte 8100. ",
                 style: TextStyle(
-                  fontSize: 12,
+                  fontSize: 14,
                 ),
               ),
               SizedBox(height: 20),
@@ -53,7 +53,7 @@ class Terms extends StatelessWidget {
               Text(
                 " Church Tap: Connect, Organize, and Grow Your Faith Community Church Tap is a comprehensive church management system designed to simplify your day-to-day operations and strengthen your faith community. Locate Outreach Churches: Easily find and connect with other churches in your area, fostering collaboration and shared resources. Appointment Management: Streamline communication and scheduling with a user-friendly appointment request system. Members can easily book meetings with pastors or staff right from their mobile devices. Event Calendar: Create, manage, and promote events seamlessly. Organize: Centralized Management: Manage all aspects of your church – from member information, group management and volunteer coordination – in one intuitive platform. Member Engagement: Foster deeper connections within your community with discussion forums, prayer walls, and online groups. Additional Features: Mobile App: Church Tap is available as a user-friendly mobile app for both Web and Android devices, ensuring on-the-go access for everyone. Customizable: Tailor the app to your specific church's needs and branding. Secure: Rest assured knowing your data is protected with industry-standard security measures. Church Tap is more than just a management system; it's a powerful tool to connect, organize, and grow your faith community. By streamlining your operations and fostering deeper connections, you can empower your members and achieve your church's mission.",
                 style: TextStyle(
-                  fontSize: 12,
+                  fontSize: 14,
                 ),
               ),
               SizedBox(height: 20),

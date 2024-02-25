@@ -38,6 +38,8 @@ dependencies:
   firebase_analytics: ^10.8.5
   flutter_facebook_auth: ^6.1.0
   facebook_auth: ^0.0.3
+  get: ^4.6.6
+  shimmer: ^3.0.0
 
 dev_dependencies:
   flutter_test:

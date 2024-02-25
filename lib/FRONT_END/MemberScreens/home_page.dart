@@ -19,6 +19,12 @@ void signUserOut() {
 class _MemberHomePageState extends State<MemberHomePage> {
   bool _isSearching = false;
 
+
+  // Future<void> _refresh(){
+  //    bool _isSearching = true;
+  //   return Future.delayed(Duration(seconds: 2));
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
