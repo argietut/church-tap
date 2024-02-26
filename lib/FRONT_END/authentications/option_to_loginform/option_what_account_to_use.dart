@@ -2,25 +2,25 @@ import 'package:bethel_app_final/BACK_END/Services/Functions/Member_Functions/me
 import 'package:bethel_app_final/FRONT_END/authentications/auth_classes/class_page.dart';
 import 'package:bethel_app_final/FRONT_END/authentications/member_auth/member_auth_page.dart';
 import 'package:bethel_app_final/FRONT_END/authentications/member_auth/member_register_page.dart';
-import 'package:bethel_app_final/FRONT_END/colors/color.dart';
+import 'package:bethel_app_final/FRONT_END/constant/color.dart';
 import 'package:bethel_app_final/FRONT_END/screens/privacy_policy_page.dart';
 import 'package:bethel_app_final/FRONT_END/screens/terms_page.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class OptionToPlatformToLogin extends StatelessWidget {
-  const OptionToPlatformToLogin({Key? key}) : super(key: key);
+   OptionToPlatformToLogin({Key? key, this.onTap}) : super(key: key);
 
-
+  void Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: appGreen2,
       appBar: AppBar(
          automaticallyImplyLeading: true,
         title: const Text(''),
         // backgroundColor: appGreen2,
-        
+
       ),
 
       body:Center(
@@ -30,24 +30,24 @@ class OptionToPlatformToLogin extends StatelessWidget {
             children: [
               Image.asset(
                   'assets/images/churchmain.png',
-                   width: 400,
-                  height: 250,
+                   width: 450,
+                  height: 290,
                 ),
-                const SizedBox(height: 100),
+                const SizedBox(height: 50),
               const Text('Welcome To',
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 20,
+                      fontSize: 16,
                  // fontFamily:'GreatVibes',
                     color: appBlack,
                   ),
               ),
               const Text('Church Tap',
                   style: TextStyle(
-                      fontSize: 36,
+                      fontSize: 44,
                   fontWeight: FontWeight.bold,
                   fontFamily: 'ProtestRiot',
-                    color: appBlack
+                    color: appGreen
 
                   )
               ),
@@ -118,15 +118,12 @@ class OptionToPlatformToLogin extends StatelessWidget {
                               const SizedBox(height: 20),
                               TextButton(
                                 onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>  MemberRegisterPage(
-                                        onTap: () {
-                                          Navigator.pop(context);
-                                        },
-                                      ),
-                                    ),
+                                  Get.to(() =>  MemberRegisterPage(
+                                    onTap: () {
+                                      Navigator.pop(context);
+                                    },),
+                                    transition: Transition.zoom,
+                                    duration: const Duration(seconds: 1),
                                   );
                                 },
                                 child: const Row(
@@ -143,6 +140,7 @@ class OptionToPlatformToLogin extends StatelessWidget {
                                   ],
                                 ),
                               ),
+
 
                             ],
                           ),
@@ -176,21 +174,24 @@ class OptionToPlatformToLogin extends StatelessWidget {
                 children:[
                   const Text('Already have an account?'),
                   GestureDetector(
-                    child: TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context, MaterialPageRoute(builder: (context) => const MemberAuthPage()));
-                      },
-                      child: const Text('Login now',
+                    onTap: (){
+                      Get.to(() => const MemberAuthPage(),
+                          transition: Transition.leftToRightWithFade,
+                        duration: const Duration(seconds: 1)
+                      );
+                    },
+                    child: const Text(
+                      'Login now',
                       style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: appBlack,
-                        fontSize: 14
-                      ),),
+                          fontWeight: FontWeight.bold,
+                          color: appGreen,
+                          fontSize: 14
+                      ),
                     ),
                   ),
                 ],
               ),
+
               const SizedBox(height: 200),
               Column(
                 mainAxisAlignment: MainAxisAlignment.end,
@@ -210,7 +211,7 @@ class OptionToPlatformToLogin extends StatelessWidget {
                               );
                             },
                             child: const Text('Terms',
-                            style: TextStyle(color: appBlack,
+                            style: TextStyle(color: appGreen,
                             decoration: TextDecoration.underline
                             ),
                             ),
@@ -225,7 +226,7 @@ class OptionToPlatformToLogin extends StatelessWidget {
                             );
                           },
                           child: const Text('Privacy Policy',
-                           style: TextStyle(color: appBlack,
+                           style: TextStyle(color: appGreen,
                           decoration: TextDecoration.underline
                           ),
                           ),

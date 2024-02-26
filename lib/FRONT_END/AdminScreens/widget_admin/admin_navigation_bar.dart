@@ -1,25 +1,27 @@
+import 'package:bethel_app_final/FRONT_END/AdminScreens/admin_events.dart';
+import 'package:bethel_app_final/FRONT_END/AdminScreens/admin_home.dart';
+import 'package:bethel_app_final/FRONT_END/AdminScreens/AdminEvents.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/appointment_page.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/event_page.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/home_page.dart';
-import 'package:bethel_app_final/FRONT_END/MemberScreens/notifications.dart';
-import 'package:bethel_app_final/FRONT_END/MemberScreens/profile_page.dart';
 import 'package:bethel_app_final/FRONT_END/constant/color.dart';
 import 'package:flutter/material.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+class AdminNavigationPage extends StatefulWidget {
+  const AdminNavigationPage({Key? key}) : super(key: key);
 
   @override
-  _HomePageState createState() => _HomePageState();
+  _AdminNavigationPageState createState() => _AdminNavigationPageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _AdminNavigationPageState extends State<AdminNavigationPage> {
   int _currentTab = 0;
   final List<StatefulWidget> _children = [
-    const MemberHomePage(),
+    const AdminHomePage(),
     const Events(),
-    const Notifications(),
-    const Profile(),
+
+    // const Notifications(),
+    // const Profile(),
   ];
 
   @override
@@ -34,7 +36,7 @@ class _HomePageState extends State<HomePage> {
         shape: const CircularNotchedRectangle(),
         color: appWhite,
         child: BottomNavigationBar(
-          elevation: 6,
+          elevation: 5,
           backgroundColor: appGreen,
           selectedItemColor: appWhite,
           unselectedItemColor: appWhite,
@@ -71,34 +73,34 @@ class _HomePageState extends State<HomePage> {
                 style: TextStyle(fontSize: 8),
               ),
             ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.message,
-                size: 20,
-              ),
-              label: 'Messages',
-              activeIcon: Text(
-                "",
-                style: TextStyle(fontSize: 8),
-              ),
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.person,
-                size: 20,
-              ),
-              label: 'Profile',
-              activeIcon: Text(
-                "",
-                style: TextStyle(fontSize: 8),
-              ),
-            ),
+            // BottomNavigationBarItem(
+            //   icon: Icon(
+            //     Icons.message,
+            //     size: 20,
+            //   ),
+            //   label: 'Messages',
+            //   activeIcon: Text(
+            //     "",
+            //     style: TextStyle(fontSize: 8),
+            //   ),
+            // ),
+            // BottomNavigationBarItem(
+            //   icon: Icon(
+            //     Icons.person,
+            //     size: 20,
+            //   ),
+            //   label: 'Profile',
+            //   activeIcon: Text(
+            //     "",
+            //     style: TextStyle(fontSize: 8),
+            //   ),
+            // ),
           ],
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: Container(
-        margin: EdgeInsets.only(top: 10),
+        margin: const EdgeInsets.only(top: 10),
         height: 64,
         width: 64,
         child: FloatingActionButton(
@@ -107,7 +109,7 @@ class _HomePageState extends State<HomePage> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => AppointmentPage()),
+              MaterialPageRoute(builder: (context) => const AdminAppointmentPage()),
             );
           },
           shape: RoundedRectangleBorder(
@@ -124,4 +126,3 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-      
