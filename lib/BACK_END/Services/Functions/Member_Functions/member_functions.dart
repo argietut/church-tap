@@ -26,11 +26,13 @@ class MemberAuthServices {
         await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
           'name': name,
           'email': email,
+          'userID': user.uid
+
           
         });
       }
     } catch (e) {
-      throw e;
+      rethrow;
     }
   }
 
@@ -41,7 +43,7 @@ class MemberAuthServices {
         password: password,
       );
     } catch (e) {
-      throw e; 
+      rethrow; 
     }
   }
 }
@@ -59,7 +61,7 @@ class UserFirestoreServices {
     } catch (e) {
       print('Error saving user data to Firestore: $e');
       
-      throw e; 
+      rethrow; 
     }
   }
 }

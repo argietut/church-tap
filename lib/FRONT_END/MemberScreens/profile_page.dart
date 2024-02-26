@@ -9,6 +9,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
+import 'event_page.dart';
+
 void main() => runApp(const MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Profile(),
@@ -142,7 +144,7 @@ class _ProfileState extends State<Profile> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const Calendar()),
+                MaterialPageRoute(builder: (context) => const Events()),
               );
             },
             child: const Padding(
