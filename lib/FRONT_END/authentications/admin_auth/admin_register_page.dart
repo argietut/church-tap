@@ -1,5 +1,5 @@
 import 'package:bethel_app_final/FRONT_END/authentications/auth_classes/class_page.dart';
-import 'package:bethel_app_final/FRONT_END/colors/color.dart';
+import 'package:bethel_app_final/FRONT_END/constant/color.dart';
 import 'package:flutter/material.dart';
 
 class AdminRegisterPage extends StatefulWidget {

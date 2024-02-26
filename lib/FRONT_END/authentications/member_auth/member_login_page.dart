@@ -1,14 +1,15 @@
 
 import 'package:bethel_app_final/FRONT_END/authentications/auth_classes/class_page.dart';
 import 'package:bethel_app_final/FRONT_END/authentications/forgot_password.dart';
-import 'package:bethel_app_final/FRONT_END/colors/color.dart';
+import 'package:bethel_app_final/FRONT_END/constant/color.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class MemberLoginPage extends StatefulWidget {
   final void Function()? onTap;
 
-  const MemberLoginPage({
+   const MemberLoginPage({
     Key? key,
     this.onTap,
   }) : super(key: key);
@@ -98,7 +99,7 @@ class _MemberLoginPageState extends State<MemberLoginPage> {
                 const SizedBox(height: 70),
                 const Padding(
                   padding: EdgeInsets.only(
-                      right: 170), 
+                      right: 170),
                   child: Text(
                     'Member Login',
                     style: TextStyle(
@@ -126,12 +127,10 @@ class _MemberLoginPageState extends State<MemberLoginPage> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const ForgotPassword(),
-                            ),
+                        onTap: (){
+                          Get.to(() => const ForgotPassword(),
+                              transition: Transition.fade,
+                              duration: const Duration(seconds: 1)
                           );
                         },
                         child: const Text(

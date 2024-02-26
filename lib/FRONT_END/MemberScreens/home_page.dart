@@ -1,7 +1,6 @@
 import 'dart:ui';
-
 import 'package:bethel_app_final/FRONT_END/MemberScreens/map_components/map_page.dart';
-import 'package:bethel_app_final/FRONT_END/colors/color.dart';
+import 'package:bethel_app_final/FRONT_END/constant/color.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
