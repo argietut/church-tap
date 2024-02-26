@@ -40,7 +40,7 @@ class OptionToPlatformToLogin extends StatelessWidget {
                   )
               ),
               const SizedBox(height: 120),
-              Container(
+              SizedBox(
                 width: 280,
                 height: 45,
                 child: ElevatedButton(
@@ -95,7 +95,7 @@ class OptionToPlatformToLogin extends StatelessWidget {
                           fontSize: 30
                         ),
                         ),
-                        content: Container(
+                        content: SizedBox(
                           width: double.maxFinite,
                           child: Column(
 

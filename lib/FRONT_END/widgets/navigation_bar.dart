@@ -100,8 +100,8 @@ class _HomePageState extends State<HomePage> {
             MaterialPageRoute(builder: (context) => const AppointmentPage()),
           );
         },
-        child: const Icon(Icons.add, color: appBlack),
         backgroundColor: appGreen,
+        child: const Icon(Icons.add, color: appBlack),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );

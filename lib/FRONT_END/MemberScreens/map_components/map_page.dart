@@ -13,7 +13,7 @@ class MapPage extends StatefulWidget {
 }
 
 class _MapPageState extends State<MapPage> {
-  late Future _future = _getLatitude(); //FIX FOR FUTUREBUILDER CONSTANTLY GETTING CALLED
+  late final Future _future = _getLatitude(); //FIX FOR FUTUREBUILDER CONSTANTLY GETTING CALLED
   final mapController = MapController();
   var _userlat = 0.0;
   var _userlong = 0.0;
@@ -44,7 +44,7 @@ class _MapPageState extends State<MapPage> {
               TileLayer(
                 urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                 userAgentPackageName: 'com.example.app',
-                subdomains: ['a', 'b', 'c'],
+                subdomains: const ['a', 'b', 'c'],
               ),
               CurrentLocationLayer(),
               const CustomMarker(),

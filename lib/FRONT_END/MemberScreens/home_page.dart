@@ -112,7 +112,7 @@ class _MemberHomePageState extends State<MemberHomePage> {
             AnimatedContainer(
               duration: const Duration(milliseconds: 300),
               height: _isSearching ? MediaQuery.of(context).size.height - 90 : 0,
-              child: _isSearching ? MapPage() : null,
+              child: _isSearching ? const MapPage() : null,
             ),
           ],
         ),
