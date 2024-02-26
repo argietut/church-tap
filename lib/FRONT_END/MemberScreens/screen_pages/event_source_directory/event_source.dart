@@ -5,26 +5,26 @@ class Event {
   final String title;
   final String description;
   final DateTime date;
-  final String userID; // Add userID parameter
 
   Event({
     required this.id,
     required this.title,
     required this.description,
-    required this.date,
-    required this.userID, // Initialize userID parameter
+    required this.date, required String userID,
   });
 
-  // Add factory constructor to convert Firestore data to Event object
   factory Event.fromFirestore(Map<String, dynamic> data, String id) {
     return Event(
       id: id,
       title: data['title'],
       description: data['description'],
-      date: (data['date'] as Timestamp).toDate(),
-      userID: data['userID'], // Initialize userID parameter
+      date: (data['date'] as Timestamp).toDate(), userID: '',
     );
   }
+
+  updateEvent({required String title, required String description, required DateTime date, required String userID}) {}
+}
+
 
   // Add method to convert Event object to Firestore data
   Future<void> updateEvent({
@@ -34,7 +34,7 @@ class Event {
     required String userID, // Pass userID
   }) async {
     try {
-      await FirebaseFirestore.instance.collection('events').doc(id).update({
+      await FirebaseFirestore.instance.collection('events').doc(userID).update({
         'title': title,
         'description': description,
         'date': Timestamp.fromDate(date),
@@ -45,4 +45,4 @@ class Event {
       rethrow;
     }
   }
-}
+

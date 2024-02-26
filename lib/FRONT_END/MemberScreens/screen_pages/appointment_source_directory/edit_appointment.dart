@@ -86,7 +86,7 @@ class _EditAppointmentState extends State<EditAppointment> {
         title: title,
         description: description,
         date: selectedDate,
-        userID: widget.appointment.userID,
+        userID: widget.appointment.id,
       );
       Navigator.pop(context, true); // Notify previous screen that event was updated successfully
     } catch (e) {

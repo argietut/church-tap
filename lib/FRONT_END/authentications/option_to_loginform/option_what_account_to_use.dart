@@ -192,7 +192,7 @@ class OptionToPlatformToLogin extends StatelessWidget {
                 ],
               ),
 
-              const SizedBox(height: 200),
+              const SizedBox(height: 100),
               Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [

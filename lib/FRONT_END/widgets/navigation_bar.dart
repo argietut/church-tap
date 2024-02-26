@@ -76,7 +76,7 @@ class _HomePageState extends State<HomePage> {
                 Icons.message,
                 size: 20,
               ),
-              label: 'Messages',
+              label: 'Notifications',
               activeIcon: Text(
                 "",
                 style: TextStyle(fontSize: 8),

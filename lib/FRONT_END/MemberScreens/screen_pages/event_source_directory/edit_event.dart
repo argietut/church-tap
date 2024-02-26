@@ -83,7 +83,7 @@ class _EditEventState extends State<EditEvent> {
         title: title,
         description: description,
         date: selectedDate,
-        userID: widget.event.userID,
+        userID: widget.event.id,
       );
       Navigator.pop(context, true); // Notify previous screen that event was updated successfully
     } catch (e) {

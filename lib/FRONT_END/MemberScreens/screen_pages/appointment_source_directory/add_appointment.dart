@@ -87,7 +87,7 @@ class _AddAppointmentState extends State<AddAppointment> {
       return;
     }
 
-    final AppointmentDocRef = await FirebaseFirestore.instance.collection('appointment').add({
+    final AppointmentDocRef = await FirebaseFirestore.instance.collection('appointments').add({
       "title": title,
       "description": description,
       "date": Timestamp.fromDate(_selectedDate2),

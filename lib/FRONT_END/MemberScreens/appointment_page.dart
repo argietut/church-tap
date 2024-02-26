@@ -2,13 +2,14 @@ import 'dart:collection';
 
 import 'package:bethel_app_final/FRONT_END/MemberScreens/screen_pages/appointment_source_directory/add_appointment.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/screen_pages/appointment_source_directory/appointment_source.dart';
+import 'package:bethel_app_final/FRONT_END/MemberScreens/screen_pages/appointment_source_directory/edit_appointment.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/screen_pages/event_source_directory/add_event.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/screen_pages/event_source_directory/edit_event.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/screen_pages/event_source_directory/event_source.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:table_calendar/table_calendar.dart'; // Import the table_calendar package
+import 'package:table_calendar/table_calendar.dart';
 
 class AppointmentPage extends StatefulWidget {
   const AppointmentPage({Key? key}) : super(key: key);
@@ -23,15 +24,20 @@ class _AppointmentPageState extends State<AppointmentPage> {
   late DateTime _lastDay;
   late DateTime _selectedDay;
   late CalendarFormat _calendarFormat;
-  late Map<DateTime, List<Event>> _events,_appointments;
+  late Map<DateTime, List<Event>> _events;
+  late Map<DateTime, List<Appointment>> _appointments;
 
   @override
   void initState() {
     super.initState();
-    (_events, _appointments= LinkedHashMap(
+    _events = LinkedHashMap(
       equals: isSameDay,
       hashCode: getHashCode,
-    ));
+    );
+    _appointments = LinkedHashMap(
+      equals: isSameDay,
+      hashCode: getHashCode,
+    );
     _focusedDay = DateTime.now();
     _firstDay = DateTime.now().subtract(const Duration(days: 1000));
     _lastDay = DateTime.now().add(const Duration(days: 1000));
@@ -42,37 +48,84 @@ class _AppointmentPageState extends State<AppointmentPage> {
 
   _loadFirestoreEvents(DateTime selectedDay) async {
     final selectedDayStart = DateTime(
-        selectedDay.year, selectedDay.month, selectedDay.day, 0, 0, 0);
+      selectedDay.year,
+      selectedDay.month,
+      selectedDay.day,
+      0,
+      0,
+      0,
+    );
     final selectedDayEnd = DateTime(
-        selectedDay.year, selectedDay.month, selectedDay.day, 23, 59, 59);
-    _events = {};
+      selectedDay.year,
+      selectedDay.month,
+      selectedDay.day,
+      23,
+      59,
+      59,
+    );
 
-    final snap = await FirebaseFirestore.instance
-        .collection('events''appointments')
+    final eventsSnap = await FirebaseFirestore.instance
+        .collection('events')
         .where('date', isGreaterThanOrEqualTo: selectedDayStart)
         .where('date', isLessThanOrEqualTo: selectedDayEnd)
         .get();
-    for (var doc in snap.docs) {
-      final event = Event.fromFirestore(doc.data(), doc.id);
-      final appointment = Appointment.fromFirestore(doc.data(), doc.id);
+
+    final appointmentsSnap = await FirebaseFirestore.instance
+        .collection('appointments')
+        .where('date', isGreaterThanOrEqualTo: selectedDayStart)
+        .where('date', isLessThanOrEqualTo: selectedDayEnd)
+        .get();
+
+    _events = _mapSnapshotsToEvents(eventsSnap);
+    _appointments = _mapSnapshotsToAppointments(appointmentsSnap);
+
+    setState(() {});
+  }
+
+  Map<DateTime, List<Event>> _mapSnapshotsToEvents(QuerySnapshot snapshot) {
+    final Map<DateTime, List<Event>> events = {};
+
+    for (var doc in snapshot.docs) {
+      final event = Event.fromFirestore(doc.data() as Map<String, dynamic>, doc.id);
 
       final day = DateTime.utc(
         event.date.year,
         event.date.month,
         event.date.day,
       );
-      if (_events  [day] == null) {
-        _events[day] = [];
-      }
-      _events[day]!.add(event);
+
+      events.putIfAbsent(day, () => []);
+      events[day]!.add(event);
     }
 
+    return events;
+  }
 
-    setState(() {});
+  Map<DateTime, List<Appointment>> _mapSnapshotsToAppointments(QuerySnapshot snapshot) {
+    final Map<DateTime, List<Appointment>> appointments = {};
+
+    for (var doc in snapshot.docs) {
+      final appointment = Appointment.fromFirestore(doc.data() as Map<String, dynamic>, doc.id);
+
+      final day = DateTime.utc(
+        appointment.date.year,
+        appointment.date.month,
+        appointment.date.day,
+      );
+
+      appointments.putIfAbsent(day, () => []);
+      appointments[day]!.add(appointment);
+    }
+
+    return appointments;
   }
 
   List<Event> _getEventsForTheDay(DateTime day) {
     return _events[day] ?? [];
+  }
+
+  List<Appointment> _getAppointmentsForTheDay(DateTime day) {
+    return _appointments[day] ?? [];
   }
 
   int getHashCode(DateTime key) {
@@ -101,12 +154,11 @@ class _AppointmentPageState extends State<AppointmentPage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (_) =>
-                              AddAppointment(
-                                firstDate: _firstDay,
-                                lastDate: _lastDay,
-                                selectedDate: _selectedDay,
-                              ),
+                          builder: (_) => AddAppointment(
+                            firstDate: _firstDay,
+                            lastDate: _lastDay,
+                            selectedDate: _selectedDay,
+                          ),
                         ),
                       ).then((value) {
                         if (value == true) {
@@ -122,12 +174,11 @@ class _AppointmentPageState extends State<AppointmentPage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (_) =>
-                              AddEvent(
-                                firstDate: _firstDay,
-                                lastDate: _lastDay,
-                                selectedDate: _selectedDay,
-                              ),
+                          builder: (_) => AddEvent(
+                            firstDate: _firstDay,
+                            lastDate: _lastDay,
+                            selectedDate: _selectedDay,
+                          ),
                         ),
                       ).then((value) {
                         if (value == true) {
@@ -172,17 +223,58 @@ class _AppointmentPageState extends State<AppointmentPage> {
             },
             calendarStyle: const CalendarStyle(
               weekendTextStyle: TextStyle(color: Colors.red),
-              selectedDecoration: BoxDecoration(
-                  shape: BoxShape.rectangle, color: Colors.red),
+              selectedDecoration:
+              BoxDecoration(shape: BoxShape.rectangle, color: Colors.red),
             ),
             calendarBuilders: CalendarBuilders(
-              headerTitleBuilder: (context, day) =>
-                  Container(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(_selectedDay
-                        .toString()), // Display selected day in header title
-                  ),
+              headerTitleBuilder: (context, day) => Container(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                    _selectedDay.toString()), // Display selected day in header title
+              ),
             ),
+          ),
+          ListView.builder(
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            itemCount: _appointments.length,
+            itemBuilder: (context, index) {
+              final day = _appointments.keys.elementAt(index);
+              final appointmentsForDay = _appointments[day]!;
+              return Column(
+                children: [
+                  Text(
+                      'Appointments for ${DateFormat('MMMM d, yyyy').format(day)}'),
+                  ListView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: appointmentsForDay.length,
+                    itemBuilder: (context, index) {
+                      final appointment = appointmentsForDay[index];
+                      return ListTile(
+                        title: Text(appointment.title),
+                        subtitle: Text(appointment.description),
+                        onTap: () async {
+                          final res = await Navigator.push<bool>(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => EditAppointment(
+                                firstDate: _firstDay,
+                                lastDate: _lastDay,
+                                appointment: appointment,
+                              ),
+                            ),
+                          );
+                          if (res ?? false) {
+                            _loadFirestoreEvents(_selectedDay);
+                          }
+                        },
+                      );
+                    },
+                  ),
+                ],
+              );
+            },
           ),
           ListView.builder(
             shrinkWrap: true,
@@ -193,7 +285,8 @@ class _AppointmentPageState extends State<AppointmentPage> {
               final eventsForDay = _events[day]!;
               return Column(
                 children: [
-                  Text('Events for ${DateFormat('MMMM d, yyyy').format(day)}'),
+                  Text(
+                      'Events for ${DateFormat('MMMM d, yyyy').format(day)}'),
                   ListView.builder(
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
@@ -207,12 +300,11 @@ class _AppointmentPageState extends State<AppointmentPage> {
                           final res = await Navigator.push<bool>(
                             context,
                             MaterialPageRoute(
-                              builder: (_) =>
-                                  EditEvent(
-                                    firstDate: _firstDay,
-                                    lastDate: _lastDay,
-                                    event: event,
-                                  ),
+                              builder: (_) => EditEvent(
+                                firstDate: _firstDay,
+                                lastDate: _lastDay,
+                                event: event,
+                              ),
                             ),
                           );
                           if (res ?? false) {
@@ -230,5 +322,4 @@ class _AppointmentPageState extends State<AppointmentPage> {
       ),
     );
   }
-
 }
