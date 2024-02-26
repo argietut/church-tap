@@ -13,7 +13,7 @@ class MapPage extends StatefulWidget {
 }
 
 class _MapPageState extends State<MapPage> {
-  late Future _future = _getLatitude(); //FIX FOR FUTUREBUILDER CONSTANTLY GETTING CALLED
+  late final Future _future = _getLatitude(); //FIX FOR FUTUREBUILDER CONSTANTLY GETTING CALLED
   final mapController = MapController();
   var _userlat = 0.0;
   var _userlong = 0.0;
@@ -26,31 +26,33 @@ class _MapPageState extends State<MapPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: FutureBuilder(future: _future, builder: (context, snapshot) {
-          if(snapshot.connectionState == ConnectionState.waiting) {
-            return const CircularProgressIndicator();
+        body: Center(
+          child: FutureBuilder(future: _future, builder: (context, snapshot) {
+            if(snapshot.connectionState == ConnectionState.waiting) {
+              return const CircularProgressIndicator();
+            }
+            else if(snapshot.hasError){
+            const SnackBar(content: Text("Loading Map Failed!"));
+            }
+            return FlutterMap(
+              options: MapOptions(
+                  onMapReady: () {
+                  },
+                  initialCenter: LatLng(_userlat, _userlong),
+                  initialZoom: 15),
+              mapController: mapController,
+              children: [
+                TileLayer(
+                  urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                  userAgentPackageName: 'com.example.app',
+                  subdomains: const ['a', 'b', 'c'],
+                ),
+                CurrentLocationLayer(),
+                const CustomMarker(),
+              ],);
           }
-          else if(snapshot.hasError){
-          const SnackBar(content: Text("Loading Map Failed!"));
-          }
-          return FlutterMap(
-            options: MapOptions(
-                onMapReady: () {
-                },
-                initialCenter: LatLng(_userlat, _userlong),
-                initialZoom: 15),
-            mapController: mapController,
-            children: [
-              TileLayer(
-                urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                userAgentPackageName: 'com.example.app',
-                subdomains: ['a', 'b', 'c'],
-              ),
-              CurrentLocationLayer(),
-              const CustomMarker(),
-            ],);
-        }
-        ,)
+          ,),
+        )
     );
 
     }

@@ -123,17 +123,7 @@ class _MemberHomePageState extends State<MemberHomePage> {
               filter: ImageFilter.blur(sigmaX: 8.0, sigmaY: 8.0),
               child: Center(child: MapPage()), // Display MapPage with blurred background when searching
             ),
-          SingleChildScrollView(
-            child: Column(
-              children: [
-                AnimatedContainer(
-                  duration: const Duration(milliseconds: 300),
-                  height: _isSearching ? MediaQuery.of(context).size.height - 90 : 0,
-                  child: _isSearching ? Container() : null, // Hide this when searching
-                ),
-              ],
-            ),
-          ),
+
         ],
       ),
     );

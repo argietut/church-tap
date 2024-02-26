@@ -23,7 +23,7 @@ if (flutterVersionName == null) {
 }
 
 android {
-    namespace "com.example.Church-Management-System"
+    namespace "com.example.bethel_app_final"
     compileSdkVersion 34
     ndkVersion flutter.ndkVersion
 

@@ -98,12 +98,12 @@ class _ForgotPasswordState extends State<ForgotPassword> {
             const SizedBox(height: 10),
             MaterialButton(
               onPressed: _loading ? null : passwordReset,
+              color: appGreen,
               child: _loading
                   ? const CircularProgressIndicator(
                       valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                     )
                   : const Text('Reset Password'),
-              color: appGreen,
             ),
           ],
         ),

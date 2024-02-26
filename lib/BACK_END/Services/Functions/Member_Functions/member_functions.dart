@@ -1,20 +1,21 @@
 
-import 'package:bethel_app_final/FRONT_END/widgets/navigation_bar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
+import '../../../../FRONT_END/widgets/navigation_bar.dart';
 
-
-
-//member account authentication to firebase
+// Member account authentication to Firebase
 class MemberAuthServices {
+  static final FirebaseAuth _auth = FirebaseAuth.instance;
+  static final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
   static Future<void> signupUser(
       String email, String password, String name) async {
     try {
       UserCredential userCredential =
-          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
@@ -23,28 +24,31 @@ class MemberAuthServices {
       if (user != null) {
         await user.updateDisplayName(name);
 
-        await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
+        await _firestore.collection('users').doc(user.uid).set({
           'name': name,
           'email': email,
-          
+          'userID': user.uid
         });
       }
     } catch (e) {
-      throw e;
+      // Handle errors gracefully
+      throw 'Failed to create user: $e';
     }
   }
 
   static Future<void> signinUser(String email, String password) async {
     try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
+      await _auth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
     } catch (e) {
-      throw e; 
+      // Handle errors gracefully
+      throw 'Failed to sign in: $e';
     }
   }
 }
+
 
 
 // accounts store to firestore firebase
@@ -59,7 +63,7 @@ class UserFirestoreServices {
     } catch (e) {
       print('Error saving user data to Firestore: $e');
       
-      throw e; 
+      rethrow; 
     }
   }
 }
