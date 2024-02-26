@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:bethel_app_final/FRONT_END/colors/color.dart';
+import 'package:bethel_app_final/FRONT_END/constant/color.dart';
 import 'package:bethel_app_final/FRONT_END/screens/option_components/option_page.dart';
 import 'package:flutter/material.dart';
 
@@ -61,14 +61,14 @@ class _SplashScreenState extends State<SplashScreen>
             ScaleTransition(
               scale: _animation,
               child: Image.asset(
-                'assets/images/churchmepicture.png',
+                'assets/images/churchmain.png',
                 width: 400,
                 height: 400,
               ),
             ),
             const SizedBox(height: 20),
             const Text(
-              'Church me',
+              'Church Tap',
               style: TextStyle(
                 fontSize: 50,
                 fontWeight: FontWeight.bold,

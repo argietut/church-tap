@@ -1,13 +1,12 @@
 import 'package:bethel_app_final/BACK_END/Services/Functions/Member_Functions/member_functions.dart';
 import 'package:bethel_app_final/FRONT_END/authentications/auth_classes/class_page.dart';
 import 'package:bethel_app_final/FRONT_END/authentications/member_auth/member_login_page.dart';
-import 'package:bethel_app_final/FRONT_END/colors/color.dart';
 import 'package:flutter/material.dart';
 
 class MemberRegisterPage extends StatefulWidget {
   final void Function()? onTap;
 
-  const MemberRegisterPage({Key? key, required this.onTap}) : super(key: key);
+   const MemberRegisterPage({Key? key, required this.onTap}) : super(key: key);
 
   @override
   State<MemberRegisterPage> createState() => _MemberRegisterPageState();
@@ -131,17 +130,20 @@ class _MemberRegisterPageState extends State<MemberRegisterPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+      appBar: AppBar(
+        automaticallyImplyLeading: true,
+      ),
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
             child: Column(
               children: [
                 Image.asset(
-                  'assets/images/churchmepicture.png',
+                  'assets/images/churchmain.png',
                   width: 400,
                   height: 250,
                 ),
-                const SizedBox(height: 15),
+                const SizedBox(height: 30),
                 const Padding(
                   padding: EdgeInsets.only(
                       right: 150), // Adjust the left padding as needed
@@ -182,26 +184,26 @@ class _MemberRegisterPageState extends State<MemberRegisterPage> {
                   onTap: signUserUp,
                 ),
                 const SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Already have an account?',
-                      style: TextStyle(color: Colors.grey[700]),
-                    ),
-                    const SizedBox(width: 4),
-                    GestureDetector(
-                      onTap: widget.onTap,
-                      child: const Text(
-                        'Login now',
-                        style: TextStyle(
-                          color: appGreen,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    )
-                  ],
-                ),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.center,
+                //   children: [
+                //     Text(
+                //       'Already have an account?',
+                //       style: TextStyle(color: Colors.grey[700]),
+                //     ),
+                //     const SizedBox(width: 4),
+                //     GestureDetector(
+                //       onTap: widget.onTap,
+                //       child: const Text(
+                //         'Login now',
+                //         style: TextStyle(
+                //           color: appGreen,
+                //           fontWeight: FontWeight.bold,
+                //         ),
+                //       ),
+                //     )
+                //   ],
+                // ),
               ],
             ),
           ),
