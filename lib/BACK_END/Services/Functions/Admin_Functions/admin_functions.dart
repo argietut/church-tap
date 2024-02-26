@@ -23,7 +23,7 @@ class AdminAuthServices {
         });
       }
     } catch (e) {
-      rethrow; // Rethrow the error for handling in UI
+      throw e; // Rethrow the error for handling in UI
     }
   }
 
@@ -34,7 +34,7 @@ class AdminAuthServices {
         password: password,
       );
     } catch (e) {
-      rethrow; // Rethrow the error for handling in UI
+      throw e; // Rethrow the error for handling in UI
     }
   }
 }
@@ -52,7 +52,7 @@ class AdminFirestoreServices {
     } catch (e) {
       print('Error saving admin data to Firestore: $e');
       // Handle error
-      rethrow; // Rethrow the error for handling in UI
+      throw e; // Rethrow the error for handling in UI
     }
   }
 }
