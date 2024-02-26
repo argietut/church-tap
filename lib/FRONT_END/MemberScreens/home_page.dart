@@ -1,6 +1,5 @@
-import 'dart:ui';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/map_components/map_page.dart';
-import 'package:bethel_app_final/FRONT_END/constant/color.dart';
+import 'package:bethel_app_final/FRONT_END/colors/color.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -18,12 +17,6 @@ void signUserOut() {
 class _MemberHomePageState extends State<MemberHomePage> {
   bool _isSearching = false;
 
-
-  // Future<void> _refresh(){
-  //    bool _isSearching = true;
-  //   return Future.delayed(Duration(seconds: 2));
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,17 +25,17 @@ class _MemberHomePageState extends State<MemberHomePage> {
         toolbarHeight: 90,
         flexibleSpace: Container(
           decoration: BoxDecoration(
-            color: appWhite,
+            color: Colors.white,
             boxShadow: [
               BoxShadow(
-                color: appGreen.withOpacity(0.1),
+                color: appBlack.withOpacity(0.1),
                 blurRadius: 1.0,
                 spreadRadius: 1.0,
                 offset: const Offset(0.0, 1.0),
               )
             ],
           ),
-          child: Stack(
+           child: Stack(
             children: [
               Positioned(
                 right: 16.0,
@@ -51,10 +44,7 @@ class _MemberHomePageState extends State<MemberHomePage> {
                   onPressed: () {},
                   style: IconButton.styleFrom(
                     shape: const CircleBorder(
-                      side: BorderSide(
-                        color: appGreen,
-                        width: 1.0,
-                      ),
+                      side: BorderSide(color: appGrey, width: 1.0),
                     ),
                   ),
                   icon: const Icon(Icons.tune),
@@ -79,7 +69,7 @@ class _MemberHomePageState extends State<MemberHomePage> {
                       ),
                       decoration: BoxDecoration(
                         color: appWhite,
-                        border: Border.all(color: appGreen, width: 1.0),
+                        border: Border.all(color: appGrey, width: 1.0),
                         borderRadius: BorderRadius.circular(32.0),
                         boxShadow: [
                           BoxShadow(
@@ -92,13 +82,13 @@ class _MemberHomePageState extends State<MemberHomePage> {
                       ),
                       child: Row(
                         children: [
-                          const Icon(Icons.search),
+                          const Icon(Icons.maps_home_work_outlined),
                           const SizedBox(width: 8.0),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'locate outreach',
+                                'locate outreach churches',
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyLarge!
@@ -116,26 +106,19 @@ class _MemberHomePageState extends State<MemberHomePage> {
           ),
         ),
       ),
-      body: Stack(
-        children: [
-          if (_isSearching)
-            BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 8.0, sigmaY: 8.0),
-              child: Center(child: MapPage()), // Display MapPage with blurred background when searching
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 300),
+              height: _isSearching ? MediaQuery.of(context).size.height - 90 : 0,
+              child: _isSearching ? const MapPage() : null,
             ),
-          SingleChildScrollView(
-            child: Column(
-              children: [
-                AnimatedContainer(
-                  duration: const Duration(milliseconds: 300),
-                  height: _isSearching ? MediaQuery.of(context).size.height - 90 : 0,
-                  child: _isSearching ? Container() : null, // Hide this when searching
-                ),
-              ],
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 }
+
+

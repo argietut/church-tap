@@ -3,7 +3,7 @@ import 'package:bethel_app_final/FRONT_END/MemberScreens/event_page.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/home_page.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/notifications.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/profile_page.dart';
-import 'package:bethel_app_final/FRONT_END/constant/color.dart';
+import 'package:bethel_app_final/FRONT_END/colors/color.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -25,103 +25,85 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: appWhite,
+      backgroundColor: const Color(0XFFE7EBEE),
       body: SafeArea(
         child: _children[_currentTab],
       ),
-      resizeToAvoidBottomInset: false,
-      bottomNavigationBar: BottomAppBar(
-        shape: const CircularNotchedRectangle(),
-        color: appWhite,
-        child: BottomNavigationBar(
-          elevation: 6,
-          backgroundColor: appGreen,
-          selectedItemColor: appWhite,
-          unselectedItemColor: appWhite,
-          type: BottomNavigationBarType.fixed,
-          iconSize: 20.0,
-          selectedFontSize: 12.0,
-          unselectedFontSize: 12.0,
-          onTap: (int value) {
-            setState(() {
-              _currentTab = value;
-            });
-          },
-          currentIndex: _currentTab,
-          items: const [
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.home,
-                size: 20,
-              ),
-              label: 'Home',
-              activeIcon: Text(
-                "",
-                style: TextStyle(fontSize: 8, color: appWhite),
-              ),
+      bottomNavigationBar: BottomNavigationBar(
+        elevation: 6,
+        backgroundColor: appGreen,
+        selectedItemColor: appBlack,
+        unselectedItemColor: appBlack,
+        type: BottomNavigationBarType.fixed,
+        iconSize: 10.0,
+        selectedFontSize: 12.0,
+        unselectedFontSize: 12.0,
+        onTap: (int value) {
+          setState(() {
+            _currentTab = value;
+            if (_currentTab == 1) {
+            }
+          });
+        },
+        currentIndex: _currentTab,
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.home_outlined,
+              size: 20,
             ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.event_available,
-                size: 20,
-              ),
-              label: 'Events',
-              activeIcon: Text(
-                "",
-                style: TextStyle(fontSize: 8),
-              ),
+            label: 'Home',
+            activeIcon: Text(
+              "HOME",
+              style: TextStyle(fontSize: 8),
             ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.message,
-                size: 20,
-              ),
-              label: 'Messages',
-              activeIcon: Text(
-                "",
-                style: TextStyle(fontSize: 8),
-              ),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.event_available_outlined,
+              size: 20,
             ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.person,
-                size: 20,
-              ),
-              label: 'Profile',
-              activeIcon: Text(
-                "",
-                style: TextStyle(fontSize: 8),
-              ),
+            label: 'Events',
+            activeIcon: Text(
+              "EVENTS",
+              style: TextStyle(fontSize: 8),
             ),
-          ],
-        ),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.message_outlined,
+              size: 20,
+            ),
+            label: 'Messages',
+            activeIcon: Text(
+              "MESSAGES",
+              style: TextStyle(fontSize: 8),
+            ),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.person_outline,
+              size: 20,
+            ),
+            label: 'Profile',
+            activeIcon: Text(
+              "PROFILE",
+              style: TextStyle(fontSize: 8),
+            ),
+          ),
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const AppointmentPage()),
+          );
+        },
+        backgroundColor: appGreen,
+        child: const Icon(Icons.add, color: appBlack),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: Container(
-        margin: EdgeInsets.only(top: 10),
-        height: 64,
-        width: 64,
-        child: FloatingActionButton(
-          backgroundColor: appWhite,
-          elevation: 0,
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => AppointmentPage()),
-            );
-          },
-          shape: RoundedRectangleBorder(
-            side: const BorderSide(width: 3, color: appGreen),
-            borderRadius: BorderRadius.circular(100),
-          ),
-          child: const Icon(
-            Icons.add,
-            color: appGreen,
-          ),
-        ),
-      ),
     );
   }
 }
-
-      
