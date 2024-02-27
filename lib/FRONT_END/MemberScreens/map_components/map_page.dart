@@ -1,5 +1,4 @@
-
-import 'package:bethel_app_final/FRONT_END/MemberScreens/map_components/customer_marker.dart';
+import 'package:bethel_app_final/FRONT_END/MemberScreens/map_components/marker_popup.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
@@ -23,6 +22,7 @@ class _MapPageState extends State<MapPage> {
   _determinePosition();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,8 +36,6 @@ class _MapPageState extends State<MapPage> {
             }
             return FlutterMap(
               options: MapOptions(
-                  onMapReady: () {
-                  },
                   initialCenter: LatLng(_userlat, _userlong),
                   initialZoom: 15),
               mapController: mapController,
@@ -48,7 +46,7 @@ class _MapPageState extends State<MapPage> {
                   subdomains: const ['a', 'b', 'c'],
                 ),
                 CurrentLocationLayer(),
-                const CustomMarker(),
+                const CustomMarkerPop(),
               ],);
           }
           ,),
@@ -90,21 +88,3 @@ class _MapPageState extends State<MapPage> {
   }
 }
 
-/*FlutterMap(
-options: MapOptions(
-onMapReady: () {
-},
-initialCenter: LatLng(_userlat, _userlong),
-initialZoom: 5),
-mapController: mapController,
-children: [
-TileLayer(
-urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-userAgentPackageName: 'com.example.app',
-subdomains: ['a', 'b', 'c'],
-),
-CurrentLocationLayer(),
-CustomMarker(),
-Text("$_userlong",style: TextStyle(fontSize: 64),),
-Text("$_userlat")
-],)*/
