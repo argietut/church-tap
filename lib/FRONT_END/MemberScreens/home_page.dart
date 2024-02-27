@@ -121,9 +121,30 @@ class _MemberHomePageState extends State<MemberHomePage> {
           if (_isSearching)
             BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 8.0, sigmaY: 8.0),
-              child: Center(child: MapPage()), // Display MapPage with blurred background when searching
+              child: const Center(child: MapPage()), // Display MapPage with blurred background when searching
             ),
-
+          if (!_isSearching) // Display message when not searching
+            const Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'No Events Posted Yet',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  Text(
+                    'Check back later for updates!',
+                    style: TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                ],
+              ),
+            ),
         ],
       ),
     );
