@@ -58,7 +58,7 @@ class MonumentMarkerPopup extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   TextButton(
-                      onPressed: () => MapPage(),
+                      onPressed: () => MapPage(),//If you see this delete this might kill the program
                       child: Row(children: [
                         Icon(Icons.directions),
                         Text("    Directions")
