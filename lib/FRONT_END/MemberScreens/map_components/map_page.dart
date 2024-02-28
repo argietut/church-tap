@@ -1,10 +1,13 @@
+import 'package:bethel_app_final/FRONT_END/MemberScreens/map_components/Geolocator.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/map_components/marker_popup.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
+
 class MapPage extends StatefulWidget {
+
   const MapPage({super.key});
 
   @override
@@ -12,14 +15,14 @@ class MapPage extends StatefulWidget {
 }
 
 class _MapPageState extends State<MapPage> {
-  late final Future _future = _getLatitude(); //FIX FOR FUTUREBUILDER CONSTANTLY GETTING CALLED
+  final Geolocate geolocate = Geolocate();
+  late final Future _future = positionReveal(); //FIX FOR FUTUREBUILDER CONSTANTLY GETTING CALLED
   final mapController = MapController();
   var _userlat = 0.0;
   var _userlong = 0.0;
   @override
   void initState() {
   CurrentLocationLayer();
-  _determinePosition();
     super.initState();
   }
 
@@ -54,37 +57,13 @@ class _MapPageState extends State<MapPage> {
     );
 
     }
-
-  Future<Position> _determinePosition() async {
-    bool serviceEnabled;
-    LocationPermission permission;
-
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      return Future.error('Location services are disabled.');
-    }
-
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        return Future.error('Location permissions are denied');
-      }
-    }
-
-    if (permission == LocationPermission.deniedForever) {
-      return Future.error(
-          'Location permissions are permanently denied, we cannot request permissions.');
-    }
-    return await Geolocator.getCurrentPosition();
-  }
-  Future<double> _getLatitude() async{
-    Position pos = await _determinePosition();
+Future<double> positionReveal() async{
+    Position position = await geolocate.determinePosition();
     setState(() {
-      _userlat = pos.latitude;
-      _userlong = pos.longitude;
+      _userlat = position.latitude;
+      _userlong = position.longitude;
     });
-    return _userlat;
+    return 2;
+
   }
 }
-
