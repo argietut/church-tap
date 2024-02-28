@@ -1,7 +1,7 @@
 //https://github.com/rorystephenson/flutter_map_marker_popup/blob/master/example/lib/example_popup_with_data.dart
 // REFERENCE STARTS IN LINE 83
 // Making your own Widget extended in Marker. super smart solution by the creator of the library!
-import 'package:bethel_app_final/FRONT_END/MemberScreens/map_components/map_page.dart';
+import 'package:bethel_app_final/FRONT_END/MemberScreens/map_components/Geolocator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
@@ -58,7 +58,7 @@ class MonumentMarkerPopup extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   TextButton(
-                      onPressed: () => MapPage(),//If you see this delete this might kill the program
+                      onPressed: () => Geolocate(),//This Must be Get user Location then throw it to API
                       child: Row(children: [
                         Icon(Icons.directions),
                         Text("    Directions")
