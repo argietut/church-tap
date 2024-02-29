@@ -93,7 +93,9 @@ class OptionToPlatformToLogin extends StatelessWidget {
               const SizedBox(height: 12),
               const Text(
                 'or',
-                style: TextStyle(color: appBlack, fontSize: 12),
+                style: TextStyle(color: appBlack,
+                    fontSize: 12
+                ),
               ),
               const SizedBox(height: 10),
               TextButton(
@@ -104,7 +106,7 @@ class OptionToPlatformToLogin extends StatelessWidget {
                       return AlertDialog(
                         title: const Text('Create your account',
                         style: TextStyle(
-                          fontSize: 30
+                          fontSize: 14
                         ),
                         ),
                         content: Container(
@@ -115,29 +117,31 @@ class OptionToPlatformToLogin extends StatelessWidget {
                             children: [
 
 
-                              const SizedBox(height: 20),
-                              TextButton(
-                                onPressed: () {
-                                  Get.to(() =>  MemberRegisterPage(
-                                    onTap: () {
-                                      Navigator.pop(context);
-                                    },),
-                                    transition: Transition.zoom,
-                                    duration: const Duration(seconds: 1),
-                                  );
-                                },
-                                child: const Row(
-                                  children: [
-                                    Icon(Icons.email),
-                                    SizedBox(width: 10),
-                                    Text(
-                                      'SIGN UP WITH E-MAIL',
-                                      style: TextStyle(
-                                        color: appBlack,
-                                        fontSize: 20,
+                              const SizedBox(height: 10),
+                              SingleChildScrollView(
+                                child: TextButton(
+                                  onPressed: () {
+                                    Get.to(() =>  MemberRegisterPage(
+                                      onTap: () {
+                                        Navigator.pop(context);
+                                      },),
+                                      transition: Transition.zoom,
+                                      duration: const Duration(seconds: 1),
+                                    );
+                                  },
+                                  child: const Row(
+                                    children: [
+                                      Icon(Icons.email),
+                                      SizedBox(width: 10),
+                                      Text(
+                                        'SIGN UP WITH E-MAIL',
+                                        style: TextStyle(
+                                          color: appBlack,
+                                          fontSize: 10,
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ),
 
@@ -194,45 +198,43 @@ class OptionToPlatformToLogin extends StatelessWidget {
 
               const SizedBox(height: 100),
               Column(
-                mainAxisAlignment: MainAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 6.0), // Adjust padding as needed
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text('By signing in you agree to our'),
-                        GestureDetector(
-                          child: TextButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => const Terms()),
-                              );
-                            },
-                            child: const Text('Terms',
-                            style: TextStyle(color: appGreen,
-                            decoration: TextDecoration.underline
-                            ),
-                            ),
-                          ),
-                        ),
-                        const Text('and'),
-                        TextButton(
+                  Row(crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      const Text('By signing in you agree to our'),
+                      GestureDetector(
+                        child: TextButton(
                           onPressed: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) =>  const PrivacyPolicyPage()),
+                              MaterialPageRoute(builder: (context) => const Terms()),
                             );
                           },
-                          child: const Text('Privacy Policy',
-                           style: TextStyle(color: appGreen,
+                          child: const Text('Terms',
+                          style: TextStyle(color: appGreen,
                           decoration: TextDecoration.underline
                           ),
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                      const Text('and'),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) =>  const PrivacyPolicyPage()),
+                          );
+                        },
+                        child: const Text('Privacy',
+
+                         style: TextStyle(color: appGreen,
+                        decoration: TextDecoration.underline
+                        ),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),

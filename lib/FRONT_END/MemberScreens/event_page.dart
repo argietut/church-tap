@@ -133,7 +133,7 @@ class _EventsState extends State<Events> {
                     itemBuilder: (context, index) {
                       final event = eventsForDay[index];
                       return ListTile(
-                        title: Text(event.title),
+                        title: Text(event.eventType),
                         subtitle: Text(event.description),
                         onTap: () async {
                           final res = await Navigator.push<bool>(

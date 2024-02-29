@@ -252,7 +252,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
                     itemBuilder: (context, index) {
                       final appointment = appointmentsForDay[index];
                       return ListTile(
-                        title: Text(appointment.title),
+                        title: Text(appointment.appointmenttype),
                         subtitle: Text(appointment.description),
                         onTap: () async {
                           final res = await Navigator.push<bool>(
@@ -294,7 +294,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
                     itemBuilder: (context, index) {
                       final event = eventsForDay[index];
                       return ListTile(
-                        title: Text(event.title),
+                        title: Text(event.eventType),
                         subtitle: Text(event.description),
                         onTap: () async {
                           final res = await Navigator.push<bool>(

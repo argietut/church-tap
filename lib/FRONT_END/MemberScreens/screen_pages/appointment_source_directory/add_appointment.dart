@@ -1,9 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-
 import 'appointment_source.dart';
-
 
 class AddAppointment extends StatefulWidget {
   final DateTime firstDate;
@@ -16,22 +14,26 @@ class AddAppointment extends StatefulWidget {
 }
 
 class _AddAppointmentState extends State<AddAppointment> {
-  late DateTime _selectedDate2;
-  late TextEditingController _titleController2;
-  late TextEditingController _descController2;
+  late DateTime _selectedDate;
+  final _descController = TextEditingController();
+  String _selectedAppointmentType = '';
+  late List<String> _appointmentType;
 
   @override
   void initState() {
     super.initState();
-    _selectedDate2 = widget.selectedDate ?? DateTime.now();
-    _titleController2 = TextEditingController();
-    _descController2 = TextEditingController();
+    _selectedDate = widget.selectedDate;
+    _fetchAppointmentTypes().then((types) {
+      setState(() {
+        _appointmentType = types;
+        _selectedAppointmentType = _appointmentType.isNotEmpty ? _appointmentType.first : '';
+      });
+    });
   }
 
   @override
   void dispose() {
-    _titleController2.dispose();
-    _descController2.dispose();
+    _descController.dispose();
     super.dispose();
   }
 
@@ -39,47 +41,79 @@ class _AddAppointmentState extends State<AddAppointment> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("Add Appointment")),
-      body: ListView(
-        padding: const EdgeInsets.all(16.0),
-        children: [
-          InputDatePickerFormField(
-            firstDate: widget.firstDate,
-            lastDate: widget.lastDate,
-            initialDate: _selectedDate2,
-            onDateSubmitted: (date) {
-              setState(() {
-                _selectedDate2 = date;
-              });
-            },
-          ),
-          TextField(
-            controller: _titleController2,
-            maxLines: 1,
-            decoration: const InputDecoration(labelText: 'Title'),
-          ),
-          TextField(
-            controller: _descController2,
-            maxLines: 5,
-            decoration: const InputDecoration(labelText: 'Description'),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              _addAppointment(_selectedDate2);
-            },
-            child: const Text("Save"),
-          ),
-        ],
+      body: FutureBuilder<List<String>>(
+        future: _fetchAppointmentTypes(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else {
+            _appointmentType = snapshot.data ?? [];
+            return _buildForm();
+          }
+        },
       ),
     );
   }
 
-  void _addAppointment(DateTime selectedDate) async {
-    final title = _titleController2.text;
-    final description = _descController2.text;
-    if (title.isEmpty) {
-      print('Title cannot be empty');
-      return;
+  Widget _buildForm() {
+    return ListView(
+      padding: const EdgeInsets.all(16.0),
+      children: [
+        InputDatePickerFormField(
+          firstDate: widget.firstDate,
+          lastDate: widget.lastDate,
+          initialDate: _selectedDate,
+          onDateSubmitted: (date) {
+            setState(() {
+              _selectedDate = date;
+            });
+          },
+        ),
+        DropdownButtonFormField<String>(
+          value: _selectedAppointmentType,
+          onChanged: (String? newValue) {
+            setState(() {
+              _selectedAppointmentType = newValue!;
+            });
+          },
+          items: _appointmentType.map((String value) {
+            return DropdownMenuItem<String>(
+              value: value,
+              child: Text(value),
+            );
+          }).toList(),
+        ),
+        TextField(
+          controller: _descController,
+          maxLines: 5,
+          decoration: const InputDecoration(labelText: 'Description'),
+        ),
+        ElevatedButton(
+          onPressed: () {
+            _addAppointment(_selectedDate);
+          },
+          child: const Text("Save"),
+        ),
+      ],
+    );
+  }
+
+  Future<List<String>> _fetchAppointmentTypes() async {
+    try {
+      // Simulate fetching event types from Firestore
+      await Future.delayed(Duration(seconds: 1)); // Simulate network delay
+      List<String> appointmentTypes = ['Meeting', 'Conference', 'Seminar', 'Workshop', 'Webinar'];
+      return appointmentTypes;
+    } catch (e) {
+      print('Error fetching appointment types: $e');
+      return [];
     }
+  }
+
+  void _addAppointment(DateTime selectedDate) async {
+    final description = _descController.text;
 
     final currentUser = FirebaseAuth.instance.currentUser;
     if (currentUser == null) {
@@ -87,27 +121,42 @@ class _AddAppointmentState extends State<AddAppointment> {
       return;
     }
 
-    final AppointmentDocRef = await FirebaseFirestore.instance.collection('appointments').add({
-      "title": title,
+    final appointmentDocRef = await FirebaseFirestore.instance.collection('appointments').add({
       "description": description,
-      "date": Timestamp.fromDate(_selectedDate2),
+      "date": Timestamp.fromDate(_selectedDate),
       "userID": currentUser.uid,
+      "appointmenttype": _selectedAppointmentType,
     });
 
     final appointment = Appointment(
-      id: AppointmentDocRef.id,
-      title: title,
+      id: appointmentDocRef.id,
       description: description,
-      date: _selectedDate2,
+      date: _selectedDate,
       userID: currentUser.uid,
+      appointmenttype: _selectedAppointmentType,
     );
 
-    Navigator.pop(context, true);
+    _showSuccessDialog();
+  }
+
+  void _showSuccessDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Success'),
+          content: Text('Appointment saved successfully.'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                Navigator.pop(context, true);
+              },
+              child: Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
   }
 }
-
-
-
-
-
-
