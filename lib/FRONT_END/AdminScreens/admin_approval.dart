@@ -1,20 +1,15 @@
-
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class AdminHomePage extends StatefulWidget {
-  const AdminHomePage({Key? key}) : super(key: key);
+class AdminApproval extends StatefulWidget {
+  const AdminApproval({Key? key}) : super(key: key);
 
   @override
-  State<AdminHomePage> createState() => _AdminHomePageState();
+  State<AdminApproval> createState() => _AdminApprovalState();
 }
 
-void signUserOut() {
-  FirebaseAuth.instance.signOut();
-}
+class _AdminApprovalState extends State<AdminApproval> {
+  bool hasEvents = false; // Assume no events initially
 
-class _AdminHomePageState extends State<AdminHomePage> {
-  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,12 +24,17 @@ class _AdminHomePageState extends State<AdminHomePage> {
                 IconButton(
                   onPressed: () {},
                   style: IconButton.styleFrom(
-
+                    // shape: const CircleBorder(
+                    //   side: BorderSide(
+                    //     color: appBlack,
+                    //     width: 1.0,
+                    //   ),
+                    // ),
                   ),
-                  icon: const Icon(Icons.notifications),
+                  icon: const Icon(Icons.tune),
                 ),
                 const Text(
-                  "Admin Events",
+                  "Admin Approval",
                   style: TextStyle(
                     fontSize: 30,
                     fontWeight: FontWeight.bold,
@@ -46,7 +46,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
             const Divider(),
             const SizedBox(height: 10),
             const Text(
-              'No Events yet!',
+              'No appointment requests yet!',
               style: TextStyle(
                 fontSize: 20 ,
                 fontWeight: FontWeight.bold,
@@ -57,6 +57,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
               'Time to chill and find your self yet.',
             ),
             const SizedBox(height: 20),
+
           ],
         ),
       ),

@@ -12,13 +12,15 @@ class AdminAuthServices {
         password: password,
       );
 
-      User? user = userCredential.user;
-      if (user != null) {
-        await user.updateDisplayName(name);
+      User? admin = userCredential.user;
+      if (admin != null) {
+        await admin.updateDisplayName(name);
 
-        await FirebaseFirestore.instance.collection('admins').doc(user.uid).set({
+        await FirebaseFirestore.instance.collection('admins').doc(admin.uid).set({
           'name': name,
           'email': email,
+          'userID': admin.uid,
+
           
         });
       }

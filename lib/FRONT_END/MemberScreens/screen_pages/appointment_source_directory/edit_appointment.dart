@@ -65,7 +65,7 @@ class _EditAppointmentState extends State<EditAppointment> {
             onPressed: () {
               _deleteAppointment();
             },
-            style: ElevatedButton.styleFrom(primary: Colors.red),
+            style: ElevatedButton.styleFrom(foregroundColor: Colors.red),
             child: const Text("Delete"),
           ),
         ],

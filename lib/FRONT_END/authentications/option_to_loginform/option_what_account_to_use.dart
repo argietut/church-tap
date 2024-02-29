@@ -1,5 +1,5 @@
 import 'package:bethel_app_final/BACK_END/Services/Functions/Member_Functions/member_functions.dart';
-import 'package:bethel_app_final/FRONT_END/authentications/auth_classes/class_page.dart';
+import 'package:bethel_app_final/FRONT_END/authentications/auth_classes/squaretile.dart';
 import 'package:bethel_app_final/FRONT_END/authentications/member_auth/member_auth_page.dart';
 import 'package:bethel_app_final/FRONT_END/authentications/member_auth/member_register_page.dart';
 import 'package:bethel_app_final/FRONT_END/constant/color.dart';
@@ -104,7 +104,7 @@ class OptionToPlatformToLogin extends StatelessWidget {
                       return AlertDialog(
                         title: const Text('Create your account',
                         style: TextStyle(
-                          fontSize: 30
+                          fontSize: 18
                         ),
                         ),
                         content: Container(
@@ -121,7 +121,8 @@ class OptionToPlatformToLogin extends StatelessWidget {
                                   Get.to(() =>  MemberRegisterPage(
                                     onTap: () {
                                       Navigator.pop(context);
-                                    },),
+                                    },
+                                  ),
                                     transition: Transition.zoom,
                                     duration: const Duration(seconds: 1),
                                   );
@@ -134,7 +135,7 @@ class OptionToPlatformToLogin extends StatelessWidget {
                                       'SIGN UP WITH E-MAIL',
                                       style: TextStyle(
                                         color: appBlack,
-                                        fontSize: 20,
+                                        fontSize: 10,
                                       ),
                                     ),
                                   ],
