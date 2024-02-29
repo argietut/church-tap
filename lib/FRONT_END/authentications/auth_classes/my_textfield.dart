@@ -1,4 +1,3 @@
-import 'package:bethel_app_final/FRONT_END/constant/color.dart';
 import 'package:flutter/material.dart';
 
 class MyTextField extends StatelessWidget {

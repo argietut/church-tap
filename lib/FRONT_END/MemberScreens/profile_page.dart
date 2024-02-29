@@ -1,9 +1,6 @@
-import 'package:bethel_app_final/FRONT_END/MemberScreens/screen_pages/profile_screen_pages/calendar.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/screen_pages/profile_screen_pages/give_us_feedback.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/screen_pages/profile_screen_pages/my_profile.dart';
-import 'package:bethel_app_final/FRONT_END/MemberScreens/screen_pages/profile_screen_pages/privacy_policy.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/screen_pages/profile_screen_pages/settings.dart';
-import 'package:bethel_app_final/FRONT_END/MemberScreens/screen_pages/profile_screen_pages/terms_of_service.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/screen_pages/profile_screen_pages/visit_the_help_center.dart';
 import 'package:bethel_app_final/FRONT_END/constant/color.dart';
 import 'package:bethel_app_final/FRONT_END/screens/privacy_policy_page.dart';
@@ -14,10 +11,6 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 import 'event_page.dart';
 
-void main() => runApp(const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Profile(),
-    ));
 void signUserOut() {
   FirebaseAuth.instance.signOut();
 }
