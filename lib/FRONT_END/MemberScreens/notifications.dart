@@ -1,3 +1,4 @@
+import 'package:bethel_app_final/FRONT_END/constant/color.dart';
 import 'package:flutter/material.dart';
 
 class Notifications extends StatefulWidget {
@@ -11,48 +12,51 @@ class _NotificationsState extends State<Notifications> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-         automaticallyImplyLeading: false,
-        title: const Text('Notifications'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.more_vert),
-            onPressed: () {
-              // Handle triple-dot button tap
-            },
-          ),
-        ],
-      ),
-      
-      body: const Center(
+      body: Padding(
+        padding: const EdgeInsets.only(top: 40, left: 20, right: 20),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            
-            Icon(
-              Icons.notification_important_outlined,
-              size: 50,
-              color: Colors.blue,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                IconButton(
+                  onPressed: () {},
+                  style: IconButton.styleFrom(
+                    shape: const CircleBorder(
+                      side: BorderSide(
+                        color: appBlack,
+                        width: 1.0,
+                      ),
+                    ),
+                  ),
+                  icon: const Icon(Icons.tune),
+                ),
+                const Text(
+                  "Notifications",
+                  style: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(width: 50),
+              ],
             ),
-            SizedBox(height: 16),
-            Text(
+            const Divider(),
+            const SizedBox(height: 10),
+            const Text(
               'Your inbox is feeling lonely!',
               style: TextStyle(
-                fontSize: 18,
+                fontSize: 20 ,
                 fontWeight: FontWeight.bold,
-                color: Colors.grey,
               ),
             ),
-            SizedBox(height: 8),
-            Text(
-              'No notification yet. Stay tuned, amazing conversations are on the way!',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.grey,
-              ),
+            const SizedBox(height: 10),
+            const Text(
+              'No notification yet. Stay tuned, amazing conversation are on the way.',
             ),
-            // You can add additional content or widgets related to messages
+            const SizedBox(height: 20),
+
           ],
         ),
       ),

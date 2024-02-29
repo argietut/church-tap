@@ -1,10 +1,6 @@
 import 'dart:collection';
-
-import 'package:bethel_app_final/FRONT_END/MemberScreens/screen_pages/event_source_directory/add_event.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/screen_pages/event_source_directory/edit_event.dart';
-import 'package:bethel_app_final/FRONT_END/MemberScreens/screen_pages/event_source_directory/event_item.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';

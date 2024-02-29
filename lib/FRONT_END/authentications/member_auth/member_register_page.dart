@@ -2,7 +2,8 @@ import 'dart:developer';
 
 import 'package:bethel_app_final/BACK_END/Services/Functions/Authentication.dart';
 import 'package:bethel_app_final/BACK_END/Services/Functions/Member_Functions/member_functions.dart';
-import 'package:bethel_app_final/FRONT_END/authentications/auth_classes/class_page.dart';
+import 'package:bethel_app_final/FRONT_END/authentications/auth_classes/my_button1.dart';
+import 'package:bethel_app_final/FRONT_END/authentications/auth_classes/my_textfield.dart';
 import 'package:bethel_app_final/FRONT_END/authentications/member_auth/member_login_page.dart';
 import 'package:flutter/material.dart';
 

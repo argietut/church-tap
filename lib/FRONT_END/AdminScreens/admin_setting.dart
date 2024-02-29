@@ -1,35 +1,24 @@
-import 'package:bethel_app_final/FRONT_END/MemberScreens/screen_pages/profile_screen_pages/calendar.dart';
-import 'package:bethel_app_final/FRONT_END/MemberScreens/screen_pages/profile_screen_pages/give_us_feedback.dart';
+import 'package:bethel_app_final/FRONT_END/MemberScreens/event_page.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/screen_pages/profile_screen_pages/my_profile.dart';
-import 'package:bethel_app_final/FRONT_END/MemberScreens/screen_pages/profile_screen_pages/privacy_policy.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/screen_pages/profile_screen_pages/settings.dart';
-import 'package:bethel_app_final/FRONT_END/MemberScreens/screen_pages/profile_screen_pages/terms_of_service.dart';
-import 'package:bethel_app_final/FRONT_END/MemberScreens/screen_pages/profile_screen_pages/visit_the_help_center.dart';
 import 'package:bethel_app_final/FRONT_END/constant/color.dart';
-import 'package:bethel_app_final/FRONT_END/screens/privacy_policy_page.dart';
-import 'package:bethel_app_final/FRONT_END/screens/terms_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-import 'event_page.dart';
 
-void main() => runApp(const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Profile(),
-    ));
 void signUserOut() {
   FirebaseAuth.instance.signOut();
 }
 
-class Profile extends StatefulWidget {
-  const Profile({super.key});
+class AdminSettings extends StatefulWidget {
+  const AdminSettings({super.key});
 
   @override
-  _ProfileState createState() => _ProfileState();
+  _AdminSettingsState createState() => _AdminSettingsState();
 }
 
-class _ProfileState extends State<Profile> {
+class _AdminSettingsState extends State<AdminSettings> {
   final textStyleState = const TextStyle(fontSize: 11.0, color: Colors.white);
 
   final textStyleTop = const TextStyle(
@@ -54,7 +43,7 @@ class _ProfileState extends State<Profile> {
                     color: Colors.grey[300],
                   ),
                   child: const Icon(
-                    Icons.person,
+                    Icons.settings,
                     size: 40.0,
                     color: Colors.black,
                   ),
@@ -66,7 +55,7 @@ class _ProfileState extends State<Profile> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Profile",
+                      "Setting",
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 24,
@@ -99,8 +88,9 @@ class _ProfileState extends State<Profile> {
             child: Text(
               "Account settings".toUpperCase(),
               style: const TextStyle(
-                color: Colors.grey,
-                fontSize: 15,
+                color: appBlack,
+                fontSize: 20,
+                  fontWeight:FontWeight.bold
               ),
             ),
           ),
@@ -121,7 +111,7 @@ class _ProfileState extends State<Profile> {
                     child: Text(
                       "Personal informations",
                       style: TextStyle(
-                          color: Colors.black,
+                          color: appBlack,
                           fontSize: 17,
                           fontWeight: FontWeight.w300),
                       overflow: TextOverflow.ellipsis,
@@ -157,7 +147,7 @@ class _ProfileState extends State<Profile> {
                 children: [
                   Expanded(
                     child: Text(
-                      "Calendar",
+                      "Create Admin Account",
                       style: TextStyle(
                           color: Colors.black,
                           fontSize: 17,
@@ -166,7 +156,7 @@ class _ProfileState extends State<Profile> {
                     ),
                   ),
                   Icon(
-                    Icons.calendar_month_outlined,
+                    Icons.account_box,
                   ),
                 ],
               ),
@@ -210,203 +200,6 @@ class _ProfileState extends State<Profile> {
               ),
             ),
           ),
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 30),
-            decoration: const BoxDecoration(
-              color: Colors.black12,
-            ),
-            width: 50,
-            height: 1,
-          ),
-          Padding(
-            padding: const EdgeInsets.all(15),
-            child: Text(
-              "Support".toUpperCase(),
-              style: const TextStyle(
-                color: Colors.grey,
-                fontSize: 15,
-              ),
-            ),
-          ),
-          const SizedBox(
-            width: 15,
-          ),
-
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 30),
-            decoration: const BoxDecoration(
-              color: Colors.black12,
-            ),
-            width: 50,
-            height: 1,
-          ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const VisitTheHelpCenter()),
-              );
-            },
-            child: const Padding(
-              padding: EdgeInsets.all(15),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Expanded(
-                    child: Text(
-                      "Visit the Help Center",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 17,
-                          fontWeight: FontWeight.w300),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                  Icon(
-                    Icons.help_center_outlined,
-                  ),
-                ],
-              ),
-            ),
-          ),
-          const SizedBox(
-            width: 15,
-          ),
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 30),
-            decoration: const BoxDecoration(
-              color: Colors.black12,
-            ),
-            width: 50,
-            height: 1,
-          ),
-          
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const GiveUsFeedBack()),
-              );
-            },
-            child: const Padding(
-              padding: EdgeInsets.all(15),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Expanded(
-                    child: Text(
-                      "Give us feedback",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 17,
-                          fontWeight: FontWeight.w300),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                  Icon(
-                    Icons.feedback_outlined,
-                  ),
-                ],
-              ),
-            ),
-          ),
-          const SizedBox(
-            width: 15,
-          ),
-            Container(
-            margin: const EdgeInsets.symmetric(horizontal: 30),
-            decoration: const BoxDecoration(
-              color: Colors.black12,
-            ),
-            width: 50,
-            height: 1,
-          ),
-          Padding(
-            padding: const EdgeInsets.all(15),
-            child: Text(
-              "LEGAL".toUpperCase(),
-              style: const TextStyle(
-                color: Colors.grey,
-                fontSize: 15,
-              ),
-            ),
-          ),
-
-           ElevatedButton(
-            style: ElevatedButton.styleFrom(),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const Terms()),
-              );
-            },
-            child: const Padding(
-              padding: EdgeInsets.all(15),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Expanded(
-                    child: Text(
-                      "Terms of Service",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 17,
-                          fontWeight: FontWeight.w300),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                  Icon(
-                    Icons.policy_outlined,
-                  ),
-                ],
-              ),
-            ),
-          ),
-
-          const SizedBox(
-            width: 15,
-          ),
-
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 30),
-            decoration: const BoxDecoration(
-              color: Colors.black12,
-            ),
-            width: 50,
-            height: 1,
-          ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const PrivacyPolicyPage()),
-              );
-            },
-            child: const Padding(
-              padding: EdgeInsets.all(15),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Expanded(
-                    child: Text(
-                      "Privacy Policy",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 17,
-                          fontWeight: FontWeight.w300),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                  Icon(
-                    Icons.policy_outlined,
-                  ),
-                ],
-              ),
-            ),
-          ),
 
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 30),
@@ -421,9 +214,9 @@ class _ProfileState extends State<Profile> {
             child: Text(
               "Log out".toUpperCase(),
               style: const TextStyle(
-                color: appBlack,
-                fontSize: 15,
-                fontWeight:FontWeight.bold
+                  color: appBlack,
+                  fontSize: 20,
+                  fontWeight:FontWeight.bold
               ),
             ),
           ),
