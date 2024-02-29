@@ -19,11 +19,6 @@ class _MemberHomePageState extends State<MemberHomePage> {
   bool _isSearching = false;
 
 
-  // Future<void> _refresh(){
-  //    bool _isSearching = true;
-  //   return Future.delayed(Duration(seconds: 2));
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,22 +39,7 @@ class _MemberHomePageState extends State<MemberHomePage> {
           ),
           child: Stack(
             children: [
-              Positioned(
-                right: 16.0,
-                top: 20.0,
-                child: IconButton(
-                  onPressed: () {},
-                  style: IconButton.styleFrom(
-                    shape: const CircleBorder(
-                      side: BorderSide(
-                        color: appGreen,
-                        width: 1.0,
-                      ),
-                    ),
-                  ),
-                  icon: const Icon(Icons.tune),
-                ),
-              ),
+
               Positioned(
                 left: 16.0,
                 right: 72.0,
