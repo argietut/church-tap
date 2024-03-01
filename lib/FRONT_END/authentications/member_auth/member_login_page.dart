@@ -1,4 +1,5 @@
 
+import 'package:bethel_app_final/BACK_END/Services/Functions/Authentication.dart';
 import 'package:bethel_app_final/FRONT_END/authentications/auth_classes/class_page.dart';
 import 'package:bethel_app_final/FRONT_END/authentications/forgot_password.dart';
 import 'package:bethel_app_final/FRONT_END/constant/color.dart';
@@ -21,7 +22,7 @@ class MemberLoginPage extends StatefulWidget {
 class _MemberLoginPageState extends State<MemberLoginPage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-
+  TapAuth tapAuth = TapAuth();
   void signUserIn() async {
     try {
       String email = emailController.text.trim();
@@ -54,11 +55,7 @@ class _MemberLoginPageState extends State<MemberLoginPage> {
         );
         return;
       }
-
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
+      await tapAuth.loginUserAuth(email, password);
     } on FirebaseAuthException catch (e) {
       print('FirebaseAuthException occurred: ${e.message}');
       if (e.code == 'wrong-password') {
