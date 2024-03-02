@@ -25,14 +25,14 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: appWhite,
+      backgroundColor: appGreen2,
       body: SafeArea(
         child: _children[_currentTab],
       ),
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       bottomNavigationBar: BottomAppBar(
         shape: const CircularNotchedRectangle(),
-        color: appWhite,
+        color: appGreen2,
         child: BottomNavigationBar(
           elevation: 6,
           backgroundColor: appGreen,
@@ -98,7 +98,7 @@ class _HomePageState extends State<HomePage> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: Container(
-        margin: EdgeInsets.only(top: 10),
+        margin: const EdgeInsets.only(top: 10),
         height: 64,
         width: 64,
         child: FloatingActionButton(
@@ -107,7 +107,7 @@ class _HomePageState extends State<HomePage> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => AppointmentPage()),
+              MaterialPageRoute(builder: (context) => const AppointmentPage()),
             );
           },
           shape: RoundedRectangleBorder(

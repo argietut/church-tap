@@ -30,59 +30,38 @@ class _AdminSettingsState extends State<AdminSettings> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: ListView(
+        padding: const EdgeInsets.only(top: 40, left: 20, right: 20),
+
         children: [
-          Padding(
-            padding: const EdgeInsets.all(25),
-            child: Row(
-              children: [
-                Container(
-                  width: 60.0,
-                  height: 60.0,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: Colors.grey[300],
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              IconButton(
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(
+                      builder: (context) => const MyProfile()
                   ),
-                  child: const Icon(
-                    Icons.settings,
-                    size: 40.0,
-                    color: Colors.black,
-                  ),
+                  );
+                },
+                style: IconButton.styleFrom(
                 ),
-                const SizedBox(
-                  width: 15,
-                ),
-                const Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Setting",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 24,
-                          color: Colors.black87),
-                    ),
-                  ],
-                )
-              ],
-            ),
-          ),
-          ClipRRect(
-            child: Container(
-              margin: const EdgeInsets.only(bottom: 5.0),
-              decoration: const BoxDecoration(
-                color: Colors.black12,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black87,
-                    offset: Offset(0.0, 1.0), //(x,y)
-                    blurRadius: 5.0,
-                  ),
-                ],
+                icon: const Icon(Icons.person),
               ),
-              width: 50,
-              height: 1,
-            ),
+              const Text(
+                "Profile",
+                style: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(width: 50),
+            ],
           ),
+          const SizedBox(height: 15),
+          const Divider(
+            color: appGreen,
+          ),
+
           Padding(
             padding: const EdgeInsets.all(15),
             child: Text(

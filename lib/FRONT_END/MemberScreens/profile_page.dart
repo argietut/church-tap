@@ -1,7 +1,5 @@
-import 'package:bethel_app_final/FRONT_END/MemberScreens/screen_pages/profile_screen_pages/give_us_feedback.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/screen_pages/profile_screen_pages/my_profile.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/screen_pages/profile_screen_pages/settings.dart';
-import 'package:bethel_app_final/FRONT_END/MemberScreens/screen_pages/profile_screen_pages/visit_the_help_center.dart';
 import 'package:bethel_app_final/FRONT_END/constant/color.dart';
 import 'package:bethel_app_final/FRONT_END/screens/privacy_policy_page.dart';
 import 'package:bethel_app_final/FRONT_END/screens/terms_page.dart';
@@ -21,7 +19,6 @@ class Profile extends StatefulWidget {
   @override
   _ProfileState createState() => _ProfileState();
 }
-
 class _ProfileState extends State<Profile> {
   final textStyleState = const TextStyle(fontSize: 11.0, color: Colors.white);
 
@@ -34,59 +31,38 @@ class _ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: ListView(
+        padding: const EdgeInsets.only(top: 40, left: 20, right: 20),
+
         children: [
-          Padding(
-            padding: const EdgeInsets.all(25),
-            child: Row(
-              children: [
-                Container(
-                  width: 60.0,
-                  height: 60.0,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: Colors.grey[300],
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              IconButton(
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(
+                      builder: (context) => const MyProfile()
                   ),
-                  child: const Icon(
-                    Icons.person,
-                    size: 40.0,
-                    color: Colors.black,
-                  ),
+                  );
+                },
+                style: IconButton.styleFrom(
                 ),
-                const SizedBox(
-                  width: 15,
-                ),
-                const Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Profile",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 24,
-                          color: Colors.black87),
-                    ),
-                  ],
-                )
-              ],
-            ),
-          ),
-          ClipRRect(
-            child: Container(
-              margin: const EdgeInsets.only(bottom: 5.0),
-              decoration: const BoxDecoration(
-                color: Colors.black12,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black87,
-                    offset: Offset(0.0, 1.0), //(x,y)
-                    blurRadius: 5.0,
-                  ),
-                ],
+                icon: const Icon(Icons.person),
               ),
-              width: 50,
-              height: 1,
-            ),
+              const Text(
+                "Profile",
+                style: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(width: 50),
+            ],
           ),
+          const SizedBox(height: 15),
+          const Divider(
+            color: appGreen,
+          ),
+
           Padding(
             padding: const EdgeInsets.all(15),
             child: Text(
@@ -211,100 +187,6 @@ class _ProfileState extends State<Profile> {
             width: 50,
             height: 1,
           ),
-          Padding(
-            padding: const EdgeInsets.all(15),
-            child: Text(
-              "Support".toUpperCase(),
-              style: const TextStyle(
-                color: Colors.grey,
-                fontSize: 15,
-              ),
-            ),
-          ),
-          const SizedBox(
-            width: 15,
-          ),
-
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 30),
-            decoration: const BoxDecoration(
-              color: Colors.black12,
-            ),
-            width: 50,
-            height: 1,
-          ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const VisitTheHelpCenter()),
-              );
-            },
-            child: const Padding(
-              padding: EdgeInsets.all(15),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Expanded(
-                    child: Text(
-                      "Visit the Help Center",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 17,
-                          fontWeight: FontWeight.w300),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                  Icon(
-                    Icons.help_center_outlined,
-                  ),
-                ],
-              ),
-            ),
-          ),
-          const SizedBox(
-            width: 15,
-          ),
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 30),
-            decoration: const BoxDecoration(
-              color: Colors.black12,
-            ),
-            width: 50,
-            height: 1,
-          ),
-          
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const GiveUsFeedBack()),
-              );
-            },
-            child: const Padding(
-              padding: EdgeInsets.all(15),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Expanded(
-                    child: Text(
-                      "Give us feedback",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 17,
-                          fontWeight: FontWeight.w300),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                  Icon(
-                    Icons.feedback_outlined,
-                  ),
-                ],
-              ),
-            ),
-          ),
           const SizedBox(
             width: 15,
           ),
@@ -414,7 +296,7 @@ class _ProfileState extends State<Profile> {
             child: Text(
               "Log out".toUpperCase(),
               style: const TextStyle(
-                color: appBlack,
+                color: appGrey,
                 fontSize: 15,
                 fontWeight:FontWeight.bold
               ),

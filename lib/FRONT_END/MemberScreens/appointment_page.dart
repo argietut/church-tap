@@ -230,13 +230,13 @@ class _AppointmentPageState extends State<AppointmentPage> {
               headerTitleBuilder: (context, day) => Container(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                    _selectedDay.toString()), // Display selected day in header title
+                    _selectedDay.toString()),
               ),
             ),
           ),
           ListView.builder(
             shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             itemCount: _appointments.length,
             itemBuilder: (context, index) {
               final day = _appointments.keys.elementAt(index);
@@ -247,7 +247,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
                       'Appointments for ${DateFormat('MMMM d, yyyy').format(day)}'),
                   ListView.builder(
                     shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     itemCount: appointmentsForDay.length,
                     itemBuilder: (context, index) {
                       final appointment = appointmentsForDay[index];
@@ -278,7 +278,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
           ),
           ListView.builder(
             shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             itemCount: _events.length,
             itemBuilder: (context, index) {
               final day = _events.keys.elementAt(index);
@@ -289,7 +289,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
                       'Events for ${DateFormat('MMMM d, yyyy').format(day)}'),
                   ListView.builder(
                     shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     itemCount: eventsForDay.length,
                     itemBuilder: (context, index) {
                       final event = eventsForDay[index];
