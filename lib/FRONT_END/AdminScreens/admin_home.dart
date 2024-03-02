@@ -45,10 +45,13 @@ class _AdminHomePageState extends State<AdminHomePage> {
                 const SizedBox(width: 50),
               ],
             ),
+
             const SizedBox(height: 15),
             const Divider(
               color: appGreen,
             ),
+            const SizedBox(height: 10),
+
             const Text(
               'No Events yet!',
               style: TextStyle(
