@@ -6,6 +6,7 @@ import 'package:bethel_app_final/FRONT_END/MemberScreens/screen_pages/appointmen
 import 'package:bethel_app_final/FRONT_END/MemberScreens/screen_pages/event_source_directory/add_event.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/screen_pages/event_source_directory/edit_event.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/screen_pages/event_source_directory/event_source.dart';
+import 'package:bethel_app_final/FRONT_END/constant/color.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -143,60 +144,64 @@ class _AppointmentPageState extends State<AppointmentPage> {
             fontWeight: FontWeight.bold,
           ),
         ),
-        actions: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ButtonBar(
-                children: [
-                  TextButton.icon(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => AddAppointment(
-                            firstDate: _firstDay,
-                            lastDate: _lastDay,
-                            selectedDate: _selectedDay,
-                          ),
-                        ),
-                      ).then((value) {
-                        if (value == true) {
-                          _loadFirestoreEvents(_selectedDay);
-                        }
-                      });
-                    },
-                    icon: const Icon(Icons.calendar_today),
-                    label: const Text('Appointment'),
-                  ),
-                  TextButton.icon(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => AddEvent(
-                            firstDate: _firstDay,
-                            lastDate: _lastDay,
-                            selectedDate: _selectedDay,
-                          ),
-                        ),
-                      ).then((value) {
-                        if (value == true) {
-                          _loadFirestoreEvents(_selectedDay);
-                        }
-                      });
-                    },
-                    icon: const Icon(Icons.event),
-                    label: const Text('Event'),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ],
       ),
       body: ListView(
+        padding: const EdgeInsets.only(top: 40, left: 20, right: 20),
         children: [
+          const SizedBox(height: 15),
+          const Divider(
+            color: appGreen,
+          ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+
+                ButtonBar(
+                  children: [
+                    TextButton.icon(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => AddAppointment(
+                              firstDate: _firstDay,
+                              lastDate: _lastDay,
+                              selectedDate: _selectedDay,
+                            ),
+                          ),
+                        ).then((value) {
+                          if (value == true) {
+                            _loadFirestoreEvents(_selectedDay);
+                          }
+                        });
+                      },
+                      icon: const Icon(Icons.calendar_today),
+                      label: const Text('Appointment'),
+                    ),
+                    TextButton.icon(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => AddEvent(
+                              firstDate: _firstDay,
+                              lastDate: _lastDay,
+                              selectedDate: _selectedDay,
+                            ),
+                          ),
+                        ).then((value) {
+                          if (value == true) {
+                            _loadFirestoreEvents(_selectedDay);
+                          }
+                        });
+                      },
+                      icon: const Icon(Icons.event),
+                      label: const Text('Event'),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           TableCalendar(
             eventLoader: _getEventsForTheDay,
             calendarFormat: _calendarFormat,

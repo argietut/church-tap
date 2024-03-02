@@ -17,13 +17,6 @@ class _MapStorageScreenState extends State<MapStorageScreen> {
     final textTheme = Theme.of(context).textTheme;
 
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          onPressed: () => Navigator.of(context).pop(),
-          icon: const Icon(Icons.close),
-        ),
-        // actions: const [SizedBox(width: 48)],
-      ),
       body: BackdropFilter(
         filter: ImageFilter.blur(
           sigmaX: 8.0,
@@ -32,27 +25,28 @@ class _MapStorageScreenState extends State<MapStorageScreen> {
         child: Container(
           // color: appWhite.withOpacity(0.5),
           padding: const EdgeInsets.only(top: 40, left: 20, right: 20),
-          child: const Column(
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "Locate outreach churches",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
+              AppBar(
+                automaticallyImplyLeading: false, // To prevent the default back button
+                leading: IconButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  icon: const Icon(Icons.close),
+                ),
+                title: const Text(
+                  "Locate outreach churches",
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
                   ),
-                  // SizedBox(width: 50),
-                ],
+                ),
               ),
-              SizedBox(height: 15),
-              Divider(
+              const SizedBox(height: 15),
+              const Divider(
                 color: appGreen,
               ),
-              Expanded(
+              const Expanded(
                 child: MapPage(),
               ),
             ],
