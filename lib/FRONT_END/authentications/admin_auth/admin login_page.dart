@@ -20,6 +20,8 @@ class _AdminLoginState extends State<AdminLogin> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
+  bool _obscurePassword = true;
+
   // sign user in method
   void signUserIn() async {
     try {
@@ -127,7 +129,18 @@ class _AdminLoginState extends State<AdminLogin> {
                 MyTextField(
                   controller: passwordController,
                   hintText: 'Password',
-                  obscureText: true,
+                  obscureText: _obscurePassword,
+                  suffixIcon: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _obscurePassword = !_obscurePassword;
+                      });
+                    },
+                    child: Icon(
+                      _obscurePassword ? Icons.visibility_off : Icons.visibility,
+                      color: Colors.grey,
+                    ),
+                  ),
                 ),
 
 
