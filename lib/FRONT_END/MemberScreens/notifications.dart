@@ -21,14 +21,10 @@ class _NotificationsState extends State<Notifications> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+
+                  },
                   style: IconButton.styleFrom(
-                    shape: const CircleBorder(
-                      side: BorderSide(
-                        color: appBlack,
-                        width: 1.0,
-                      ),
-                    ),
                   ),
                   icon: const Icon(Icons.tune),
                 ),
@@ -42,7 +38,10 @@ class _NotificationsState extends State<Notifications> {
                 const SizedBox(width: 50),
               ],
             ),
-            const Divider(),
+            const SizedBox(height: 15),
+            const Divider(
+              color: appGreen,
+            ),
             const SizedBox(height: 10),
             const Text(
               'Your inbox is feeling lonely!',

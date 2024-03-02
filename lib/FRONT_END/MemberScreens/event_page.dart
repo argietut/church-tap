@@ -1,5 +1,6 @@
 import 'dart:collection';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/screen_pages/event_source_directory/edit_event.dart';
+import 'package:bethel_app_final/FRONT_END/constant/color.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -74,9 +75,34 @@ class _EventsState extends State<Events> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Calendar App')),
       body: ListView(
+        padding: const EdgeInsets.only(top: 40, left: 20, right: 20),
         children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              IconButton(
+                onPressed: () {
+
+                },
+                style: IconButton.styleFrom(
+                ),
+                icon: const Icon(Icons.sort),
+              ),
+              const Text(
+                "Events",
+                style: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(width: 50),
+            ],
+          ),
+          const SizedBox(height: 15),
+          const Divider(
+            color: appGreen,
+          ),
           TableCalendar(
             eventLoader: _getEventsForTheDay,
             calendarFormat: _calendarFormat,
@@ -114,7 +140,7 @@ class _EventsState extends State<Events> {
           ),
           ListView.builder(
             shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             itemCount: _events.length,
             itemBuilder: (context, index) {
               final day = _events.keys.elementAt(index);
@@ -124,7 +150,7 @@ class _EventsState extends State<Events> {
                   Text('Events for ${DateFormat('MMMM d, yyyy').format(day)}'),
                   ListView.builder(
                     shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     itemCount: eventsForDay.length,
                     itemBuilder: (context, index) {
                       final event = eventsForDay[index];

@@ -1,4 +1,5 @@
 
+import 'package:bethel_app_final/FRONT_END/constant/color.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -27,11 +28,12 @@ class _AdminHomePageState extends State<AdminHomePage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 IconButton(
-                  onPressed: () {},
-                  style: IconButton.styleFrom(
+                  onPressed: () {
 
+                  },
+                  style: IconButton.styleFrom(
                   ),
-                  icon: const Icon(Icons.notifications),
+                  icon: const Icon(Icons.tune),
                 ),
                 const Text(
                   "Admin Events",
@@ -43,8 +45,10 @@ class _AdminHomePageState extends State<AdminHomePage> {
                 const SizedBox(width: 50),
               ],
             ),
-            const Divider(),
-            const SizedBox(height: 10),
+            const SizedBox(height: 15),
+            const Divider(
+              color: appGreen,
+            ),
             const Text(
               'No Events yet!',
               style: TextStyle(
