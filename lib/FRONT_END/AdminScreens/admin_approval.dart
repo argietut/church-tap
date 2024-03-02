@@ -1,3 +1,4 @@
+import 'package:bethel_app_final/FRONT_END/constant/color.dart';
 import 'package:flutter/material.dart';
 
 class AdminApproval extends StatefulWidget {
@@ -19,31 +20,30 @@ class _AdminApprovalState extends State<AdminApproval> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                IconButton(
-                  onPressed: () {},
-                  style: IconButton.styleFrom(
-                    // shape: const CircleBorder(
-                    //   side: BorderSide(
-                    //     color: appBlack,
-                    //     width: 1.0,
-                    //   ),
-                    // ),
-                  ),
-                  icon: const Icon(Icons.tune),
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              IconButton(
+                onPressed: () {
+
+                },
+                style: IconButton.styleFrom(
                 ),
-                const Text(
-                  "Admin Approval",
-                  style: TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                  ),
+                icon: const Icon(Icons.tune),
+              ),
+              const Text(
+                "Admin Approval",
+                style: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
                 ),
-                const SizedBox(width: 50),
-              ],
+              ),
+              const SizedBox(width: 50),
+            ],
+          ),
+            const SizedBox(height: 15),
+            const Divider(
+              color: appGreen,
             ),
-            const Divider(),
             const SizedBox(height: 10),
             const Text(
               'No appointment requests yet!',

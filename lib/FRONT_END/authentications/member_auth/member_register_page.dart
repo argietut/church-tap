@@ -7,7 +7,9 @@ import 'package:flutter/material.dart';
 class MemberRegisterPage extends StatefulWidget {
   final void Function()? onTap;
 
-   const MemberRegisterPage({Key? key, required this.onTap}) : super(key: key);
+   const MemberRegisterPage(
+       {Key? key, required this.onTap}
+       ) : super(key: key);
 
   @override
   State<MemberRegisterPage> createState() => _MemberRegisterPageState();
@@ -18,6 +20,8 @@ class _MemberRegisterPageState extends State<MemberRegisterPage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
+
+  bool _obscurePassword = true;
 
   void signUserUp() async {
     try {
@@ -141,10 +145,10 @@ class _MemberRegisterPageState extends State<MemberRegisterPage> {
               children: [
                 Image.asset(
                   'assets/images/churchmain.png',
-                  width: 400,
-                  height: 250,
+                  width: 370,
+                  height: 230,
                 ),
-                const SizedBox(height: 30),
+                const SizedBox(height: 20),
                 const Padding(
                   padding: EdgeInsets.only(
                       right: 150), // Adjust the left padding as needed
@@ -169,22 +173,46 @@ class _MemberRegisterPageState extends State<MemberRegisterPage> {
                   obscureText: false,
                 ),
                 const SizedBox(height: 10),
+
                 MyTextField(
                   controller: passwordController,
                   hintText: 'Password',
-                  obscureText: true,
+                  obscureText: _obscurePassword,
+                  suffixIcon: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _obscurePassword = !_obscurePassword;
+                      });
+                    },
+                    child: Icon(
+                      _obscurePassword ? Icons.visibility_off : Icons.visibility,
+                      color: Colors.grey,
+                    ),
+                  ),
                 ),
+
                 const SizedBox(height: 10),
                 MyTextField(
                   controller: confirmPasswordController,
                   hintText: 'Confirm Password',
                   obscureText: true,
+                  // suffixIcon: GestureDetector(
+                  //   onTap: () {
+                  //     setState(() {
+                  //       _obscurePassword = !_obscurePassword;
+                  //     });
+                  //   },
+                  //   child: Icon(
+                  //     _obscurePassword ? Icons.visibility_off : Icons.visibility,
+                  //     color: Colors.grey,
+                  //   ),
+                  // ),
                 ),
                 const SizedBox(height: 15),
                 MyButton1(
                   onTap: signUserUp,
                 ),
-                const SizedBox(height: 10),
+              //  const SizedBox(height: 10),
                 // Row(
                 //   mainAxisAlignment: MainAxisAlignment.center,
                 //   children: [

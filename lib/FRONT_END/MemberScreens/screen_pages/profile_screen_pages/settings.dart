@@ -1,3 +1,4 @@
+import 'package:bethel_app_final/FRONT_END/MemberScreens/screen_pages/profile_screen_pages/changepassword.dart';
 import 'package:flutter/material.dart';
 
 class Settings extends StatelessWidget {
@@ -20,7 +21,10 @@ class Settings extends StatelessWidget {
       body: Center(
         child: ElevatedButton(
           onPressed: () {
-            // Handle change password button tap
+            Navigator.push(context, MaterialPageRoute(
+                builder: (context)=> const ChangePassword()
+            ),
+            );
           },
           child: const Text('Change Password'),
         ),

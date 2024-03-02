@@ -4,7 +4,6 @@ import 'package:bethel_app_final/FRONT_END/authentications/admin_auth/admin_regi
 import 'package:flutter/material.dart';
 
 class AdminLoginOrRegister extends StatefulWidget {
-  // void Function()? onTap;
   const AdminLoginOrRegister({super.key,});
 
 

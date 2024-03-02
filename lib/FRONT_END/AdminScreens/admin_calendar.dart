@@ -15,25 +15,38 @@ class _AdminCalendarState extends State<AdminCalendar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: const Center(
-          child: Text(
-            'Admin Calendar',
-            style: TextStyle(
-              fontSize: 30,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-      ),
+
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.only(top: 40, left: 20, right: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Divider(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  IconButton(
+                    onPressed: () {
+
+                    },
+                    style: IconButton.styleFrom(
+                    ),
+                    icon: const Icon(Icons.tune),
+                  ),
+                  const Text(
+                    "Admin Calendar",
+                    style: TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(width: 50),
+                ],
+              ),
+              const SizedBox(height: 15),
+              const Divider(
+                color: appGreen,
+              ),
               Column(
                 children: [
                   Center(
