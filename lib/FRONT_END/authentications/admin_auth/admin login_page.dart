@@ -1,7 +1,5 @@
 import 'package:bethel_app_final/FRONT_END/authentications/auth_classes/my_button.dart';
 import 'package:bethel_app_final/FRONT_END/authentications/auth_classes/my_textfield.dart';
-import 'package:bethel_app_final/FRONT_END/authentications/forgot_password.dart';
-import 'package:bethel_app_final/FRONT_END/constant/color.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -143,26 +141,26 @@ class _AdminLoginState extends State<AdminLogin> {
                 const SizedBox(height: 10),
 
                 // not a member? register now
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Don't have an account?",
-                      style: TextStyle(color: Colors.grey[700]),
-                    ),
-                    const SizedBox(width: 4),
-                    GestureDetector(
-                      onTap: widget.onTap,
-                      child: const Text(
-                        'Register now',
-                        style: TextStyle(
-                          color: appGreen,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    )
-                  ],
-                )
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.center,
+                //   children: [
+                //     Text(
+                //       "Don't have an account?",
+                //       style: TextStyle(color: Colors.grey[700]),
+                //     ),
+                //     const SizedBox(width: 4),
+                //     GestureDetector(
+                //       onTap: widget.onTap,
+                //       child: const Text(
+                //         'Register now',
+                //         style: TextStyle(
+                //           color: appGreen,
+                //           fontWeight: FontWeight.bold,
+                //         ),
+                //       ),
+                //     )
+                //   ],
+                // )
               ],
             ),
           ),

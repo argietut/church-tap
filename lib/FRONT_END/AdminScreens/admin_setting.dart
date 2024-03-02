@@ -1,6 +1,6 @@
-import 'package:bethel_app_final/FRONT_END/MemberScreens/event_page.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/screen_pages/profile_screen_pages/my_profile.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/screen_pages/profile_screen_pages/settings.dart';
+import 'package:bethel_app_final/FRONT_END/authentications/admin_auth/admin_register_page.dart';
 import 'package:bethel_app_final/FRONT_END/constant/color.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -48,7 +48,7 @@ class _AdminSettingsState extends State<AdminSettings> {
                 icon: const Icon(Icons.person),
               ),
               const Text(
-                "Profile",
+                "Settings",
                 style: TextStyle(
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
@@ -116,7 +116,11 @@ class _AdminSettingsState extends State<AdminSettings> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const Events()),
+                MaterialPageRoute(builder: (context) => AdminRegisterPage(onTap: (){
+                  Navigator.pop(context);
+                }
+                )
+                ),
               );
             },
             child: const Padding(
