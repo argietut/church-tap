@@ -90,7 +90,7 @@ class _ProfileState extends State<Profile> {
                     child: Text(
                       "Personal informations",
                       style: TextStyle(
-                          color: Colors.black,
+                          color: appBlack,
                           fontSize: 17,
                           fontWeight: FontWeight.w300),
                       overflow: TextOverflow.ellipsis,
@@ -98,6 +98,7 @@ class _ProfileState extends State<Profile> {
                   ),
                   Icon(
                     Icons.person,
+                    color: appBlack,
                   ),
                 ],
               ),
@@ -128,7 +129,7 @@ class _ProfileState extends State<Profile> {
                     child: Text(
                       "Calendar",
                       style: TextStyle(
-                          color: Colors.black,
+                          color: appBlack,
                           fontSize: 17,
                           fontWeight: FontWeight.w300),
                       overflow: TextOverflow.ellipsis,
@@ -136,6 +137,7 @@ class _ProfileState extends State<Profile> {
                   ),
                   Icon(
                     Icons.calendar_month_outlined,
+                    color: appBlack,
                   ),
                 ],
               ),
@@ -166,7 +168,7 @@ class _ProfileState extends State<Profile> {
                     child: Text(
                       "Settings",
                       style: TextStyle(
-                          color: Colors.black,
+                          color: appBlack,
                           fontSize: 17,
                           fontWeight: FontWeight.w300),
                       overflow: TextOverflow.ellipsis,
@@ -174,6 +176,7 @@ class _ProfileState extends State<Profile> {
                   ),
                   Icon(
                     Icons.settings,
+                    color: appBlack,
                   ),
                 ],
               ),
@@ -189,14 +192,6 @@ class _ProfileState extends State<Profile> {
           ),
           const SizedBox(
             width: 15,
-          ),
-            Container(
-            margin: const EdgeInsets.symmetric(horizontal: 30),
-            decoration: const BoxDecoration(
-              color: Colors.black12,
-            ),
-            width: 50,
-            height: 1,
           ),
           Padding(
             padding: const EdgeInsets.all(15),
@@ -226,7 +221,7 @@ class _ProfileState extends State<Profile> {
                     child: Text(
                       "Terms of Service",
                       style: TextStyle(
-                          color: Colors.black,
+                          color: appBlack,
                           fontSize: 17,
                           fontWeight: FontWeight.w300),
                       overflow: TextOverflow.ellipsis,
@@ -234,6 +229,7 @@ class _ProfileState extends State<Profile> {
                   ),
                   Icon(
                     Icons.policy_outlined,
+                    color: appBlack,
                   ),
                 ],
               ),
@@ -269,7 +265,7 @@ class _ProfileState extends State<Profile> {
                     child: Text(
                       "Privacy Policy",
                       style: TextStyle(
-                          color: Colors.black,
+                          color: appBlack,
                           fontSize: 17,
                           fontWeight: FontWeight.w300),
                       overflow: TextOverflow.ellipsis,
@@ -277,6 +273,7 @@ class _ProfileState extends State<Profile> {
                   ),
                   Icon(
                     Icons.policy_outlined,
+                    color: appBlack,
                   ),
                 ],
               ),
@@ -298,7 +295,7 @@ class _ProfileState extends State<Profile> {
               style: const TextStyle(
                 color: appGrey,
                 fontSize: 15,
-                fontWeight:FontWeight.bold
+
               ),
             ),
           ),

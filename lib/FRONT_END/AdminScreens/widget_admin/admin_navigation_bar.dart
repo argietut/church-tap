@@ -25,14 +25,14 @@ class _AdminNavigationPageState extends State<AdminNavigationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: appGreen,
+      backgroundColor: appWhite,
       body: SafeArea(
         child: _children[_currentTab],
       ),
       resizeToAvoidBottomInset: false,
       bottomNavigationBar: BottomAppBar(
         shape: const CircularNotchedRectangle(),
-        color: appGreen,
+        color: appWhite,
         child: BottomNavigationBar(
           elevation: 6,
           backgroundColor: appGreen,

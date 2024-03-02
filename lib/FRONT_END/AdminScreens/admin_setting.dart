@@ -45,7 +45,9 @@ class _AdminSettingsState extends State<AdminSettings> {
                 },
                 style: IconButton.styleFrom(
                 ),
-                icon: const Icon(Icons.person),
+                icon: const Icon(
+                    Icons.person,
+                ),
               ),
               const Text(
                 "Settings",
@@ -67,9 +69,9 @@ class _AdminSettingsState extends State<AdminSettings> {
             child: Text(
               "Account settings".toUpperCase(),
               style: const TextStyle(
-                color: appBlack,
-                fontSize: 20,
-                  fontWeight:FontWeight.bold
+                color: appGrey,
+                fontSize: 15,
+
               ),
             ),
           ),
@@ -98,6 +100,7 @@ class _AdminSettingsState extends State<AdminSettings> {
                   ),
                   Icon(
                     Icons.person,
+                    color: appBlack,
                   ),
                 ],
               ),
@@ -140,6 +143,7 @@ class _AdminSettingsState extends State<AdminSettings> {
                   ),
                   Icon(
                     Icons.account_box,
+                    color: appBlack,
                   ),
                 ],
               ),
@@ -178,6 +182,7 @@ class _AdminSettingsState extends State<AdminSettings> {
                   ),
                   Icon(
                     Icons.settings,
+                    color: appBlack,
                   ),
                 ],
               ),
@@ -197,9 +202,9 @@ class _AdminSettingsState extends State<AdminSettings> {
             child: Text(
               "Log out".toUpperCase(),
               style: const TextStyle(
-                  color: appBlack,
-                  fontSize: 20,
-                  fontWeight:FontWeight.bold
+                  color: appGrey,
+                  fontSize: 15,
+
               ),
             ),
           ),
@@ -237,7 +242,6 @@ class _AdminSettingsState extends State<AdminSettings> {
                           if (await googleSignIn.isSignedIn()) {
                             await googleSignIn.signOut(); // Sign out of Google Sign-In
                           }
-
                           Navigator.of(context).pop();
                         },
                         child: const Text('Yes'),
@@ -265,7 +269,7 @@ class _AdminSettingsState extends State<AdminSettings> {
                   ),
                   Icon(
                     Icons.exit_to_app,
-                    color: Colors.redAccent, // Consider using the same color as the text for consistency
+                    color: Colors.redAccent,
                   ),
                 ],
               ),

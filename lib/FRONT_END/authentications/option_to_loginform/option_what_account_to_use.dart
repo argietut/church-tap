@@ -3,7 +3,6 @@ import 'package:bethel_app_final/FRONT_END/authentications/auth_classes/squareti
 import 'package:bethel_app_final/FRONT_END/authentications/member_auth/member_auth_page.dart';
 import 'package:bethel_app_final/FRONT_END/authentications/member_auth/member_register_page.dart';
 import 'package:bethel_app_final/FRONT_END/constant/color.dart';
-import 'package:bethel_app_final/FRONT_END/screens/privacy_policy_page.dart';
 import 'package:bethel_app_final/FRONT_END/screens/terms_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -166,6 +165,7 @@ class OptionToPlatformToLogin extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children:[
                   const Text('Already have an account?'),
+                  const SizedBox(width: 5),
                   GestureDetector(
                     onTap: (){
                       Get.to(() => const MemberAuthPage(),
@@ -173,6 +173,7 @@ class OptionToPlatformToLogin extends StatelessWidget {
                         duration: const Duration(seconds: 1)
                       );
                     },
+
                     child: const Text(
                       'Login now',
                       style: TextStyle(
@@ -185,9 +186,9 @@ class OptionToPlatformToLogin extends StatelessWidget {
                 ],
               ),
 
-              const SizedBox(height: 30),
+              const SizedBox(height: 55),
               Padding(
-                padding: const EdgeInsets.only(bottom: 6.0), // Adjust padding as needed
+                padding: const EdgeInsets.only(bottom: 8.0), // Adjust padding as needed
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -211,7 +212,7 @@ class OptionToPlatformToLogin extends StatelessWidget {
                           );
                         },
                         child: const Text(
-                          'Terms',
+                          'Terms of Use',
                           style: TextStyle(
                             color: appGreen,
                             decoration: TextDecoration.underline,
@@ -219,24 +220,24 @@ class OptionToPlatformToLogin extends StatelessWidget {
                         ),
                       ),
                     ),
-                    const Text('and'),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const PrivacyPolicyPage(),
-                          ),
-                        );
-                      },
-                      child: const Text(
-                        'Privacy Policy',
-                        style: TextStyle(
-                          color: appGreen,
-                          decoration: TextDecoration.underline,
-                        ),
-                      ),
-                    ),
+                    // const Text('and'),
+                    // TextButton(
+                    //   onPressed: () {
+                    //     Navigator.push(
+                    //       context,
+                    //       MaterialPageRoute(
+                    //         builder: (context) => const PrivacyPolicyPage(),
+                    //       ),
+                    //     );
+                    //   },
+                    //   child: const Text(
+                    //     'Privacy Policy',
+                    //     style: TextStyle(
+                    //       color: appGreen,
+                    //       decoration: TextDecoration.underline,
+                    //     ),
+                    //   ),
+                    // ),
                   ],
                 ),
               ),

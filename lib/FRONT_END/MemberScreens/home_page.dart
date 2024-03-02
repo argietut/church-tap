@@ -32,21 +32,37 @@ class _MemberHomePageState extends State<MemberHomePage> {
               left: 20.0,
               right: 20.0,
               top: 40.0,
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const MapStorageScreen(),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  IconButton(
+                    onPressed: () {},
+                    style: IconButton.styleFrom(
+                      shape: const CircleBorder(
+                        side: BorderSide(
+                            color: appGrey,
+                            width: 1.0),
+                      ),
                     ),
-                  );
-                },
-                child: Hero(
-                  tag: 'planning',
-                  child: SearchButton(
-                    isSearching: _isSearching,
+                    icon: const Icon(Icons.sort),
                   ),
-                ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const MapStorageScreen(),
+                        ),
+                      );
+                    },
+                    child: Hero(
+                      tag: 'planning',
+                      child: SearchButton(
+                        isSearching: _isSearching,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
             const Positioned(
@@ -55,7 +71,6 @@ class _MemberHomePageState extends State<MemberHomePage> {
               top: 110.0, // Adjust this value according to your design
               child: Divider(
                 color: appGreen, // Change color according to your design
-
               ),
             ),
           ],
@@ -67,11 +82,10 @@ class _MemberHomePageState extends State<MemberHomePage> {
           children: [
             if (_isSearching)
               BackdropFilter(
-                filter: ImageFilter.blur(
-                    sigmaX: 8.0,
-                    sigmaY: 8.0
-                ),
-                child: const Center(child: MapPage()), // Display MapPage with blurred background when searching
+                filter: ImageFilter.blur(sigmaX: 8.0, sigmaY: 8.0),
+                child: const Center(
+                  child: MapPage(),
+                ), // Display MapPage with blurred background when searching
               ),
             if (!_isSearching)
               const Center(
@@ -81,17 +95,18 @@ class _MemberHomePageState extends State<MemberHomePage> {
                     Text(
                       'No Events Posted Yet',
                       style: TextStyle(
-                        fontSize: 24,
+                        fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(height: 20),
+
                     Text(
                       'Check back later for updates!',
                       style: TextStyle(
-                        fontSize: 16,
+                        fontSize: 14,
                       ),
                     ),
+
                   ],
                 ),
               ),
