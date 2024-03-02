@@ -28,7 +28,7 @@ class _AdminApprovalState extends State<AdminApproval> {
                 },
                 style: IconButton.styleFrom(
                 ),
-                icon: const Icon(Icons.tune),
+                icon: const Icon(Icons.sort),
               ),
               const Text(
                 "Admin Approval",

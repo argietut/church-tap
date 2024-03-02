@@ -20,22 +20,19 @@ class _AdminNavigationPageState extends State<AdminNavigationPage> {
     const AdminApproval(),
     const AdminCalendar(),
     const AdminSettings(),
-
-    // const Notifications(),
-    // const Profile(),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: appWhite,
+      backgroundColor: appGreen,
       body: SafeArea(
         child: _children[_currentTab],
       ),
       resizeToAvoidBottomInset: false,
       bottomNavigationBar: BottomAppBar(
         shape: const CircularNotchedRectangle(),
-        color: appWhite,
+        color: appGreen,
         child: BottomNavigationBar(
           elevation: 6,
           backgroundColor: appGreen,
@@ -54,7 +51,7 @@ class _AdminNavigationPageState extends State<AdminNavigationPage> {
           items: const [
             BottomNavigationBarItem(
               icon: Icon(
-                Icons.event_note,
+                Icons.event_available,
                 size: 20,
               ),
               label: 'Events',
@@ -65,7 +62,7 @@ class _AdminNavigationPageState extends State<AdminNavigationPage> {
             ),
             BottomNavigationBarItem(
               icon: Icon(
-                Icons.approval,
+                Icons.check,
                 size: 20,
               ),
               label: 'Approval',

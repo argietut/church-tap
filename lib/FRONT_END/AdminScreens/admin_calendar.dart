@@ -10,6 +10,7 @@ class AdminCalendar extends StatefulWidget {
 }
 
 class _AdminCalendarState extends State<AdminCalendar> {
+
   bool hasEvents = false; // Assume no events initially
 
   @override
