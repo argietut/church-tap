@@ -1,4 +1,3 @@
-import 'package:bethel_app_final/FRONT_END/MemberScreens/event_page.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/screen_pages/profile_screen_pages/my_profile.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/screen_pages/profile_screen_pages/settings.dart';
 import 'package:bethel_app_final/FRONT_END/authentications/admin_auth/admin_register_page.dart';
