@@ -34,6 +34,7 @@ class _AdminCalendarState extends State<AdminCalendar> {
                     ),
                     icon: const Icon(Icons.border_color_outlined),
                   ),
+                  const SizedBox(height: 15),
                   const Text(
                     "Admin Calendar",
                     style: TextStyle(

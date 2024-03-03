@@ -22,7 +22,7 @@ class MemberLoginPage extends StatefulWidget {
 class _MemberLoginPageState extends State<MemberLoginPage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-TapAuth tapAuth = TapAuth();
+   TapAuth tapAuth = TapAuth();
   bool _obscurePassword = true; // To toggle password visibility
 
   void signUserIn() async {
