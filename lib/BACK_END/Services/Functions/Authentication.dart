@@ -15,15 +15,19 @@ class TapAuth {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   late UserStorage store;
 
+  TapAuth(){
+
+  }
   Future<void> createUserAuth(String name, String email,
       String password) async {
     try {
       _userCredential = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
+      sendUserVerifcationEmail();
+      _userCredential.user?.updateDisplayName(name);
       _user = _userCredential.user;
       _name = name;
       setRegisterAllDetails();
-      print("EYYY $_uid");
       if(_user!.uid.length > 4) {
         store = UserStorage();
         store.createUser(_uid,registerUserToFireStore());
@@ -32,6 +36,30 @@ class TapAuth {
       log("ERROR CODE AUTHENTICATION: $e");
     }
   }
+
+  Future<void> loginUserAuth(String email,String password) async{
+     _auth.signOut();
+     try{
+    _auth.signInWithEmailAndPassword(email: email, password: password);
+    _auth.authStateChanges().listen((User? user) {
+      if (user == null) {
+        print('User is currently signed out!');
+      }
+      else if(user.emailVerified != true){
+        _auth.signOut();
+      }
+      else {
+        print('User is signed in!');
+      }
+    });
+     }catch(e) {
+       log("AUTH ERROR : $e");
+     }
+}
+
+Future<void> sendUserVerifcationEmail() async{
+    _auth.currentUser?.sendEmailVerification();
+}
 
     void setRegisterAllDetails() {
       _uid = _user!.uid;
