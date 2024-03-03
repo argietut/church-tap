@@ -3,6 +3,7 @@ import 'package:bethel_app_final/FRONT_END/authentications/auth_classes/squareti
 import 'package:bethel_app_final/FRONT_END/authentications/member_auth/member_auth_page.dart';
 import 'package:bethel_app_final/FRONT_END/authentications/member_auth/member_register_page.dart';
 import 'package:bethel_app_final/FRONT_END/constant/color.dart';
+import 'package:bethel_app_final/FRONT_END/screens/privacy_policy_page.dart';
 import 'package:bethel_app_final/FRONT_END/screens/terms_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -220,6 +221,9 @@ class OptionToPlatformToLogin extends StatelessWidget {
                         ),
                       ),
                     ),
+
+                    //ayaw ni hilabti
+
                     // const Text('and'),
                     // TextButton(
                     //   onPressed: () {
