@@ -15,9 +15,6 @@ class TapAuth {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   late UserStorage store;
 
-  TapAuth(){
-
-  }
   Future<void> createUserAuth(String name, String email,
       String password) async {
     try {
