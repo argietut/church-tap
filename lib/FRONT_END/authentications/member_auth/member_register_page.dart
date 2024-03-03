@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:bethel_app_final/BACK_END/Services/Functions/Authentication.dart';
 import 'package:bethel_app_final/BACK_END/Services/Functions/Member_Functions/member_functions.dart';
 import 'package:bethel_app_final/FRONT_END/authentications/auth_classes/my_button1.dart';
 import 'package:bethel_app_final/FRONT_END/authentications/auth_classes/my_textfield.dart';
@@ -16,6 +19,7 @@ class MemberRegisterPage extends StatefulWidget {
 }
 
 class _MemberRegisterPageState extends State<MemberRegisterPage> {
+  TapAuth tapAuth = TapAuth();
   final usernameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
@@ -96,7 +100,7 @@ class _MemberRegisterPageState extends State<MemberRegisterPage> {
       }
 
       // Sign up the user
-      await MemberAuthServices.signupUser(email, password, username);
+      await tapAuth.createUserAuth(username, email, password);
 
       // Show a loading indicator for 2 seconds
       showDialog(

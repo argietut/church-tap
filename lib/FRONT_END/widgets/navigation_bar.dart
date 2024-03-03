@@ -25,14 +25,14 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: appWhite,
+      backgroundColor: appGreen2,
       body: SafeArea(
         child: _children[_currentTab],
       ),
       resizeToAvoidBottomInset: true,
       bottomNavigationBar: BottomAppBar(
         shape: const CircularNotchedRectangle(),
-        color: appWhite,
+        color: appGreen2,
         child: BottomNavigationBar(
           elevation: 6,
           backgroundColor: appGreen,
