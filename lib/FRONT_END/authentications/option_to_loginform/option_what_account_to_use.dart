@@ -32,7 +32,7 @@ class OptionToPlatformToLogin extends StatelessWidget {
                    width: 400,
                   height: 250,
                 ),
-                const SizedBox(height: 40),
+                const SizedBox(height: 30),
               const Text('Welcome To',
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
@@ -43,14 +43,14 @@ class OptionToPlatformToLogin extends StatelessWidget {
               ),
               const Text('Church Tap',
                   style: TextStyle(
-                      fontSize: 44,
+                      fontSize: 40,
                   fontWeight: FontWeight.bold,
                   fontFamily: 'ProtestRiot',
                     color: appGreen
 
                   )
               ),
-              const SizedBox(height: 30),
+              const SizedBox(height: 20),
               Container(
                 width: 280,
                 height: 45,
@@ -89,7 +89,7 @@ class OptionToPlatformToLogin extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: 10),
               const Text(
                 'or',
                 style: TextStyle(color: appBlack, fontSize: 12),
@@ -186,7 +186,7 @@ class OptionToPlatformToLogin extends StatelessWidget {
                 ],
               ),
 
-              const SizedBox(height: 55),
+              const SizedBox(height: 70),
               Padding(
                 padding: const EdgeInsets.only(bottom: 8.0), // Adjust padding as needed
                 child: Row(

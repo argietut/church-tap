@@ -113,15 +113,15 @@ class _AdminRegisterPageState extends State<AdminRegisterPage> {
                   width: 380,
                   height: 230,
                 ),
-                const SizedBox(height: 30),
+                const SizedBox(height: 20),
                 const Padding(
                   padding: EdgeInsets.only(
-                      right: 100), // Adjust the left padding as needed
+                      right: 70), // Adjust the left padding as needed
                   child: Text(
                     'Create Admin Account',
                     style: TextStyle(
                       color: Colors.black87,
-                      fontSize: 26,
+                      fontSize: 24,
                     ),
                   ),
                 ),
@@ -149,7 +149,7 @@ class _AdminRegisterPageState extends State<AdminRegisterPage> {
                   hintText: 'Confirm Password',
                   obscureText: true,
                 ),
-                const SizedBox(height: 15),
+                const SizedBox(height: 10),
                 MyButton1(
                   onTap: signUserUp,
                 ),

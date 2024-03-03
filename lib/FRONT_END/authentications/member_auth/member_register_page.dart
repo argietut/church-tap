@@ -148,7 +148,7 @@ class _MemberRegisterPageState extends State<MemberRegisterPage> {
                   width: 370,
                   height: 230,
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 15),
                 const Padding(
                   padding: EdgeInsets.only(
                       right: 150), // Adjust the left padding as needed
@@ -160,7 +160,7 @@ class _MemberRegisterPageState extends State<MemberRegisterPage> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 15),
                 MyTextField(
                   controller: usernameController,
                   hintText: 'Username',
@@ -196,19 +196,8 @@ class _MemberRegisterPageState extends State<MemberRegisterPage> {
                   controller: confirmPasswordController,
                   hintText: 'Confirm Password',
                   obscureText: true,
-                  // suffixIcon: GestureDetector(
-                  //   onTap: () {
-                  //     setState(() {
-                  //       _obscurePassword = !_obscurePassword;
-                  //     });
-                  //   },
-                  //   child: Icon(
-                  //     _obscurePassword ? Icons.visibility_off : Icons.visibility,
-                  //     color: Colors.grey,
-                  //   ),
-                  // ),
                 ),
-                const SizedBox(height: 15),
+                const SizedBox(height: 10),
                 MyButton1(
                   onTap: signUserUp,
                 ),
