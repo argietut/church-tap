@@ -4,6 +4,7 @@ import 'package:bethel_app_final/FRONT_END/MemberScreens/home_page.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/notifications.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/profile_page.dart';
 import 'package:bethel_app_final/FRONT_END/constant/color.dart';
+import 'package:bethel_app_final/FRONT_END/widgets/Calendar.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -17,7 +18,7 @@ class _HomePageState extends State<HomePage> {
   int _currentTab = 0;
   final List<StatefulWidget> _children = [
     const MemberHomePage(),
-    const Events(),
+    const CustomCalendar(type: "members"),
     const Notifications(),
     const Profile(),
   ];
