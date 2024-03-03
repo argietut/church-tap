@@ -29,7 +29,7 @@ class _MapStorageScreenState extends State<MapStorageScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               AppBar(
-                automaticallyImplyLeading: false, // To prevent the default back button
+                automaticallyImplyLeading: false,
                 leading: IconButton(
                   onPressed: () => Navigator.of(context).pop(),
                   icon: const Icon(Icons.close),

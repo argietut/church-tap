@@ -35,8 +35,8 @@ class Terms extends StatelessWidget {
               ),
               Text(
                 " We are Church Tap (Company, we, us, our), a company registered  "
-                " in the Philippines at Tagum City, Davao del Norte Philippines, Tagum City, Tagum City Davao  "
-                " del Norte 8100. ",
+                " in the Philippines at Tagum City, Davao  "
+                "del Norte 8100. ",
                 style: TextStyle(
                   fontSize: 14,
                 ),
@@ -46,7 +46,7 @@ class Terms extends StatelessWidget {
                 " We operate the mobile application Church Tap (the App), as well as any other related "
                 " products and services that refer or link to these legal terms (the Legal Terms) (collectively, the Services). ",
                 style: TextStyle(
-                  fontSize: 12,
+                  fontSize: 14,
                 ),
               ),
               SizedBox(height: 20),

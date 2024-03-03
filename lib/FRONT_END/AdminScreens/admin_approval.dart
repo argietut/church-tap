@@ -30,6 +30,7 @@ class _AdminApprovalState extends State<AdminApproval> {
                 ),
                 icon: const Icon(Icons.sort),
               ),
+              const SizedBox(height: 10),
               const Text(
                 "Admin Approval",
                 style: TextStyle(
