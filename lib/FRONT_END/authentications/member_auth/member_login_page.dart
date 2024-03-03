@@ -25,8 +25,6 @@ class _MemberLoginPageState extends State<MemberLoginPage> {
 TapAuth tapAuth = TapAuth();
   bool _obscurePassword = true; // To toggle password visibility
 
-  bool _obscurePassword = true; // To toggle password visibility
-
   void signUserIn() async {
     try {
       String email = emailController.text.trim();
