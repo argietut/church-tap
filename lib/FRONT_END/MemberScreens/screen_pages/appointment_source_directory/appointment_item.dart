@@ -18,7 +18,7 @@ class AppointmentItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(
-        appointment.title,
+        appointment.appointmenttype,
       ),
       subtitle: Text(
         appointment.date.toString(),

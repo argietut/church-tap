@@ -24,7 +24,7 @@ class _EditAppointmentState extends State<EditAppointment> {
   void initState() {
     super.initState();
     _selectedDate2 = widget.appointment.date;
-    _titleController2.text = widget.appointment.title;
+    _titleController2.text = widget.appointment.appointmenttype;
     _descController2.text = widget.appointment.description;
   }
 
@@ -83,10 +83,9 @@ class _EditAppointmentState extends State<EditAppointment> {
 
     try {
       await widget.appointment.updateAppointment(
-        title: title,
         description: description,
         date: selectedDate,
-        userID: widget.appointment.id,
+        userID: widget.appointment.id, appointmenttype: '',
       );
       Navigator.pop(context, true); // Notify previous screen that event was updated successfully
     } catch (e) {
