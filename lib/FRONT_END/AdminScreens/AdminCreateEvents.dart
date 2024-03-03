@@ -1,3 +1,4 @@
+import 'package:bethel_app_final/FRONT_END/constant/color.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -28,7 +29,9 @@ class _AdminAppointmentPageState extends State<AdminAppointmentPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Divider(),
+              const Divider(
+                color: appGreen
+              ),
               Column(
                 children: [
                   Center(

@@ -13,26 +13,29 @@ class SearchButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(
-        horizontal: 16.0,
-        vertical: 10.0,
+        horizontal:60,
+        vertical: 12.0,
       ),
+      alignment: Alignment.centerRight,
       decoration: BoxDecoration(
         color: appWhite,
         border: Border.all(
           color: appGrey,
           width: 1.0,
+
         ),
         borderRadius: BorderRadius.circular(32.0),
         boxShadow: [
           BoxShadow(
             color: appGrey.withOpacity(0.5),
-            blurRadius: 8.0,
-            spreadRadius: 8.0,
-            offset: const Offset(0, 4.0),
+            blurRadius: 2.0,
+            spreadRadius: 2.0,
+            offset: const Offset(0, 1.0),
           )
         ],
       ),
       child: const Row(
+        mainAxisAlignment: MainAxisAlignment.end,
         children: [
           Icon(Icons.search),
           SizedBox(width: 8.0),
