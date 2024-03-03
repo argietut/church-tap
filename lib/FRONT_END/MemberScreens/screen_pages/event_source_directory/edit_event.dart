@@ -153,7 +153,7 @@ class _EditEventState extends State<EditEvent> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text("Confirm Deletion"),
+        title: const Text("Confirm cancel event"),
         content: const Text("Are you sure you want to cancel this event?"),
         actions: <Widget>[
           TextButton(
@@ -175,7 +175,7 @@ class _EditEventState extends State<EditEvent> {
               } catch (e) {
                 // Handle error
                 if (kDebugMode) {
-                  print('Error deleting event: $e');
+                  print('Error cancel event: $e');
                 }
               }
             },
@@ -202,6 +202,7 @@ class _EditEventState extends State<EditEvent> {
                 Navigator.of(context).pop();
                 Navigator.pop(context, true);
               },
+              //adasssdada
               child: const Text('OK'),
             ),
           ],
