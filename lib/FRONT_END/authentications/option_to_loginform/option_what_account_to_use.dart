@@ -234,9 +234,8 @@ class OptionToPlatformToLogin extends StatelessWidget {
                         ),
                         ),
                       ),
-
+                        ]
                     ),
-
                     //ayaw ni hilabti
 
                     // const Text('and'),
@@ -259,7 +258,7 @@ class OptionToPlatformToLogin extends StatelessWidget {
                     // ),
                   ],
                 ),
-              ),
+
             ],
           ),
         ),
