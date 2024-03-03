@@ -1,25 +1,24 @@
 import 'package:bethel_app_final/FRONT_END/MemberScreens/screen_pages/profile_screen_pages/my_profile.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/screen_pages/profile_screen_pages/settings.dart';
+import 'package:bethel_app_final/FRONT_END/authentications/admin_auth/admin_register_page.dart';
 import 'package:bethel_app_final/FRONT_END/constant/color.dart';
-import 'package:bethel_app_final/FRONT_END/screens/privacy_policy_page.dart';
-import 'package:bethel_app_final/FRONT_END/screens/terms_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-import 'event_page.dart';
 
 void signUserOut() {
   FirebaseAuth.instance.signOut();
 }
 
-class Profile extends StatefulWidget {
-  const Profile({super.key});
+class AdminSettings extends StatefulWidget {
+  const AdminSettings({super.key});
 
   @override
-  _ProfileState createState() => _ProfileState();
+  _AdminSettingsState createState() => _AdminSettingsState();
 }
-class _ProfileState extends State<Profile> {
+
+class _AdminSettingsState extends State<AdminSettings> {
   final textStyleState = const TextStyle(fontSize: 11.0, color: Colors.white);
 
   final textStyleTop = const TextStyle(
@@ -46,10 +45,12 @@ class _ProfileState extends State<Profile> {
                 },
                 style: IconButton.styleFrom(
                 ),
-                icon: const Icon(Icons.person),
+                icon: const Icon(
+                    Icons.person,
+                ),
               ),
               const Text(
-                "Profile",
+                "Settings",
                 style: TextStyle(
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
@@ -68,8 +69,9 @@ class _ProfileState extends State<Profile> {
             child: Text(
               "Account settings".toUpperCase(),
               style: const TextStyle(
-                color: Colors.grey,
+                color: appGrey,
                 fontSize: 15,
+
               ),
             ),
           ),
@@ -117,7 +119,11 @@ class _ProfileState extends State<Profile> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const Events()),
+                MaterialPageRoute(builder: (context) => AdminRegisterPage(onTap: (){
+                  Navigator.pop(context);
+                }
+                )
+                ),
               );
             },
             child: const Padding(
@@ -127,16 +133,16 @@ class _ProfileState extends State<Profile> {
                 children: [
                   Expanded(
                     child: Text(
-                      "Calendar",
+                      "Create Admin Account",
                       style: TextStyle(
-                          color: appBlack,
+                          color: Colors.black,
                           fontSize: 17,
                           fontWeight: FontWeight.w300),
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
                   Icon(
-                    Icons.calendar_month_outlined,
+                    Icons.account_box,
                     color: appBlack,
                   ),
                 ],
@@ -168,7 +174,7 @@ class _ProfileState extends State<Profile> {
                     child: Text(
                       "Settings",
                       style: TextStyle(
-                          color: appBlack,
+                          color: Colors.black,
                           fontSize: 17,
                           fontWeight: FontWeight.w300),
                       overflow: TextOverflow.ellipsis,
@@ -176,103 +182,6 @@ class _ProfileState extends State<Profile> {
                   ),
                   Icon(
                     Icons.settings,
-                    color: appBlack,
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 30),
-            decoration: const BoxDecoration(
-              color: Colors.black12,
-            ),
-            width: 50,
-            height: 1,
-          ),
-          const SizedBox(
-            width: 15,
-          ),
-          Padding(
-            padding: const EdgeInsets.all(15),
-            child: Text(
-              "LEGAL".toUpperCase(),
-              style: const TextStyle(
-                color: Colors.grey,
-                fontSize: 15,
-              ),
-            ),
-          ),
-
-           ElevatedButton(
-            style: ElevatedButton.styleFrom(),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const Terms()),
-              );
-            },
-            child: const Padding(
-              padding: EdgeInsets.all(15),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Expanded(
-                    child: Text(
-                      "Terms of Service",
-                      style: TextStyle(
-                          color: appBlack,
-                          fontSize: 17,
-                          fontWeight: FontWeight.w300),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                  Icon(
-                    Icons.policy_outlined,
-                    color: appBlack,
-                  ),
-                ],
-              ),
-            ),
-          ),
-
-          const SizedBox(
-            width: 15,
-          ),
-
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 30),
-            decoration: const BoxDecoration(
-              color: Colors.black12,
-            ),
-            width: 50,
-            height: 1,
-          ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const PrivacyPolicyPage()),
-              );
-            },
-            child: const Padding(
-              padding: EdgeInsets.all(15),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Expanded(
-                    child: Text(
-                      "Privacy Policy",
-                      style: TextStyle(
-                          color: appBlack,
-                          fontSize: 17,
-                          fontWeight: FontWeight.w300),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                  Icon(
-                    Icons.policy_outlined,
                     color: appBlack,
                   ),
                 ],
@@ -293,8 +202,8 @@ class _ProfileState extends State<Profile> {
             child: Text(
               "Log out".toUpperCase(),
               style: const TextStyle(
-                color: appGrey,
-                fontSize: 15,
+                  color: appGrey,
+                  fontSize: 15,
 
               ),
             ),
@@ -333,7 +242,6 @@ class _ProfileState extends State<Profile> {
                           if (await googleSignIn.isSignedIn()) {
                             await googleSignIn.signOut(); // Sign out of Google Sign-In
                           }
-
                           Navigator.of(context).pop();
                         },
                         child: const Text('Yes'),
@@ -361,7 +269,7 @@ class _ProfileState extends State<Profile> {
                   ),
                   Icon(
                     Icons.exit_to_app,
-                    color: Colors.redAccent, // Consider using the same color as the text for consistency
+                    color: Colors.redAccent,
                   ),
                 ],
               ),

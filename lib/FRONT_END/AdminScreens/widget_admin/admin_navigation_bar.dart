@@ -1,9 +1,8 @@
-import 'package:bethel_app_final/FRONT_END/AdminScreens/admin_events.dart';
+import 'package:bethel_app_final/FRONT_END/AdminScreens/admin_calendar.dart';
+import 'package:bethel_app_final/FRONT_END/AdminScreens/admin_approval.dart';
 import 'package:bethel_app_final/FRONT_END/AdminScreens/admin_home.dart';
-import 'package:bethel_app_final/FRONT_END/AdminScreens/AdminEvents.dart';
-import 'package:bethel_app_final/FRONT_END/MemberScreens/appointment_page.dart';
-import 'package:bethel_app_final/FRONT_END/MemberScreens/event_page.dart';
-import 'package:bethel_app_final/FRONT_END/MemberScreens/home_page.dart';
+import 'package:bethel_app_final/FRONT_END/AdminScreens/AdminCreateEvents.dart';
+import 'package:bethel_app_final/FRONT_END/AdminScreens/admin_setting.dart';
 import 'package:bethel_app_final/FRONT_END/constant/color.dart';
 import 'package:flutter/material.dart';
 
@@ -18,25 +17,24 @@ class _AdminNavigationPageState extends State<AdminNavigationPage> {
   int _currentTab = 0;
   final List<StatefulWidget> _children = [
     const AdminHomePage(),
-    const Events(),
-
-    // const Notifications(),
-    // const Profile(),
+    const AdminApproval(),
+    const AdminCalendar(),
+    const AdminSettings(),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: appWhite,
+      backgroundColor: appGreen,
       body: SafeArea(
         child: _children[_currentTab],
       ),
       resizeToAvoidBottomInset: false,
       bottomNavigationBar: BottomAppBar(
         shape: const CircularNotchedRectangle(),
-        color: appWhite,
+        color: appGreen,
         child: BottomNavigationBar(
-          elevation: 5,
+          elevation: 6,
           backgroundColor: appGreen,
           selectedItemColor: appWhite,
           unselectedItemColor: appWhite,
@@ -53,10 +51,10 @@ class _AdminNavigationPageState extends State<AdminNavigationPage> {
           items: const [
             BottomNavigationBarItem(
               icon: Icon(
-                Icons.home,
+                Icons.event_available,
                 size: 20,
               ),
-              label: 'Home',
+              label: 'Events',
               activeIcon: Text(
                 "",
                 style: TextStyle(fontSize: 8, color: appWhite),
@@ -64,37 +62,37 @@ class _AdminNavigationPageState extends State<AdminNavigationPage> {
             ),
             BottomNavigationBarItem(
               icon: Icon(
-                Icons.event_available,
+                Icons.check,
                 size: 20,
               ),
-              label: 'Events',
+              label: 'Approval',
               activeIcon: Text(
                 "",
                 style: TextStyle(fontSize: 8),
               ),
             ),
-            // BottomNavigationBarItem(
-            //   icon: Icon(
-            //     Icons.message,
-            //     size: 20,
-            //   ),
-            //   label: 'Messages',
-            //   activeIcon: Text(
-            //     "",
-            //     style: TextStyle(fontSize: 8),
-            //   ),
-            // ),
-            // BottomNavigationBarItem(
-            //   icon: Icon(
-            //     Icons.person,
-            //     size: 20,
-            //   ),
-            //   label: 'Profile',
-            //   activeIcon: Text(
-            //     "",
-            //     style: TextStyle(fontSize: 8),
-            //   ),
-            // ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.calendar_month,
+                size: 20,
+              ),
+              label: 'Calendar',
+              activeIcon: Text(
+                "",
+                style: TextStyle(fontSize: 8),
+              ),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.settings,
+                size: 20,
+              ),
+              label: 'Settings',
+              activeIcon: Text(
+                "",
+                style: TextStyle(fontSize: 8),
+              ),
+            ),
           ],
         ),
       ),

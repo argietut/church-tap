@@ -1,7 +1,3 @@
-import 'package:bethel_app_final/FRONT_END/MemberScreens/screen_pages/profile_screen_pages/calendar.dart';
-import 'package:bethel_app_final/FRONT_END/MemberScreens/screen_pages/profile_screen_pages/my_profile.dart';
-import 'package:bethel_app_final/FRONT_END/MemberScreens/screen_pages/profile_screen_pages/notification.dart';
-import 'package:bethel_app_final/FRONT_END/MemberScreens/screen_pages/profile_screen_pages/settings.dart';
 import 'package:bethel_app_final/FRONT_END/constant/color.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -17,116 +13,73 @@ void signUserOut() {
   FirebaseAuth.instance.signOut();
 }
 
+enum SortType { byDays, byWeeks, byMonths }
+
 class _AdminHomePageState extends State<AdminHomePage> {
-  
+  SortType _sortType = SortType.byDays;
+
+  void _sortBy(SortType sortType) {
+    setState(() {
+      _sortType = sortType;
+    });
+    print('Sorting by: $sortType');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Admin Home Screen'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.notifications),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const NotificationScreen()),
-              );
-            },
-          ),
-        ],
-      ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
+      body: Padding(
+        padding: const EdgeInsets.only(top: 40, left: 20, right: 20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const DrawerHeader(
-              decoration: BoxDecoration(
-                color:appGreen,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CircleAvatar(
-                    radius: 40,
-                    backgroundImage: NetworkImage(
-                      'https://example.com/your-profile-image.jpg',
-                    ),
-                  ),
-                  SizedBox(height: 8),
-                  Text(
-                    'User Name', // Replace with the actual user name
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            ListTile(
-              leading: const Icon(Icons.person),
-              title: const Text('My Profile'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const MyProfile()),
-                );
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.calendar_today),
-              title: const Text('Calendar'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const Calendar()),
-                );
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.settings),
-              title: const Text('Settings'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const Settings()),
-                );
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.exit_to_app),
-              title:
-                  const Text('Sign Out', style: TextStyle(color: Colors.red)),
-              onTap: () {
-                showDialog(
-                  context: context, // Make sure to have access to the context
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: const Text('Confirm Sign Out'),
-                      content: const Text('Are you sure you want to sign out?'),
-                      actions: <Widget>[
-                        TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pop(); // Close the dialog
-                          },
-                          child: const Text('No'),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            FirebaseAuth.instance.signOut();
-                            Navigator.of(context).pop(); // Close the dialog
-                          },
-                          child: const Text('Yes'),
-                        ),
-                      ],
-                    );
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                IconButton(
+                  onPressed: () {
+                    // Toggling sort order when IconButton is pressed
+                    switch (_sortType) {
+                      case SortType.byDays:
+                        _sortBy(SortType.byWeeks);
+                        break;
+                      case SortType.byWeeks:
+                        _sortBy(SortType.byMonths);
+                        break;
+                      case SortType.byMonths:
+                        _sortBy(SortType.byDays);
+                        break;
+                    }
                   },
-                );
-              },
+                  icon: const Icon(Icons.border_color_outlined),
+                ),
+                const Text(
+                  "Admin Events",
+                  style: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(width: 50),
+              ],
             ),
+            const SizedBox(height: 15),
+            const Divider(
+              color: appGreen,
+            ),
+            const SizedBox(height: 10),
+            const Text(
+              'No Events yet!',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 10),
+            const Text(
+              'Time to chill and find yourself.',
+            ),
+            const SizedBox(height: 20),
           ],
         ),
       ),

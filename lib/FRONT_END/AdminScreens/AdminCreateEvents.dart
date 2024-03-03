@@ -1,5 +1,6 @@
+import 'package:bethel_app_final/FRONT_END/constant/color.dart';
 import 'package:flutter/material.dart';
-import 'package:table_calendar/table_calendar.dart'; // Import the table_calendar package
+import 'package:table_calendar/table_calendar.dart';
 
 class AdminAppointmentPage extends StatefulWidget {
   const AdminAppointmentPage({Key? key}) : super(key: key);
@@ -15,7 +16,7 @@ class _AdminAppointmentPageState extends State<AdminAppointmentPage> {
       appBar: AppBar(
         automaticallyImplyLeading: true,
         title: const Text(
-          'Requests',
+          'Create Events',
           style: TextStyle(
             fontSize: 30,
             fontWeight: FontWeight.bold,
@@ -28,7 +29,9 @@ class _AdminAppointmentPageState extends State<AdminAppointmentPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Divider(),
+              const Divider(
+                color: appGreen
+              ),
               Column(
                 children: [
                   Center(
@@ -60,40 +63,12 @@ class _AdminAppointmentPageState extends State<AdminAppointmentPage> {
                 ],
               ),
               const SizedBox(height: 10),
-              const Text(
-                'No appointments booked yet!',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 10),
-              const Text(
-                'Start planning your next chapter in your life, eyyy!.',
-              ),
-              const SizedBox(height: 20),
+
               Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    SizedBox(
-                      width: 320,
-                      height: 60,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          // Add functionality for the button here
-                          // For example: Navigator.push...
-                        },
-                        child: const Text(
-                          'Request Appointment',
-                          style: TextStyle(
-                            fontSize: 15,
-                            color: Colors.black, // Set text color to black
-                          ),
-                        ),
-                      ),
-                    ),
                     const SizedBox(height: 20),
                     SizedBox(
                       width: 320,
@@ -104,7 +79,7 @@ class _AdminAppointmentPageState extends State<AdminAppointmentPage> {
                           // For example: Navigator.push...
                         },
                         child: const Text(
-                          'Request Event',
+                          'Create Event',
                           style: TextStyle(
                             fontSize: 15,
                             color: Colors.black, // Set text color to black

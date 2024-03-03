@@ -1,5 +1,6 @@
-
-import 'package:bethel_app_final/FRONT_END/authentications/auth_classes/class_page.dart';
+import 'package:bethel_app_final/BACK_END/Services/Functions/Authentication.dart';
+import 'package:bethel_app_final/FRONT_END/authentications/auth_classes/my_button.dart';
+import 'package:bethel_app_final/FRONT_END/authentications/auth_classes/my_textfield.dart';
 import 'package:bethel_app_final/FRONT_END/authentications/forgot_password.dart';
 import 'package:bethel_app_final/FRONT_END/constant/color.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -9,7 +10,7 @@ import 'package:get/get.dart';
 class MemberLoginPage extends StatefulWidget {
   final void Function()? onTap;
 
-   const MemberLoginPage({
+  const MemberLoginPage({
     Key? key,
     this.onTap,
   }) : super(key: key);
@@ -21,6 +22,8 @@ class MemberLoginPage extends StatefulWidget {
 class _MemberLoginPageState extends State<MemberLoginPage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+TapAuth tapAuth = TapAuth();
+  bool _obscurePassword = true; // To toggle password visibility
 
   void signUserIn() async {
     try {
@@ -55,17 +58,15 @@ class _MemberLoginPageState extends State<MemberLoginPage> {
         return;
       }
 
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
+     tapAuth.loginUserAuth(email, password);
+
     } on FirebaseAuthException catch (e) {
       print('FirebaseAuthException occurred: ${e.message}');
       if (e.code == 'wrong-password') {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content:
-                Text('Incorrect password. Please double-check and try again.'),
+            Text('Incorrect password. Please double-check and try again.'),
             duration: Duration(seconds: 3),
           ),
         );
@@ -96,10 +97,9 @@ class _MemberLoginPageState extends State<MemberLoginPage> {
                   width: 400,
                   height: 250,
                 ),
-                const SizedBox(height: 70),
+                const SizedBox(height: 30),
                 const Padding(
-                  padding: EdgeInsets.only(
-                      right: 170),
+                  padding: EdgeInsets.only(right: 170),
                   child: Text(
                     'Member Login',
                     style: TextStyle(
@@ -118,7 +118,18 @@ class _MemberLoginPageState extends State<MemberLoginPage> {
                 MyTextField(
                   controller: passwordController,
                   hintText: 'Password',
-                  obscureText: true,
+                  obscureText: _obscurePassword,
+                  suffixIcon: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _obscurePassword = !_obscurePassword;
+                      });
+                    },
+                    child: Icon(
+                      _obscurePassword ? Icons.visibility_off : Icons.visibility,
+                      color: Colors.grey,
+                    ),
+                  ),
                 ),
                 const SizedBox(height: 10),
                 Padding(
@@ -143,11 +154,11 @@ class _MemberLoginPageState extends State<MemberLoginPage> {
                     ],
                   ),
                 ),
-                const SizedBox(height: 26),
+                const SizedBox(height: 30),
                 MyButton(
                   onTap: signUserIn,
                 ),
-                const SizedBox(height: 10),
+
                 // Row(
                 //   mainAxisAlignment: MainAxisAlignment.center,
                 //   children: [
