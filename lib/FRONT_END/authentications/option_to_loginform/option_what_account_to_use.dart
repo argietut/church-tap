@@ -234,9 +234,31 @@ class OptionToPlatformToLogin extends StatelessWidget {
                         ),
                         ),
                       ),
-                    ],
-                  ),
-                ],
+
+                    ),
+
+                    //ayaw ni hilabti
+
+                    // const Text('and'),
+                    // TextButton(
+                    //   onPressed: () {
+                    //     Navigator.push(
+                    //       context,
+                    //       MaterialPageRoute(
+                    //         builder: (context) => const PrivacyPolicyPage(),
+                    //       ),
+                    //     );
+                    //   },
+                    //   child: const Text(
+                    //     'Privacy Policy',
+                    //     style: TextStyle(
+                    //       color: appGreen,
+                    //       decoration: TextDecoration.underline,
+                    //     ),
+                    //   ),
+                    // ),
+                  ],
+                ),
               ),
             ],
           ),
