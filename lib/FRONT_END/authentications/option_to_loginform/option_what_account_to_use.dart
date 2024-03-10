@@ -26,10 +26,12 @@ class OptionToPlatformToLogin extends StatelessWidget {
             children: [
               Image.asset(
                   'assets/images/churchmain.png',
+
                    width: 380,
                   height: 240,
                 ),
                 const SizedBox(height: 20),
+
               const Text('Welcome To',
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
@@ -40,14 +42,18 @@ class OptionToPlatformToLogin extends StatelessWidget {
               ),
               const Text('Church Tap',
                   style: TextStyle(
+
                       fontSize: 36,
+
                   fontWeight: FontWeight.bold,
                   fontFamily: 'ProtestRiot',
                     color: appGreen
 
                   )
               ),
+
               const SizedBox(height: 40),
+
               Container(
                 width: 280,
                 height: 45,
@@ -86,10 +92,14 @@ class OptionToPlatformToLogin extends StatelessWidget {
                   ),
                 ),
               ),
+
               const SizedBox(height: 6),
+
               const Text(
                 'or',
-                style: TextStyle(color: appBlack, fontSize: 12),
+                style: TextStyle(color: appBlack,
+                    fontSize: 12
+                ),
               ),
               const SizedBox(height: 6),
               TextButton(
@@ -100,9 +110,10 @@ class OptionToPlatformToLogin extends StatelessWidget {
                       return AlertDialog(
                         title: const Text('Create your account',
                         style: TextStyle(
-                          fontSize: 18
+                          fontSize: 14
                         ),
                         ),
+
                         content: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
@@ -128,11 +139,14 @@ class OptionToPlatformToLogin extends StatelessWidget {
                                       color: appBlack,
                                       fontSize: 12,
                                     ),
+
                                   ),
-                                ],
+                                ),
                               ),
-                            ),
-                          ],
+
+
+                            ],
+                          ),
                         ),
                       );
                     },
@@ -162,7 +176,6 @@ class OptionToPlatformToLogin extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children:[
                   const Text('Already have an account?'),
-                  const SizedBox(width: 5),
                   GestureDetector(
                     onTap: (){
                       Get.to(() => const MemberAuthPage(),
@@ -170,7 +183,6 @@ class OptionToPlatformToLogin extends StatelessWidget {
                         duration: const Duration(milliseconds: 500)
                       );
                     },
-
                     child: const Text(
                       'Login now',
                       style: TextStyle(
@@ -183,7 +195,7 @@ class OptionToPlatformToLogin extends StatelessWidget {
                 ],
               ),
 
-              const SizedBox(height: 70),
+                 const SizedBox(height: 70),
               Padding(
                 padding: const EdgeInsets.only(bottom: 8.0), // Adjust padding as needed
                 child: Row(
@@ -221,6 +233,7 @@ class OptionToPlatformToLogin extends StatelessWidget {
                   ],
                 ),
               ),
+
             ],
           ),
         ),
