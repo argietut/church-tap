@@ -99,7 +99,7 @@ class _EditEventState extends State<EditEvent> {
           onPressed: () {
             _deleteEvent();
           },
-          style: ElevatedButton.styleFrom(primary: Colors.red),
+          style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
           child: const Text("Cancel"),
         ),
       ],
