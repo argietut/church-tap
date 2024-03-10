@@ -1,7 +1,5 @@
 import 'dart:developer';
-
 import 'package:bethel_app_final/BACK_END/Services/Functions/Authentication.dart';
-import 'package:bethel_app_final/BACK_END/Services/Functions/Member_Functions/member_functions.dart';
 import 'package:bethel_app_final/FRONT_END/authentications/auth_classes/my_button1.dart';
 import 'package:bethel_app_final/FRONT_END/authentications/auth_classes/my_textfield.dart';
 import 'package:bethel_app_final/FRONT_END/authentications/member_auth/member_login_page.dart';
@@ -10,9 +8,10 @@ import 'package:flutter/material.dart';
 class MemberRegisterPage extends StatefulWidget {
   final void Function()? onTap;
 
-   const MemberRegisterPage(
-       {Key? key, required this.onTap}
-       ) : super(key: key);
+  const MemberRegisterPage({
+    Key? key,
+    required this.onTap,
+  }) : super(key: key);
 
   @override
   State<MemberRegisterPage> createState() => _MemberRegisterPageState();
@@ -26,6 +25,7 @@ class _MemberRegisterPageState extends State<MemberRegisterPage> {
   final confirmPasswordController = TextEditingController();
 
   bool _obscurePassword = true;
+  bool _obscurePassword1 = true;
 
   void signUserUp() async {
     try {
@@ -59,35 +59,35 @@ class _MemberRegisterPageState extends State<MemberRegisterPage> {
         return;
       }
       if (!email.endsWith("@gmail.com")) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Please enter a valid email address format."),
-          duration: Duration(seconds: 3),
-        ),
-      );
-      return;
-    }
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Please enter a valid email address format."),
+            duration: Duration(seconds: 3),
+          ),
+        );
+        return;
+      }
 
-     // Password validation logic
-    if (password.length < 8) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Password must be at least 8 characters long."),
-          duration: Duration(seconds: 3),
-        ),
-      );
-      return;
-    }
+      // Password validation logic
+      if (password.length < 8) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Password must be at least 8 characters long."),
+            duration: Duration(seconds: 3),
+          ),
+        );
+        return;
+      }
 
-    if (!RegExp(r'^(?=.*[a-zA-Z])(?=.*\d)[A-Za-z\d]+$').hasMatch(password)) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Password must contain both letters and numbers."),
-          duration: Duration(seconds: 3),
-        ),
-      );
-      return;
-    }
+      if (!RegExp(r'^(?=.*[a-zA-Z])(?=.*\d)[A-Za-z\d]+$').hasMatch(password)) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Password must contain both letters and numbers."),
+            duration: Duration(seconds: 3),
+          ),
+        );
+        return;
+      }
 
       if (password != confirmPassword) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -101,6 +101,14 @@ class _MemberRegisterPageState extends State<MemberRegisterPage> {
 
       // Sign up the user
       await tapAuth.createUserAuth(username, email, password);
+
+      // Show a Snackbar indicating successful registration
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Registration successful! Please check your email to verify your account.'),
+          duration: Duration(seconds: 5),
+        ),
+      );
 
       // Show a loading indicator for 2 seconds
       showDialog(
@@ -177,7 +185,6 @@ class _MemberRegisterPageState extends State<MemberRegisterPage> {
                   obscureText: false,
                 ),
                 const SizedBox(height: 10),
-
                 MyTextField(
                   controller: passwordController,
                   hintText: 'Password',
@@ -194,18 +201,28 @@ class _MemberRegisterPageState extends State<MemberRegisterPage> {
                     ),
                   ),
                 ),
-
                 const SizedBox(height: 10),
                 MyTextField(
                   controller: confirmPasswordController,
                   hintText: 'Confirm Password',
-                  obscureText: true,
+                  obscureText: _obscurePassword1,
+                  suffixIcon: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _obscurePassword1 = !_obscurePassword1;
+                      });
+                    },
+                    child: Icon(
+                      _obscurePassword1 ? Icons.visibility_off : Icons.visibility,
+                      color: Colors.grey,
+                    ),
+                  ),
                 ),
                 const SizedBox(height: 10),
                 MyButton1(
                   onTap: signUserUp,
                 ),
-              //  const SizedBox(height: 10),
+                //  const SizedBox(height: 10),
                 // Row(
                 //   mainAxisAlignment: MainAxisAlignment.center,
                 //   children: [

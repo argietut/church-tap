@@ -1,4 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
+import 'package:flutter/rendering.dart';
 
 class MyTextField extends StatefulWidget {
   final TextEditingController controller;
@@ -31,9 +34,11 @@ class _MyTextFieldState extends State<MyTextField> {
         decoration: InputDecoration(
           enabledBorder: const OutlineInputBorder(
             borderSide: BorderSide(color: Colors.grey),
+            borderRadius:BorderRadius.all(Radius.circular(10)),
           ),
           focusedBorder: const OutlineInputBorder(
             borderSide: BorderSide(color: Colors.black),
+            borderRadius:BorderRadius.all(Radius.circular(10)),
           ),
           fillColor: Colors.white,
           filled: true,
