@@ -1,10 +1,10 @@
 import 'package:bethel_app_final/BACK_END/Services/Functions/Authentication.dart';
+import 'package:bethel_app_final/FRONT_END/widgets/navigation_bar.dart';
+import 'package:flutter/material.dart';
 import 'package:bethel_app_final/FRONT_END/authentications/auth_classes/my_button.dart';
 import 'package:bethel_app_final/FRONT_END/authentications/auth_classes/my_textfield.dart';
 import 'package:bethel_app_final/FRONT_END/authentications/forgot_password.dart';
 import 'package:bethel_app_final/FRONT_END/constant/color.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class MemberLoginPage extends StatefulWidget {
@@ -22,15 +22,20 @@ class MemberLoginPage extends StatefulWidget {
 class _MemberLoginPageState extends State<MemberLoginPage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-   TapAuth tapAuth = TapAuth();
+  TapAuth tapAuth = TapAuth();
   bool _obscurePassword = true; // To toggle password visibility
+  bool _loading = false;
 
   void signUserIn() async {
     try {
+      setState(() {
+        _loading = true; // Start circular loading
+      });
+
       String email = emailController.text.trim();
       String password = passwordController.text.trim();
 
-      if (email.isEmpty && password.isEmpty) {
+      if (email.isEmpty || password.isEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Please enter both email and password.'),
@@ -39,53 +44,63 @@ class _MemberLoginPageState extends State<MemberLoginPage> {
         );
         return;
       }
-      if (email.isEmpty) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Please enter your email.'),
-            duration: Duration(seconds: 3),
-          ),
-        );
-        return;
-      }
-      if (password.isEmpty) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Please enter your password.'),
-            duration: Duration(seconds: 3),
-          ),
-        );
-        return;
-      }
 
-     tapAuth.loginUserAuth(email, password);
-
-    } on FirebaseAuthException catch (e) {
-      print('FirebaseAuthException occurred: ${e.message}');
-      if (e.code == 'wrong-password') {
+      try {
+        bool loginSuccessful = await tapAuth.loginUserAuth(email, password);
+        if (!loginSuccessful) {
+          // If login failed or account not verified, show Snackbar
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text(
+                'Your account is not verified yet. Please check your email and verify your account.',
+              ),
+              duration: Duration(seconds: 5),
+            ),
+          );
+        } else {
+          // If login successful and account verified, navigate to home page
+          await Future.delayed(const Duration(seconds: 1));
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => const HomePage()),
+          );
+        }
+      } on Exception catch (e) {
+        // Catch exceptions thrown by loginUserAuth
+        String errorMessage = 'An error occurred. Please try again later.';
+        if (e.toString() == 'Incorrect email') {
+          errorMessage = 'Incorrect email. Please check your email and try again.';
+        } else if (e.toString() == 'Incorrect password') {
+          errorMessage = 'Incorrect password. Please check your password and try again.';
+        }
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content:
-            Text('Incorrect password. Please double-check and try again.'),
-            duration: Duration(seconds: 3),
-          ),
-        );
-      } else if (e.code == 'user-not-found') {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Email address not found. Please create an account.'),
-            duration: Duration(seconds: 3),
+          SnackBar(
+            content: Text(errorMessage),
+            duration: Duration(seconds: 5),
           ),
         );
       }
+    } catch (e) {
+      print("Error occurred: $e");
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('An error occurred. Please try again later.'),
+          duration: Duration(seconds: 3),
+        ),
+      );
+    } finally {
+      setState(() {
+        _loading = false; // Stop circular loading
+      });
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(title: const Text(''), automaticallyImplyLeading: true),
+      appBar: AppBar(
+          automaticallyImplyLeading: true),
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
@@ -140,7 +155,7 @@ class _MemberLoginPageState extends State<MemberLoginPage> {
                       GestureDetector(
                         onTap: (){
                           Get.to(() => const ForgotPassword(),
-                              transition: Transition.fade,
+                              transition: Transition.fadeIn,
                               duration: const Duration(seconds: 1)
                           );
                         },
@@ -158,27 +173,6 @@ class _MemberLoginPageState extends State<MemberLoginPage> {
                 MyButton(
                   onTap: signUserIn,
                 ),
-
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.center,
-                //   children: [
-                //     Text(
-                //       "Don't have an account?",
-                //       style: TextStyle(color: Colors.grey[700]),
-                //     ),
-                //     const SizedBox(width: 4),
-                //     GestureDetector(
-                //       onTap: widget.onTap,
-                //       child: const Text(
-                //         'Register now',
-                //         style: TextStyle(
-                //           color: appGreen,
-                //           fontWeight: FontWeight.bold,
-                //         ),
-                //       ),
-                //     )
-                //   ],
-                // ),
               ],
             ),
           ),

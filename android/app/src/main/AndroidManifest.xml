@@ -5,7 +5,7 @@
 
 
     <application
-        android:label="bethel_app_final"
+        android:label="Church Tap"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

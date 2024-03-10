@@ -48,11 +48,12 @@ class _ContactUsState extends State<ContactUs> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 10),
+            SizedBox(height: 20),
             Text(
               '- churchtap123@gmail.com',
               style: TextStyle(
-                fontWeight: FontWeight.bold
+                fontWeight: FontWeight.bold,
+                fontSize: 18
               ),
             ),
             SizedBox(height: 20),

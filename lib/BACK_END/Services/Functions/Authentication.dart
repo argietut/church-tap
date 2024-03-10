@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:bethel_app_final/BACK_END/Services/Functions/Users.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -34,27 +33,36 @@ class TapAuth {
     }
   }
 
-  Future<void> loginUserAuth(String email,String password) async{
-     _auth.signOut();
-     try{
-    _auth.signInWithEmailAndPassword(email: email, password: password);
-    _auth.authStateChanges().listen((User? user) {
-      if (user == null) {
-        print('User is currently signed out!');
-      }
-      else if(user.emailVerified != true){
-        _auth.signOut();
-      }
-      else {
-        print('User is signed in!');
-      }
-    });
-     }catch(e) {
-       log("AUTH ERROR : $e");
-     }
-}
+  Future<bool> loginUserAuth(String email, String password) async {
+    _auth.signOut();
+    try {
+      final userCredential = await _auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      final user = userCredential.user;
 
-Future<void> sendUserVerifcationEmail() async{
+      if (user != null) {
+        if (!user.emailVerified) {
+          // Sign out the user if the email is not verified
+          await _auth.signOut();
+          return false; // Account not verified
+        } else {
+          // Proceed to sign in the user since the email is verified
+          return true; // Account verified
+        }
+      } else {
+        // User not found
+        return false;
+      }
+    } catch (e) {
+      print("AUTH ERROR : $e");
+      return false; // Login failed
+    }
+  }
+
+
+  Future<void> sendUserVerifcationEmail() async{
     _auth.currentUser?.sendEmailVerification();
 }
 
@@ -87,4 +95,17 @@ Future<void> sendUserVerifcationEmail() async{
       };
       return user_full_details;
     }
+
+    //error snack bar sa login
+  bool isEmailVerified() {
+    final currentUser = _auth.currentUser;
+    if (currentUser != null) {
+      // Check if the user is logged in and their email is verified
+      return currentUser.emailVerified;
+    } else {
+      // If the user is not logged in, return false
+      return false;
+    }
+  }
+
 }

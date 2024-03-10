@@ -52,45 +52,56 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ScaleTransition(
-              scale: _animation,
-              child: Image.asset(
-                'assets/images/churchmain.png',
-                width: 400,
-                height: 400,
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: Center(
+          child: SizedBox(
+            height: MediaQuery.of(context).size.height, // Set height to the screen height
+            child: SingleChildScrollView(
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ScaleTransition(
+                      scale: _animation,
+                      child: Image.asset(
+                        'assets/images/churchmain.png',
+                        width: 380,
+                        height: 380,
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    const Text(
+                      'Church Tap',
+                      style: TextStyle(
+                        fontSize: 40,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'ProtestRiot',
+                        color: appGreen,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    const Text(
+                      'Loading...',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.black,
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    const CircularProgressIndicator(
+                      color: appGreen,
+                    ),
+                  ],
+                ),
               ),
             ),
-            const SizedBox(height: 20),
-            const Text(
-              'Church Tap',
-              style: TextStyle(
-                fontSize: 50,
-                fontWeight: FontWeight.bold,
-                fontFamily: 'ProtestRiot',
-                color: appGreen,
-              ),
-            ),
-            const SizedBox(height: 10),
-            const Text(
-              'Loading...',
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.black,
-              ),
-            ),
-            const SizedBox(height: 20),
-            const CircularProgressIndicator(
-              color:appGreen,
-            ),
-          ],
+          ),
         ),
       ),
     );
   }
+
+
 }
