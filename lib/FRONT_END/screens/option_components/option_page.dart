@@ -2,9 +2,7 @@ import 'dart:ui';
 import 'package:bethel_app_final/FRONT_END/authentications/admin_auth/admin_auth_page.dart';
 import 'package:bethel_app_final/FRONT_END/authentications/option_to_loginform/option_what_account_to_use.dart';
 import 'package:bethel_app_final/FRONT_END/constant/color.dart';
-import 'package:bethel_app_final/FRONT_END/screens/option_components/about_us.dart';
 import 'package:bethel_app_final/FRONT_END/screens/option_components/contact_us.dart';
-import 'package:bethel_app_final/FRONT_END/screens/option_components/support_resources.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -30,20 +28,6 @@ class OptionPage extends StatelessWidget {
           child: ListView(
             padding: EdgeInsets.zero,
             children: [
-              ListTile(
-                leading: const Icon(Icons.support_outlined),
-                title: const Text('Support & Resources'),
-                onTap: () {
-                  Get.to(const SupportAndResources());
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.abc_outlined),
-                title: const Text('About Us'),
-                onTap: () {
-                  Get.to(const AboutUs());
-                },
-              ),
               ListTile(
                 leading: const Icon(Icons.contact_emergency_outlined),
                 title: const Text('Contact Us'),
