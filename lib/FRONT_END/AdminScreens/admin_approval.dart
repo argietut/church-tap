@@ -1,3 +1,5 @@
+import 'package:bethel_app_final/FRONT_END/AdminScreens/widget_admin/sort_approval.dart';
+import 'package:bethel_app_final/FRONT_END/MemberScreens/widget_member/sort_icon.dart';
 import 'package:bethel_app_final/FRONT_END/constant/color.dart';
 import 'package:flutter/material.dart';
 
@@ -10,6 +12,7 @@ class AdminApproval extends StatefulWidget {
 
 class _AdminApprovalState extends State<AdminApproval> {
   bool hasEvents = false; // Assume no events initially
+  SortingButton sortingButton = SortingButton();
 
   @override
   Widget build(BuildContext context) {
@@ -22,14 +25,18 @@ class _AdminApprovalState extends State<AdminApproval> {
             Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              IconButton(
-                onPressed: () {
-
-                },
-                style: IconButton.styleFrom(
-                ),
-                icon: const Icon(Icons.sort),
-              ),
+              sortingButton.buildIconButton(onPressed: () {
+                // Handle sorting logic here
+                sortingButton.toggleSortingOption();
+                // Implement sorting logic here based on sortingButton.currentSortingOption
+                if (sortingButton.currentSortingOption == ApprovalSortingOption.Month) {
+                  // Sort by month
+                  // Your sorting logic here...
+                } else {
+                  // Sort by week
+                  // Your sorting logic here...
+                }
+              }),
               const SizedBox(width: 15),
               const Text(
                 "Admin Approval",

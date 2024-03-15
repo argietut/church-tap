@@ -1,10 +1,9 @@
 
+import 'package:bethel_app_final/FRONT_END/MemberScreens/widget_member/navigation_bar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-
-import '../../../../FRONT_END/widgets/navigation_bar.dart';
 
 // Member account authentication to Firebase
 class MemberAuthServices {
