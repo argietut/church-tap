@@ -1,9 +1,9 @@
 import 'package:bethel_app_final/BACK_END/Services/Functions/Member_Functions/member_functions.dart';
+import 'package:bethel_app_final/FRONT_END/MemberScreens/screens/terms_page.dart';
 import 'package:bethel_app_final/FRONT_END/authentications/auth_classes/squaretile.dart';
 import 'package:bethel_app_final/FRONT_END/authentications/member_auth/member_auth_page.dart';
 import 'package:bethel_app_final/FRONT_END/authentications/member_auth/member_register_page.dart';
 import 'package:bethel_app_final/FRONT_END/constant/color.dart';
-import 'package:bethel_app_final/FRONT_END/screens/terms_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -36,7 +36,6 @@ class OptionToPlatformToLogin extends StatelessWidget {
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
-                 // fontFamily:'GreatVibes',
                     color: appBlack,
                   ),
               ),
@@ -52,7 +51,7 @@ class OptionToPlatformToLogin extends StatelessWidget {
                   )
               ),
 
-              const SizedBox(height: 40),
+              const SizedBox(height: 50),
 
               Container(
                 width: 280,
@@ -93,7 +92,7 @@ class OptionToPlatformToLogin extends StatelessWidget {
                 ),
               ),
 
-              const SizedBox(height: 6),
+              const SizedBox(height: 5),
 
               const Text(
                 'or',
@@ -101,7 +100,7 @@ class OptionToPlatformToLogin extends StatelessWidget {
                     fontSize: 12
                 ),
               ),
-              const SizedBox(height: 6),
+              const SizedBox(height: 5),
               TextButton(
                 onPressed: () {
                   showDialog(
@@ -171,11 +170,14 @@ class OptionToPlatformToLogin extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 5),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children:[
                   const Text('Already have an account?'),
+
+                  const SizedBox(width: 6),
+
                   GestureDetector(
                     onTap: (){
                       Get.to(() => const MemberAuthPage(),

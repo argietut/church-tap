@@ -1,5 +1,5 @@
 import 'package:bethel_app_final/BACK_END/Services/Functions/Authentication.dart';
-import 'package:bethel_app_final/FRONT_END/widgets/navigation_bar.dart';
+import 'package:bethel_app_final/FRONT_END/MemberScreens/widget_member/navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:bethel_app_final/FRONT_END/authentications/auth_classes/my_button.dart';
 import 'package:bethel_app_final/FRONT_END/authentications/auth_classes/my_textfield.dart';

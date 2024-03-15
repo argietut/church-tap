@@ -1,6 +1,6 @@
 
+import 'package:bethel_app_final/FRONT_END/MemberScreens/widget_member/navigation_bar.dart';
 import 'package:bethel_app_final/FRONT_END/authentications/member_auth/register_or_login_page.dart';
-import 'package:bethel_app_final/FRONT_END/widgets/navigation_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
