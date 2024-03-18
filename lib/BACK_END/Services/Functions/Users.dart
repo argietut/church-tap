@@ -12,4 +12,26 @@ class UserStorage {
       log("Error code STORAGE: $e");
     }
   }
+
+  Future<void> createMemberEvent(String uniqueID,Map<String,dynamic> dateTime,String event) async {
+    try{
+      db.collection("users").doc("members").collection(uniqueID).doc(event).set(dateTime);
+    }catch(e){
+      log("Error code STORAGE: $e");
+    }
+  }
+  //TODO check if admin or not
+/*Future<bool> isAdmin(String uid) async{
+    try{
+     var holder = await db.collection("users").doc("admins").collection(uid).doc("About User")
+         .get().then((value){
+           if()
+     });
+    }
+    catch(e){
+      log("Error code STORAGE: $e");
+    }
+    return true;
+
+}*/
 }
