@@ -41,7 +41,9 @@ class _AdminApprovalState extends State<AdminApproval> {
         .map((doc) => Appointment(
       id: doc.id,
       details: doc['description'] ?? '',
-      date: doc['date'] != null ? (doc['date'] as Timestamp).toDate().toString() : '',
+      date: doc['date'] != null
+          ? (doc['date'] as Timestamp).toDate().toString()
+          : '',
     ))
         .toList());
     eventStream = FirebaseFirestore.instance
@@ -51,9 +53,72 @@ class _AdminApprovalState extends State<AdminApproval> {
         .map((doc) => Event(
       id: doc.id,
       details: doc['description'] ?? '',
-      date: doc['date'] != null ? (doc['date'] as Timestamp).toDate().toString() : '',
+      date: doc['date'] != null
+          ? (doc['date'] as Timestamp).toDate().toString()
+          : '',
     ))
         .toList());
+  }
+
+  Future<void> approveAppointment(Appointment appointment) async {
+    final approvedAppointmentsCollection =
+    FirebaseFirestore.instance.collection('approved_appointments');
+    final appointmentData = {
+      'title': appointment.details,
+      'date': appointment.date,
+    };
+
+    try {
+      await approvedAppointmentsCollection.add(appointmentData);
+      await FirebaseFirestore.instance
+          .collection('appointments')
+          .doc(appointment.id)
+          .delete();
+      print('Approved appointment added successfully');
+    } catch (e) {
+      print('Error adding approved appointment: $e');
+    }
+  }
+
+  Future<void> approveEvent(Event event) async {
+    final approvedEventsCollection =
+    FirebaseFirestore.instance.collection('approved_events');
+    final eventData = {
+      'title': event.details,
+      'date': event.date,
+    };
+
+    try {
+      await approvedEventsCollection.add(eventData);
+      await FirebaseFirestore.instance
+          .collection('events')
+          .doc(event.id)
+          .delete();
+      print('Approved event added successfully');
+    } catch (e) {
+      print('Error adding approved event: $e');
+    }
+  }
+
+  Future<void> declineAppointment(Appointment appointment) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('appointments')
+          .doc(appointment.id)
+          .delete();
+      print('Appointment declined and removed');
+    } catch (e) {
+      print('Error declining appointment: $e');
+    }
+  }
+
+  Future<void> declineEvent(Event event) async {
+    try {
+      await FirebaseFirestore.instance.collection('events').doc(event.id).delete();
+      print('Event declined and removed');
+    } catch (e) {
+      print('Error declining event: $e');
+    }
   }
 
   @override
@@ -123,14 +188,19 @@ class _AdminApprovalState extends State<AdminApproval> {
                                   Text(appointment.date),
                                 ],
                               ),
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => DetailsScreen(data: appointment, onApprove: (String ) {  },),
+                              trailing: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  IconButton(
+                                    onPressed: () => approveAppointment(appointment),
+                                    icon: const Icon(Icons.check),
                                   ),
-                                );
-                              },
+                                  IconButton(
+                                    onPressed: () => declineAppointment(appointment),
+                                    icon: const Icon(Icons.close),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                           ...events.map(
@@ -142,14 +212,19 @@ class _AdminApprovalState extends State<AdminApproval> {
                                   Text(event.date),
                                 ],
                               ),
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => DetailsScreen(data: event, onApprove: (String ) {  },),
+                              trailing: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  IconButton(
+                                    onPressed: () => approveEvent(event),
+                                    icon: const Icon(Icons.check),
                                   ),
-                                );
-                              },
+                                  IconButton(
+                                    onPressed: () => declineEvent(event),
+                                    icon: const Icon(Icons.close),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ],
@@ -168,40 +243,31 @@ class _AdminApprovalState extends State<AdminApproval> {
 
 class DetailsScreen extends StatelessWidget {
   final dynamic data;
-  final Function(String) onApprove;
 
-  const DetailsScreen({Key? key, required this.data, required this.onApprove}) : super(key: key);
+  const DetailsScreen({Key? key, required this.data}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Details'),
+        title: const Text('Details'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               'Details:',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             Text(data.details),
-            SizedBox(height: 20),
-            Text(
+            const SizedBox(height: 20),
+            const Text(
               'Date:',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             Text(data.date),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                onApprove(data.id);
-                Navigator.pop(context); // Close the details screen after approving
-              },
-              child: Text('Approve'),
-            ),
           ],
         ),
       ),
