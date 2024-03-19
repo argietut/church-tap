@@ -1,4 +1,4 @@
-import 'package:bethel_app_final/FRONT_END/MemberScreens/screen_pages/profile_screen_pages/my_profile.dart';
+import 'package:bethel_app_final/FRONT_END/MemberScreens/screen_pages/profile_screen_pages/user_profile/my_profile.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/screen_pages/profile_screen_pages/settings.dart';
 import 'package:bethel_app_final/FRONT_END/authentications/admin_auth/admin_register_page.dart';
 import 'package:bethel_app_final/FRONT_END/constant/color.dart';
@@ -39,7 +39,7 @@ class _AdminSettingsState extends State<AdminSettings> {
               IconButton(
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(
-                      builder: (context) => const MyProfile()
+                      builder: (context) =>  MyProfile()
                   ),
                   );
                 },
@@ -80,7 +80,7 @@ class _AdminSettingsState extends State<AdminSettings> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const MyProfile()),
+                MaterialPageRoute(builder: (context) =>  MyProfile()),
               );
             },
             child: const Padding(

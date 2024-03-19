@@ -25,6 +25,7 @@ class _AdminApprovalState extends State<AdminApproval> {
             Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+
               sortingButton.buildIconButton(onPressed: () {
                 // Handle sorting logic here
                 sortingButton.toggleSortingOption();
