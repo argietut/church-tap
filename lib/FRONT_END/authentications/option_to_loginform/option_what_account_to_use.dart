@@ -1,26 +1,22 @@
 import 'package:bethel_app_final/BACK_END/Services/Functions/Member_Functions/member_functions.dart';
+import 'package:bethel_app_final/FRONT_END/MemberScreens/screens/terms_page.dart';
 import 'package:bethel_app_final/FRONT_END/authentications/auth_classes/squaretile.dart';
 import 'package:bethel_app_final/FRONT_END/authentications/member_auth/member_auth_page.dart';
 import 'package:bethel_app_final/FRONT_END/authentications/member_auth/member_register_page.dart';
 import 'package:bethel_app_final/FRONT_END/constant/color.dart';
-import 'package:bethel_app_final/FRONT_END/screens/privacy_policy_page.dart';
-import 'package:bethel_app_final/FRONT_END/screens/terms_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class OptionToPlatformToLogin extends StatelessWidget {
-   OptionToPlatformToLogin({Key? key, this.onTap}) : super(key: key);
+   const OptionToPlatformToLogin({Key? key, this.onTap}) : super(key: key);
 
-  void Function()? onTap;
+ final void Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
          automaticallyImplyLeading: true,
-        title: const Text(''),
-        // backgroundColor: appGreen2,
-
       ),
 
       body:Center(
@@ -30,28 +26,33 @@ class OptionToPlatformToLogin extends StatelessWidget {
             children: [
               Image.asset(
                   'assets/images/churchmain.png',
-                   width: 450,
-                  height: 290,
+
+                   width: 380,
+                  height: 240,
                 ),
-                const SizedBox(height: 50),
+                const SizedBox(height: 20),
+
               const Text('Welcome To',
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
-                 // fontFamily:'GreatVibes',
                     color: appBlack,
                   ),
               ),
               const Text('Church Tap',
                   style: TextStyle(
-                      fontSize: 44,
+
+                      fontSize: 36,
+
                   fontWeight: FontWeight.bold,
                   fontFamily: 'ProtestRiot',
                     color: appGreen
 
                   )
               ),
-              const SizedBox(height: 30),
+
+              const SizedBox(height: 50),
+
               Container(
                 width: 280,
                 height: 45,
@@ -90,14 +91,16 @@ class OptionToPlatformToLogin extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 12),
+
+              const SizedBox(height: 5),
+
               const Text(
                 'or',
                 style: TextStyle(color: appBlack,
                     fontSize: 12
                 ),
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 5),
               TextButton(
                 onPressed: () {
                   showDialog(
@@ -109,38 +112,33 @@ class OptionToPlatformToLogin extends StatelessWidget {
                           fontSize: 14
                         ),
                         ),
-                        content: Container(
-                          width: double.maxFinite,
-                          child: Column(
 
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-
-
-                              const SizedBox(height: 10),
-                              SingleChildScrollView(
-                                child: TextButton(
-                                  onPressed: () {
-                                    Get.to(() =>  MemberRegisterPage(
-                                      onTap: () {
-                                        Navigator.pop(context);
-                                      },),
-                                      transition: Transition.zoom,
-                                      duration: const Duration(seconds: 1),
-                                    );
+                        content: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const SizedBox(height: 6),
+                            TextButton(
+                              onPressed: () {
+                                Get.to(() =>  MemberRegisterPage(
+                                  onTap: () {
+                                    Navigator.pop(context);
                                   },
-                                  child: const Row(
-                                    children: [
-                                      Icon(Icons.email),
-                                      SizedBox(width: 10),
-                                      Text(
-                                        'SIGN UP WITH E-MAIL',
-                                        style: TextStyle(
-                                          color: appBlack,
-                                          fontSize: 10,
-                                        ),
-                                      ),
-                                    ],
+                                ),
+                                  transition: Transition.zoom,
+                                  duration: const Duration(milliseconds: 500),
+                                );
+                              },
+                              child: const Row(
+                                children: [
+                                  Icon(Icons.email),
+                                  SizedBox(width: 10),
+                                  Text(
+                                    'SIGN UP WITH E-MAIL',
+                                    style: TextStyle(
+                                      color: appBlack,
+                                      fontSize: 12,
+                                    ),
+
                                   ),
                                 ),
                               ),
@@ -158,7 +156,7 @@ class OptionToPlatformToLogin extends StatelessWidget {
                   height: 45,
                   decoration: BoxDecoration(
                     border: Border.all(color: appBlack),
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(20),
                     color: appWhite,
                   ),
                   child: const Padding(
@@ -172,16 +170,19 @@ class OptionToPlatformToLogin extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 5),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children:[
                   const Text('Already have an account?'),
+
+                  const SizedBox(width: 6),
+
                   GestureDetector(
                     onTap: (){
                       Get.to(() => const MemberAuthPage(),
-                          transition: Transition.leftToRightWithFade,
-                        duration: const Duration(seconds: 1)
+                          transition: Transition.fadeIn,
+                        duration: const Duration(milliseconds: 500)
                       );
                     },
                     child: const Text(
@@ -196,68 +197,44 @@ class OptionToPlatformToLogin extends StatelessWidget {
                 ],
               ),
 
-              const SizedBox(height: 100),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Row(crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      const Text('By signing in you agree to our'),
-                      GestureDetector(
-                        child: TextButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => const Terms()),
-                            );
-                          },
-                          child: const Text('Terms',
-                          style: TextStyle(color: appGreen,
-                          decoration: TextDecoration.underline
+                 const SizedBox(height: 70),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8.0), // Adjust padding as needed
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text('By signing in you agree to our'),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const Terms(),
                           ),
-                          ),
-                        ),
-                      ),
-                      const Text('and'),
-                      TextButton(
+                        );
+                      },
+                      child: TextButton(
                         onPressed: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) =>  const PrivacyPolicyPage()),
+                            MaterialPageRoute(
+                              builder: (context) => const Terms(),
+                            ),
                           );
                         },
-                        child: const Text('Privacy',
-
-                         style: TextStyle(color: appGreen,
-                        decoration: TextDecoration.underline
-                        ),
+                        child: const Text(
+                          'Terms of Use',
+                          style: TextStyle(
+                            color: appGreen,
+                            decoration: TextDecoration.underline,
+                          ),
                         ),
                       ),
-                        ]
                     ),
-                    //ayaw ni hilabti
 
-                    // const Text('and'),
-                    // TextButton(
-                    //   onPressed: () {
-                    //     Navigator.push(
-                    //       context,
-                    //       MaterialPageRoute(
-                    //         builder: (context) => const PrivacyPolicyPage(),
-                    //       ),
-                    //     );
-                    //   },
-                    //   child: const Text(
-                    //     'Privacy Policy',
-                    //     style: TextStyle(
-                    //       color: appGreen,
-                    //       decoration: TextDecoration.underline,
-                    //     ),
-                    //   ),
-                    // ),
                   ],
                 ),
+              ),
 
             ],
           ),

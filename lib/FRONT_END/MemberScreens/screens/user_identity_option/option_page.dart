@@ -1,8 +1,8 @@
 import 'dart:ui';
+import 'package:bethel_app_final/FRONT_END/MemberScreens/screens/user_identity_option/contact_us.dart';
 import 'package:bethel_app_final/FRONT_END/authentications/admin_auth/admin_auth_page.dart';
 import 'package:bethel_app_final/FRONT_END/authentications/option_to_loginform/option_what_account_to_use.dart';
 import 'package:bethel_app_final/FRONT_END/constant/color.dart';
-import 'package:bethel_app_final/FRONT_END/screens/option_components/contact_us.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -26,10 +26,22 @@ class OptionPage extends StatelessWidget {
       drawer: SafeArea(
         child: Drawer(
           child: ListView(
-            padding: EdgeInsets.zero,
+            padding: const EdgeInsets.all(0),
             children: [
+
+              const DrawerHeader(
+                decoration: BoxDecoration(
+                    color: appGreen
+                ),
+                child: null,
+              ),
+
+                const SizedBox(height: 30),
+
               ListTile(
-                leading: const Icon(Icons.contact_emergency_outlined),
+                leading: const Icon(
+                    Icons.contact_page, color: appGreen
+                ),
                 title: const Text('Contact Us'),
                 onTap: () {
                   Get.to(const ContactUs());
@@ -71,9 +83,10 @@ class OptionPage extends StatelessWidget {
                       child: GestureDetector(
                         child: ElevatedButton(
                           onPressed: () {
-                            Get.to(() => AdminAuthPage(),
+                            Get.to(() => const AdminAuthPage(),
                                 transition: Transition.fade,
-                            duration: const Duration(seconds: 1));
+                            duration: const Duration(milliseconds: 500)
+                            );
                           },
                           child: const Column(
                             children: [
@@ -92,7 +105,7 @@ class OptionPage extends StatelessWidget {
                                   'Access your Admin Account.',
                                   style: TextStyle(
                                     fontSize: 12,
-                                    color: Colors.black,
+                                    color: appBlack,
                                   ),
                                 ),
                               ),
@@ -108,9 +121,10 @@ class OptionPage extends StatelessWidget {
                       child: GestureDetector(
                         child: ElevatedButton(
                           onPressed: () {
-                            Get.to(() => OptionToPlatformToLogin(),
+                            Get.to(() => const OptionToPlatformToLogin(),
                                 transition: Transition.fade,
-                                duration: const Duration(seconds: 1));
+                                duration: const Duration(milliseconds: 500)
+                            );
                           },
                           child: const Column(
                             children: [
@@ -129,7 +143,7 @@ class OptionPage extends StatelessWidget {
                                   'Sign in to your account or create a new account.',
                                   style: TextStyle(
                                     fontSize: 12,
-                                    color: Colors.black,
+                                    color: appBlack,
                                   ),
                                 ),
                               ),

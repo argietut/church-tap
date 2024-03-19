@@ -76,7 +76,7 @@ class _HomePageState extends State<HomePage> {
             ),
             BottomNavigationBarItem(
               icon: Icon(
-                Icons.message,
+                Icons.notifications,
                 size: 20,
               ),
               label: 'Notifications',
