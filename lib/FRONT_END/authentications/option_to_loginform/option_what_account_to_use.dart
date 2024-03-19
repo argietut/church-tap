@@ -8,15 +8,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class OptionToPlatformToLogin extends StatelessWidget {
-   const OptionToPlatformToLogin({Key? key, this.onTap}) : super(key: key);
+  const OptionToPlatformToLogin({Key? key, this.onTap}) : super(key: key);
 
- final void Function()? onTap;
+  final void Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-         automaticallyImplyLeading: true,
+        automaticallyImplyLeading: true,
       ),
 
       body:Center(
@@ -25,34 +25,28 @@ class OptionToPlatformToLogin extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset(
-                  'assets/images/churchmain.png',
-
-                   width: 380,
-                  height: 240,
-                ),
-                const SizedBox(height: 20),
-
+                'assets/images/churchmain.png',
+                width: 380,
+                height: 240,
+              ),
+              const SizedBox(height: 20),
               const Text('Welcome To',
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                    color: appBlack,
-                  ),
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                  color: appBlack,
+                ),
               ),
               const Text('Church Tap',
                   style: TextStyle(
-
                       fontSize: 36,
-
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'ProtestRiot',
-                    color: appGreen
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'ProtestRiot',
+                      color: appGreen
 
                   )
               ),
-
               const SizedBox(height: 50),
-
               Container(
                 width: 280,
                 height: 45,
@@ -91,14 +85,10 @@ class OptionToPlatformToLogin extends StatelessWidget {
                   ),
                 ),
               ),
-
               const SizedBox(height: 5),
-
               const Text(
                 'or',
-                style: TextStyle(color: appBlack,
-                    fontSize: 12
-                ),
+                style: TextStyle(color: appBlack, fontSize: 12),
               ),
               const SizedBox(height: 5),
               TextButton(
@@ -108,11 +98,10 @@ class OptionToPlatformToLogin extends StatelessWidget {
                     builder: (BuildContext context) {
                       return AlertDialog(
                         title: const Text('Create your account',
-                        style: TextStyle(
-                          fontSize: 14
+                          style: TextStyle(
+                              fontSize: 18
+                          ),
                         ),
-                        ),
-
                         content: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
@@ -138,14 +127,11 @@ class OptionToPlatformToLogin extends StatelessWidget {
                                       color: appBlack,
                                       fontSize: 12,
                                     ),
-
                                   ),
-                                ),
+                                ],
                               ),
-
-
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       );
                     },
@@ -175,16 +161,15 @@ class OptionToPlatformToLogin extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children:[
                   const Text('Already have an account?'),
-
                   const SizedBox(width: 6),
-
                   GestureDetector(
                     onTap: (){
                       Get.to(() => const MemberAuthPage(),
                           transition: Transition.fadeIn,
-                        duration: const Duration(milliseconds: 500)
+                          duration: const Duration(milliseconds: 500)
                       );
                     },
+
                     child: const Text(
                       'Login now',
                       style: TextStyle(
@@ -197,7 +182,7 @@ class OptionToPlatformToLogin extends StatelessWidget {
                 ],
               ),
 
-                 const SizedBox(height: 70),
+              const SizedBox(height: 70),
               Padding(
                 padding: const EdgeInsets.only(bottom: 8.0), // Adjust padding as needed
                 child: Row(
@@ -235,7 +220,6 @@ class OptionToPlatformToLogin extends StatelessWidget {
                   ],
                 ),
               ),
-
             ],
           ),
         ),
