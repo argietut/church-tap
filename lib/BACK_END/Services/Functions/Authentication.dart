@@ -12,13 +12,13 @@ class TapAuth {
   late String _token;
   late UserCredential _userCredential;
   User? _user;
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseAuth auth = FirebaseAuth.instance;
   late UserStorage store;
 
   Future<void> createUserAuth(String name, String email,
       String password) async {
     try {
-      _userCredential = await _auth.createUserWithEmailAndPassword(
+      _userCredential = await auth.createUserWithEmailAndPassword(
           email: email, password: password);
       sendUserVerifcationEmail();
       _userCredential.user?.updateDisplayName(name);
@@ -35,9 +35,9 @@ class TapAuth {
   }
 
   Future<bool> loginUserAuth(String email, String password) async {
-    _auth.signOut();
+    auth.signOut();
     try {
-      final userCredential = await _auth.signInWithEmailAndPassword(
+      final userCredential = await auth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
@@ -46,7 +46,7 @@ class TapAuth {
       if (user != null) {
         if (!user.emailVerified) {
           // Sign out the user if the email is not verified
-          await _auth.signOut();
+          await auth.signOut();
           return false; // Account not verified
         } else {
           // Proceed to sign in the user since the email is verified
@@ -63,7 +63,7 @@ class TapAuth {
   }
 
 Future<void> sendUserVerifcationEmail() async{
-    _auth.currentUser?.sendEmailVerification();
+    auth.currentUser?.sendEmailVerification();
 }
 
     void setRegisterAllDetails() {
@@ -96,6 +96,6 @@ Future<void> sendUserVerifcationEmail() async{
       return user_full_details;
     }
     getCurrentUserUID(){
-    return _auth.currentUser?.uid;
+    return auth.currentUser?.uid;
     }
 }
