@@ -1,4 +1,5 @@
 import 'dart:developer';
+
 import 'package:bethel_app_final/BACK_END/Services/Functions/Users.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -61,8 +62,7 @@ class TapAuth {
     }
   }
 
-
-  Future<void> sendUserVerifcationEmail() async{
+Future<void> sendUserVerifcationEmail() async{
     _auth.currentUser?.sendEmailVerification();
 }
 
@@ -95,18 +95,7 @@ class TapAuth {
       };
       return user_full_details;
     }
-
-    //error snack bar sa login
-  bool isEmailVerified() {
-    final currentUser = _auth.currentUser;
-    if (currentUser != null) {
-      // Check if the user is logged in and their email is verified
-      return currentUser.emailVerified;
-    } else {
-      // If the user is not logged in, return false
-      return false;
+    getCurrentUserUID(){
+    return _auth.currentUser?.uid;
     }
-  }
-
-
 }
