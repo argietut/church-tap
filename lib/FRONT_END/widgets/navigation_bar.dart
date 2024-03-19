@@ -3,8 +3,10 @@ import 'package:bethel_app_final/FRONT_END/MemberScreens/event_page.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/home_page.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/notifications.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/profile_page.dart';
+import 'package:bethel_app_final/FRONT_END/MemberScreens/screen_pages/profile_screen_pages/calendar.dart';
 import 'package:bethel_app_final/FRONT_END/constant/color.dart';
 import 'package:bethel_app_final/FRONT_END/widgets/Calendar.dart';
+import 'package:bethel_app_final/FRONT_END/widgets/eventPage.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -18,7 +20,7 @@ class _HomePageState extends State<HomePage> {
   int _currentTab = 0;
   final List<StatefulWidget> _children = [
     const MemberHomePage(),
-    const CustomCalendar(type: "members"),
+    const EventPage(),
     const Notifications(),
     const Profile(),
   ];
@@ -108,7 +110,7 @@ class _HomePageState extends State<HomePage> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const AppointmentPage()),
+              MaterialPageRoute(builder: (context) => const CustomCalendar(type: "member")),
             );
           },
           shape: RoundedRectangleBorder(

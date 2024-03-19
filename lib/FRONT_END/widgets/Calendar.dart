@@ -1,5 +1,5 @@
-import 'package:bethel_app_final/FRONT_END/widgets/add_events.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:bethel_app_final/FRONT_END/MemberScreens/appointment_page.dart';
+import 'package:bethel_app_final/FRONT_END/MemberScreens/screen_pages/appointment_source_directory/add_appointment.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -19,15 +19,14 @@ class _CustomCalendarState extends State<CustomCalendar> {
   DateTime _focusedDay = DateTime.now();
   CalendarFormat _calendarFormat = CalendarFormat.month;
   int currentYear = DateTime.now().year;
+
+
   @override
   Widget build(BuildContext context) {
-    OutlinedButton(onPressed: () {
-
-    }, child: const Text("Hello World"));
     _tableCalendar = TableCalendar(
       focusedDay: _focusedDay,
       firstDay: DateTime.utc(currentYear, 1, 1),
-      lastDay: DateTime.utc(currentYear + 10, 1, 1),
+      lastDay: DateTime.utc(currentYear + 1, 1, 1),
       selectedDayPredicate: (day) {
         return isSameDay(_selectedDay, day);
       },
@@ -53,6 +52,20 @@ class _CustomCalendarState extends State<CustomCalendar> {
               color: Colors.blue)
           ),
       calendarBuilders: CalendarBuilders(
+        defaultBuilder:(context, day, focusedDay) {
+          if(day.weekday == DateTime.sunday || day.weekday == DateTime.saturday){
+            return  Container(
+              decoration: BoxDecoration(color: Colors.green.shade300),
+              child: Center(
+                child: Text(
+                  "${day.day}",
+                  style: TextStyle(
+                      color: Colors.black),
+                ),
+              ),
+            );
+          }
+        },
         dowBuilder: (context, day) {
           final red = DateFormat.E().format(day);
           final blue = DateFormat.E().format(day);
@@ -94,12 +107,14 @@ return member(context);
 
 Widget member(BuildContext context){
   return Scaffold(
-    body: ListView(children: [Row(children: [AppointmentMakerButton(),EventMakerButton()],mainAxisAlignment: MainAxisAlignment.end,),_tableCalendar],)
+    appBar: AppBar(
+      automaticallyImplyLeading: true),
+    body: ListView(children: [_tableCalendar,Row(children: [AppointmentMakerButton(),EventMakerButton()],mainAxisAlignment: MainAxisAlignment.center)],)
     ,);
 }
 Widget AppointmentMakerButton(){
     return TextButton(onPressed: () {
-      Navigator.push(context, MaterialPageRoute(builder: (context) => AddEvent(),));
+      Navigator.push(context, MaterialPageRoute(builder: (context) => AddAppointment(firstDate: DateTime.utc(currentYear,1,1), lastDate: DateTime(currentYear+1,1,1,0), selectedDate:_selectedDay ),));
     }, child: Row(children: [Icon(Icons.calendar_today),Text("  Appointment")],
       mainAxisAlignment: MainAxisAlignment.center,),
     );

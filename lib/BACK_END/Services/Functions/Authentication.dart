@@ -87,4 +87,7 @@ Future<void> sendUserVerifcationEmail() async{
       };
       return user_full_details;
     }
+    getCurrentUserUID(){
+    return _auth.currentUser?.uid;
+    }
 }

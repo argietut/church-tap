@@ -1,3 +1,5 @@
+import 'package:bethel_app_final/BACK_END/Services/Functions/Authentication.dart';
+import 'package:bethel_app_final/BACK_END/Services/Functions/Users.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -14,6 +16,8 @@ class AddAppointment extends StatefulWidget {
 }
 
 class _AddAppointmentState extends State<AddAppointment> {
+  late TapAuth tapAuth;
+  late UserStorage userStorage;
   late DateTime _selectedDate;
   final _descController = TextEditingController();
   String _selectedAppointmentType = '';
@@ -62,6 +66,9 @@ class _AddAppointmentState extends State<AddAppointment> {
       padding: const EdgeInsets.all(16.0),
       children: [
         InputDatePickerFormField(
+          errorInvalidText: "Date is not valid ",
+          errorFormatText: "Date is not in a Correct Format",
+          acceptEmptyDate: false,
           firstDate: widget.firstDate,
           lastDate: widget.lastDate,
           initialDate: _selectedDate,
@@ -103,7 +110,6 @@ class _AddAppointmentState extends State<AddAppointment> {
   Future<List<String>> _fetchAppointmentTypes() async {
     try {
       // Simulate fetching event types from Firestore
-      await Future.delayed(Duration(seconds: 1)); // Simulate network delay
       List<String> appointmentTypes = ['Meeting', 'Conference', 'Seminar', 'Workshop', 'Webinar'];
       return appointmentTypes;
     } catch (e) {
@@ -111,30 +117,31 @@ class _AddAppointmentState extends State<AddAppointment> {
       return [];
     }
   }
-
+// DEPRECATED
   void _addAppointment(DateTime selectedDate) async {
+    tapAuth = TapAuth();
+    userStorage = UserStorage();
     final description = _descController.text;
-
-    final currentUser = FirebaseAuth.instance.currentUser;
-    if (currentUser == null) {
+    if (tapAuth.getCurrentUserUID() == null) {
       print('No user is currently signed in');
       return;
     }
 
-    final appointmentDocRef = await FirebaseFirestore.instance.collection('appointments').add({
+    var page = <String, dynamic>{
       "description": description,
       "date": Timestamp.fromDate(_selectedDate),
-      "userID": currentUser.uid,
+      "userID": tapAuth.getCurrentUserUID(),
       "appointmenttype": _selectedAppointmentType,
-    });
+    };
+    userStorage.createMemberEvent(tapAuth.getCurrentUserUID(), page,"member");
 
-    final appointment = Appointment(
+/*    final appointment = Appointment(
       id: appointmentDocRef.id,
       description: description,
       date: _selectedDate,
       userID: currentUser.uid,
       appointmenttype: _selectedAppointmentType,
-    );
+    );*/
 
     _showSuccessDialog();
   }

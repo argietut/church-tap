@@ -15,7 +15,8 @@ class UserStorage {
 
   Future<void> createMemberEvent(String uniqueID,Map<String,dynamic> dateTime,String event) async {
     try{
-      db.collection("users").doc("members").collection(uniqueID).doc(event).set(dateTime);
+      db.collection("users").doc("members").collection(uniqueID).doc("Event").collection("Pending Appointment").doc().set(dateTime);
+
     }catch(e){
       log("Error code STORAGE: $e");
     }
