@@ -8,7 +8,7 @@ class Appointment {
   final String date;
   final String details;
 
-  Appointment({required this.id, required this.date, required this.details});
+  Appointment( {required this.id, required this.date, required this.details});
 }
 
 // Example class to represent an event
@@ -16,6 +16,7 @@ class Event {
   final String id;
   final String date;
   final String details;
+
 
   Event({required this.id, required this.date, required this.details});
 }
