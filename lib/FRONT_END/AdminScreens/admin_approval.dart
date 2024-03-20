@@ -2,24 +2,41 @@ import 'package:bethel_app_final/FRONT_END/constant/color.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-// Example class to represent an appointment
+// Updated Appointment class
 class Appointment {
   final String id;
-  final String date;
-  final String details;
+  final String appointmenttype;
+  final Timestamp date;
+  final String description;
+  final String userID;
 
-  Appointment( {required this.id, required this.date, required this.details});
+  Appointment({
+    required this.id,
+    required this.appointmenttype,
+    required this.date,
+    required this.description,
+    required this.userID,
+  });
 }
 
-// Example class to represent an event
+// Updated Event class
 class Event {
   final String id;
-  final String date;
-  final String details;
+  final String eventType;
+  final Timestamp date;
+  final String description;
+  final String userID;
 
-
-  Event({required this.id, required this.date, required this.details});
+  Event({
+    required this.id,
+    required this.eventType,
+    required this.date,
+    required this.description,
+    required this.userID,
+  });
 }
+
+// Existing Event class (unchanged)
 
 class AdminApproval extends StatefulWidget {
   const AdminApproval({Key? key}) : super(key: key);
@@ -41,32 +58,37 @@ class _AdminApprovalState extends State<AdminApproval> {
         .map((snapshot) => snapshot.docs
         .map((doc) => Appointment(
       id: doc.id,
-      details: doc['description'] ?? '',
-      date: doc['date'] != null
-          ? (doc['date'] as Timestamp).toDate().toString()
-          : '',
+      appointmenttype: doc['appointmenttype'] ?? '',
+      date: doc['date'],
+      description: doc['description'] ?? '',
+      userID: doc['userID'] ?? '',
     ))
         .toList());
+
     eventStream = FirebaseFirestore.instance
         .collection('events')
         .snapshots()
         .map((snapshot) => snapshot.docs
         .map((doc) => Event(
       id: doc.id,
-      details: doc['description'] ?? '',
-      date: doc['date'] != null
-          ? (doc['date'] as Timestamp).toDate().toString()
-          : '',
+      eventType: doc['eventType'] ?? '',
+      date: doc['date'],
+      description: doc['description'] ?? '',
+      userID: doc['userID'] ?? '',
     ))
         .toList());
+
+
   }
 
   Future<void> approveAppointment(Appointment appointment) async {
     final approvedAppointmentsCollection =
     FirebaseFirestore.instance.collection('approved_appointments');
     final appointmentData = {
-      'title': appointment.details,
+      'appointmenttype': appointment.appointmenttype,
       'date': appointment.date,
+      'description': appointment.description,
+      'userID': appointment.userID,
     };
 
     try {
@@ -85,8 +107,10 @@ class _AdminApprovalState extends State<AdminApproval> {
     final approvedEventsCollection =
     FirebaseFirestore.instance.collection('approved_events');
     final eventData = {
-      'title': event.details,
+      'eventType': event.eventType,
       'date': event.date,
+      'description': event.description,
+      'userID': event.userID,
     };
 
     try {
@@ -115,7 +139,10 @@ class _AdminApprovalState extends State<AdminApproval> {
 
   Future<void> declineEvent(Event event) async {
     try {
-      await FirebaseFirestore.instance.collection('events').doc(event.id).delete();
+      await FirebaseFirestore.instance
+          .collection('events')
+          .doc(event.id)
+          .delete();
       print('Event declined and removed');
     } catch (e) {
       print('Error declining event: $e');
@@ -182,11 +209,13 @@ class _AdminApprovalState extends State<AdminApproval> {
                         children: [
                           ...appointments.map(
                                 (appointment) => ListTile(
-                              title: Text(appointment.details),
+                              title: Text(appointment.description),
                               subtitle: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(appointment.date),
+                                  Text(appointment.appointmenttype),
+                                  Text(appointment.date.toDate().toString()),
+                                  Text('User ID: ${appointment.userID}'),
                                 ],
                               ),
                               trailing: Row(
@@ -206,11 +235,13 @@ class _AdminApprovalState extends State<AdminApproval> {
                           ),
                           ...events.map(
                                 (event) => ListTile(
-                              title: Text(event.details),
+                              title: Text(event.description),
                               subtitle: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(event.date),
+                                  Text(event.eventType),
+                                  Text(event.date.toDate().toString()),
+                                  Text('User ID: ${event.userID}'),
                                 ],
                               ),
                               trailing: Row(
