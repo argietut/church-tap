@@ -1,25 +1,22 @@
 import 'package:bethel_app_final/BACK_END/Services/Functions/Member_Functions/member_functions.dart';
+import 'package:bethel_app_final/FRONT_END/MemberScreens/screens/terms_page.dart';
 import 'package:bethel_app_final/FRONT_END/authentications/auth_classes/squaretile.dart';
 import 'package:bethel_app_final/FRONT_END/authentications/member_auth/member_auth_page.dart';
 import 'package:bethel_app_final/FRONT_END/authentications/member_auth/member_register_page.dart';
 import 'package:bethel_app_final/FRONT_END/constant/color.dart';
-import 'package:bethel_app_final/FRONT_END/screens/terms_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class OptionToPlatformToLogin extends StatelessWidget {
-   OptionToPlatformToLogin({Key? key, this.onTap}) : super(key: key);
+  const OptionToPlatformToLogin({Key? key, this.onTap}) : super(key: key);
 
-  void Function()? onTap;
+  final void Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-         automaticallyImplyLeading: true,
-        title: const Text(''),
-
-
+        automaticallyImplyLeading: true,
       ),
 
       body:Center(
@@ -28,29 +25,28 @@ class OptionToPlatformToLogin extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset(
-                  'assets/images/churchmain.png',
-                   width: 400,
-                  height: 250,
-                ),
-                const SizedBox(height: 30),
+                'assets/images/churchmain.png',
+                width: 380,
+                height: 240,
+              ),
+              const SizedBox(height: 20),
               const Text('Welcome To',
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                 // fontFamily:'GreatVibes',
-                    color: appBlack,
-                  ),
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                  color: appBlack,
+                ),
               ),
               const Text('Church Tap',
                   style: TextStyle(
-                      fontSize: 40,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'ProtestRiot',
-                    color: appGreen
+                      fontSize: 36,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'ProtestRiot',
+                      color: appGreen
 
                   )
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 50),
               Container(
                 width: 280,
                 height: 45,
@@ -89,12 +85,12 @@ class OptionToPlatformToLogin extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 5),
               const Text(
                 'or',
                 style: TextStyle(color: appBlack, fontSize: 12),
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 5),
               TextButton(
                 onPressed: () {
                   showDialog(
@@ -102,14 +98,14 @@ class OptionToPlatformToLogin extends StatelessWidget {
                     builder: (BuildContext context) {
                       return AlertDialog(
                         title: const Text('Create your account',
-                        style: TextStyle(
-                          fontSize: 18
-                        ),
+                          style: TextStyle(
+                              fontSize: 18
+                          ),
                         ),
                         content: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            const SizedBox(height: 10),
+                            const SizedBox(height: 6),
                             TextButton(
                               onPressed: () {
                                 Get.to(() =>  MemberRegisterPage(
@@ -118,7 +114,7 @@ class OptionToPlatformToLogin extends StatelessWidget {
                                   },
                                 ),
                                   transition: Transition.zoom,
-                                  duration: const Duration(seconds: 1),
+                                  duration: const Duration(milliseconds: 500),
                                 );
                               },
                               child: const Row(
@@ -129,7 +125,7 @@ class OptionToPlatformToLogin extends StatelessWidget {
                                     'SIGN UP WITH E-MAIL',
                                     style: TextStyle(
                                       color: appBlack,
-                                      fontSize: 10,
+                                      fontSize: 12,
                                     ),
                                   ),
                                 ],
@@ -146,7 +142,7 @@ class OptionToPlatformToLogin extends StatelessWidget {
                   height: 45,
                   decoration: BoxDecoration(
                     border: Border.all(color: appBlack),
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(20),
                     color: appWhite,
                   ),
                   child: const Padding(
@@ -160,17 +156,17 @@ class OptionToPlatformToLogin extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 5),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children:[
                   const Text('Already have an account?'),
-                  const SizedBox(width: 5),
+                  const SizedBox(width: 6),
                   GestureDetector(
                     onTap: (){
                       Get.to(() => const MemberAuthPage(),
-                          transition: Transition.leftToRightWithFade,
-                        duration: const Duration(seconds: 1)
+                          transition: Transition.fadeIn,
+                          duration: const Duration(milliseconds: 500)
                       );
                     },
 
@@ -220,24 +216,7 @@ class OptionToPlatformToLogin extends StatelessWidget {
                         ),
                       ),
                     ),
-                    // const Text('and'),
-                    // TextButton(
-                    //   onPressed: () {
-                    //     Navigator.push(
-                    //       context,
-                    //       MaterialPageRoute(
-                    //         builder: (context) => const PrivacyPolicyPage(),
-                    //       ),
-                    //     );
-                    //   },
-                    //   child: const Text(
-                    //     'Privacy Policy',
-                    //     style: TextStyle(
-                    //       color: appGreen,
-                    //       decoration: TextDecoration.underline,
-                    //     ),
-                    //   ),
-                    // ),
+
                   ],
                 ),
               ),
@@ -247,4 +226,4 @@ class OptionToPlatformToLogin extends StatelessWidget {
       ),
     );
   }
-}
+}//ttt

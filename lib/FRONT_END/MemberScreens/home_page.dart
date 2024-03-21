@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/map_components/map_page.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/screen_pages/home_screen_pages/mapstoragescreen.dart';
+import 'package:bethel_app_final/FRONT_END/MemberScreens/widget_member/sort_icon.dart';
 import 'package:bethel_app_final/FRONT_END/constant/color.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/screen_pages/home_screen_pages/search_button_details.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -19,6 +20,7 @@ void signUserOut() {
 
 class _MemberHomePageState extends State<MemberHomePage> {
   bool _isSearching = false;
+  SortingButton sortingButton = SortingButton();
 
   @override
   Widget build(BuildContext context) {
@@ -35,17 +37,20 @@ class _MemberHomePageState extends State<MemberHomePage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  IconButton(
-                    onPressed: () {},
-                    style: IconButton.styleFrom(
-                      shape: const CircleBorder(
-                        side: BorderSide(
-                            color: appGrey,
-                            width: 1.0),
-                      ),
-                    ),
-                    icon: const Icon(Icons.sort),
-                  ),
+
+                  sortingButton.buildIconButton(onPressed: () {
+                    // Handle sorting logic here
+                    sortingButton.toggleSortingOption();
+                    // Implement sorting logic here based on sortingButton.currentSortingOption
+                    if (sortingButton.currentSortingOption == SortingOption.Month) {
+                      // Sort by month
+                      // Your sorting logic here...
+                    } else {
+                      // Sort by week
+                      // Your sorting logic here...
+                    }
+                  }),
+
                   GestureDetector(
                     onTap: () {
                       Navigator.push(
@@ -99,14 +104,12 @@ class _MemberHomePageState extends State<MemberHomePage> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-
                     Text(
                       'Check back later for updates!',
                       style: TextStyle(
                         fontSize: 14,
                       ),
                     ),
-
                   ],
                 ),
               ),

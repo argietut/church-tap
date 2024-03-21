@@ -55,15 +55,25 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Reset Password'),
-        backgroundColor: appGreen,
-        elevation: 0,
+       automaticallyImplyLeading: true,
       ),
       body: Padding(
-        padding: const EdgeInsets.all(20.0),
+        padding: const EdgeInsets.only(top: 40, left: 20, right: 20),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+
           children: [
+            const Text(
+              "Reset Password",
+              style: TextStyle(
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 15),
+            const Divider(
+              color: appGreen,
+            ),
+            const SizedBox(height: 50),
             const Text(
               'Enter your Email and we will send you a password reset link',
               textAlign: TextAlign.center,

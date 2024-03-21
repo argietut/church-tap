@@ -52,7 +52,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                         break;
                     }
                   },
-                  icon: const Icon(Icons.border_color_outlined),
+                  icon: const Icon(Icons.sort),
                 ),
                 const Text(
                   "Admin Events",
