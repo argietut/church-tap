@@ -25,39 +25,39 @@ class _MemberHomePageState extends State<MemberHomePage> {
   bool _isGreetingsShown = false; // Add a boolean flag
 
 
-  @override
-  void initState() {
-    super.initState();
-    Future.delayed(const Duration(seconds: 1), () {
-      if (!_isGreetingsShown) { // Check if greetings have not been shown before
-        _showWelcomeMessage();
-      }
-    });
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   Future.delayed(const Duration(seconds: 1), () {
+  //     if (!_isGreetingsShown) { // Check if greetings have not been shown before
+  //       _showWelcomeMessage();
+  //     }
+  //   });
+  // }
 
-  void _showWelcomeMessage() {
-    setState(() {
-      _isGreetingsShown = true; // Update the flag to indicate that greetings have been shown
-    });
-
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Welcome!'),
-          content: const Text('Thank you for joining us!'),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('Close'),
-            ),
-          ],
-        );
-      },
-    );
-  }
+  // void _showWelcomeMessage() {
+  //   setState(() {
+  //     _isGreetingsShown = true; // Update the flag to indicate that greetings have been shown
+  //   });
+  //
+  //   showDialog(
+  //     context: context,
+  //     builder: (BuildContext context) {
+  //       return AlertDialog(
+  //         title: const Text('Welcome!'),
+  //         content: const Text('Thank you for joining us!'),
+  //         actions: <Widget>[
+  //           TextButton(
+  //             onPressed: () {
+  //               Navigator.of(context).pop();
+  //             },
+  //             child: const Text('Close'),
+  //           ),
+  //         ],
+  //       );
+  //     },
+  //   );
+  // }
 
 
   @override

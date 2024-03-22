@@ -1,4 +1,5 @@
-import 'package:bethel_app_final/FRONT_END/MemberScreens/screen_pages/profile_screen_pages/user_profile/my_profile.dart';
+import 'package:bethel_app_final/BACK_END/Services/Functions/Authentication.dart';
+import 'package:bethel_app_final/FRONT_END/MemberScreens/screen_pages/profile_screen_pages/my_profile.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/screen_pages/profile_screen_pages/settings.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/screens/privacy_policy_page.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/screens/terms_page.dart';
@@ -7,11 +8,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-import 'event_page.dart';
 
 void signUserOut() {
   FirebaseAuth.instance.signOut();
 }
+TapAuth tapAuth = TapAuth();
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -27,6 +28,8 @@ class _ProfileState extends State<Profile> {
 
   final textStyle2 = const TextStyle(color: Colors.white);
 
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,8 +43,7 @@ class _ProfileState extends State<Profile> {
               IconButton(
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(
-                      builder: (context) =>  MyProfile(),
-                  ),
+                      builder: (context) => MyProfile()),
                   );
                 },
                 style: IconButton.styleFrom(
@@ -112,37 +114,7 @@ class _ProfileState extends State<Profile> {
             width: 50,
             height: 1,
           ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const Events()),
-              );
-            },
-            child: const Padding(
-              padding: EdgeInsets.all(15),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Expanded(
-                    child: Text(
-                      "Calendar",
-                      style: TextStyle(
-                          color: appBlack,
-                          fontSize: 17,
-                          fontWeight: FontWeight.w300),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                  Icon(
-                    Icons.calendar_month_outlined,
-                    color: appBlack,
-                  ),
-                ],
-              ),
-            ),
-          ),
+
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 30),
             decoration: const BoxDecoration(
@@ -151,37 +123,7 @@ class _ProfileState extends State<Profile> {
             width: 50,
             height: 1,
           ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const Settings()),
-              );
-            },
-            child: const Padding(
-              padding: EdgeInsets.all(15),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Expanded(
-                    child: Text(
-                      "Settings",
-                      style: TextStyle(
-                          color: appBlack,
-                          fontSize: 17,
-                          fontWeight: FontWeight.w300),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                  Icon(
-                    Icons.settings,
-                    color: appBlack,
-                  ),
-                ],
-              ),
-            ),
-          ),
+
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 30),
             decoration: const BoxDecoration(

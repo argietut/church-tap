@@ -20,21 +20,21 @@ class _NotificationsState extends State<Notifications> {
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  IconButton(
-                    onPressed: () {},
-                    icon: const Icon(Icons.tune),
-                  ),
-                  const Text(
-                    "Notifications",
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(width: 50),
-                ],
+          children: [
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(Icons.tune),
+            ),
+            const Text(
+              "Notifications",
+              style: TextStyle(
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
               ),
+            ),
+            const SizedBox(width: 50),
+          ],
+        ),
               const SizedBox(height: 15),
               const Divider(
                 color: appGreen,
@@ -46,13 +46,14 @@ class _NotificationsState extends State<Notifications> {
                     // Implement your logic for marking all as read here
                   },
                   style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(horizontal: 110, vertical: 4),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 50, vertical: 2),
                     foregroundColor: Colors.blue, // Change color as needed
                   ),
                   child: const Text(
                     'Mark all as read',
                     style: TextStyle(
-                        fontSize: 16,
+                        fontSize: 12,
                         fontWeight: FontWeight.bold,
                         color: appBlack
                     ),

@@ -1,11 +1,9 @@
-import 'package:bethel_app_final/FRONT_END/MemberScreens/appointment_page.dart';
-import 'package:bethel_app_final/FRONT_END/MemberScreens/event_page.dart';
+
 import 'package:bethel_app_final/FRONT_END/MemberScreens/home_page.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/notifications.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/profile_page.dart';
-import 'package:bethel_app_final/FRONT_END/MemberScreens/screen_pages/profile_screen_pages/calendar.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/widget_member/Calendar.dart';
-import 'package:bethel_app_final/FRONT_END/MemberScreens/widget_member/eventPage.dart';
+import 'package:bethel_app_final/FRONT_END/MemberScreens/eventPage.dart';
 import 'package:bethel_app_final/FRONT_END/constant/color.dart';
 import 'package:flutter/material.dart';
 
@@ -20,7 +18,7 @@ class _HomePageState extends State<HomePage> {
   int _currentTab = 0;
   final List<StatefulWidget> _children = [
     const MemberHomePage(),
-    const EventPage(),
+     const EventPage(),
     const Notifications(),
     const Profile(),
   ];
@@ -38,7 +36,7 @@ class _HomePageState extends State<HomePage> {
         color: appGreen2,
         child: BottomNavigationBar(
           elevation: 6,
-          backgroundColor: appGreen,
+          backgroundColor: appGreen2,
           selectedItemColor: appWhite,
           unselectedItemColor: appWhite,
           type: BottomNavigationBarType.fixed,
@@ -59,8 +57,11 @@ class _HomePageState extends State<HomePage> {
               ),
               label: 'Home',
               activeIcon: Text(
-                "",
-                style: TextStyle(fontSize: 8, color: appWhite),
+                "HOME",
+                style: TextStyle(
+                    fontSize: 8,
+                    color: appWhite
+                ),
               ),
             ),
             BottomNavigationBarItem(
@@ -70,8 +71,10 @@ class _HomePageState extends State<HomePage> {
               ),
               label: 'Events',
               activeIcon: Text(
-                "",
-                style: TextStyle(fontSize: 8),
+                "EVENTS",
+                style: TextStyle(
+                    fontSize: 8,
+                color: appWhite),
               ),
             ),
             BottomNavigationBarItem(
@@ -81,7 +84,7 @@ class _HomePageState extends State<HomePage> {
               ),
               label: 'Notifications',
               activeIcon: Text(
-                "",
+                "NOTIFICATIONS",
                 style: TextStyle(fontSize: 8),
               ),
             ),
@@ -92,7 +95,7 @@ class _HomePageState extends State<HomePage> {
               ),
               label: 'Profile',
               activeIcon: Text(
-                "",
+                "PROFILE",
                 style: TextStyle(fontSize: 8),
               ),
             ),

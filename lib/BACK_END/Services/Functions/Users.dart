@@ -6,7 +6,11 @@ class UserStorage {
   final FirebaseFirestore db = FirebaseFirestore.instance;
   Future<void> createUser(String uniqueID,Map<String,String> userInformation) async{
     try{
-      db.collection("users").doc("members").collection(uniqueID).doc("About User").set(userInformation);
+      db.collection("users")
+          .doc("members")
+          .collection(uniqueID)
+          .doc("About User")
+          .set(userInformation);
     }
     catch(e){
       log("Error code STORAGE: $e");
@@ -15,12 +19,29 @@ class UserStorage {
 
   Future<void> createMemberEvent(String uniqueID,Map<String,dynamic> dateTime,String event) async {
     try{
-      db.collection("users").doc("members").collection(uniqueID).doc("Event").collection("Pending Appointment").doc().set(dateTime);
+      db.collection("users")
+          .doc("members")
+          .collection(uniqueID)
+          .doc("Event")
+          .collection("Pending Appointment")
+          .doc().set(dateTime);
 
     }catch(e){
       log("Error code STORAGE: $e");
     }
   }
+
+  Stream<QuerySnapshot> fetchPendingAppointments(String uid) {
+    return db
+        .collection("users")
+        .doc("members")
+        .collection(uid)
+        .doc("Event")
+        .collection("Pending Appointment")
+        .snapshots();
+  }
+
+
   //TODO check if admin or not
 /*Future<bool> isAdmin(String uid) async{
     try{
