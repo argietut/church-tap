@@ -144,6 +144,7 @@ class _MemberLoginPageState extends State<MemberLoginPage> {
                       setState(() {
                         _obscurePassword = !_obscurePassword;
                       });
+                      Navigator.pop(context, true);
                     },
                     child: Icon(
                       _obscurePassword ? Icons.visibility_off : Icons.visibility,

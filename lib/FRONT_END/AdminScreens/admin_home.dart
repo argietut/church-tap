@@ -17,6 +17,7 @@ enum SortType { byDays, byWeeks, byMonths }
 
 class _AdminHomePageState extends State<AdminHomePage> {
   SortType _sortType = SortType.byDays;
+  List<dynamic> approvedData = [];
 
   void _sortBy(SortType sortType) {
     setState(() {
@@ -68,21 +69,49 @@ class _AdminHomePageState extends State<AdminHomePage> {
               color: appGreen,
             ),
             const SizedBox(height: 10),
-            const Text(
-              'No Events yet!',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
+            if (approvedData.isNotEmpty) // Display approved data if available
+              Expanded(
+                child: ListView.builder(
+                  itemCount: approvedData.length,
+                  itemBuilder: (context, index) {
+                    final data = approvedData[index];
+                    return ListTile(
+                      title: Text(data.title), // Replace with appropriate data field
+                      subtitle: Text(data.details), // Replace with appropriate data field
+                      // Add more UI elements as needed
+                    );
+                  },
+                ),
               ),
-            ),
-            const SizedBox(height: 10),
-            const Text(
-              'Time to chill and find yourself.',
-            ),
-            const SizedBox(height: 20),
+            if (approvedData.isEmpty) // Display message if no approved data
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Text(
+                      'No Events yet!',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      'Time to chill and find yourself.',
+                    ),
+                  ],
+                ),
+              ),
           ],
         ),
       ),
     );
+  }
+
+  // Method to update the approved data
+  void updateApprovedData(dynamic newData) {
+    setState(() {
+      approvedData.add(newData);
+    });
   }
 }

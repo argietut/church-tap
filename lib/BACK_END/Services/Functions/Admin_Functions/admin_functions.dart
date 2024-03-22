@@ -19,7 +19,7 @@ class AdminAuthServices {
         await FirebaseFirestore.instance.collection('admins').doc(admin.uid).set({
           'name': name,
           'email': email,
-          'userID': admin.uid,
+          'adminID': admin.uid,
 
           
         });
