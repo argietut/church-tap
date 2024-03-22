@@ -4,7 +4,6 @@ import 'package:bethel_app_final/BACK_END/Services/Functions/Authentication.dart
 import 'package:bethel_app_final/BACK_END/Services/Functions/Users.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 
 class EventPage extends StatefulWidget {
   const EventPage({Key? key}) : super(key: key);
