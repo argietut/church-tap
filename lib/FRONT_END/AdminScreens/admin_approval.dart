@@ -158,13 +158,29 @@ class _AdminApprovalState extends State<AdminApproval> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                IconButton(
-                  onPressed: () {
-                    // Add sorting functionality here
-                  },
-                  icon: const Icon(Icons.sort),
+
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+
+              sortingButton.buildIconButton(onPressed: () {
+                // Handle sorting logic here
+                sortingButton.toggleSortingOption();
+                // Implement sorting logic here based on sortingButton.currentSortingOption
+                if (sortingButton.currentSortingOption == ApprovalSortingOption.Month) {
+                  // Sort by month
+                  // Your sorting logic here...
+                } else {
+                  // Sort by week
+                  // Your sorting logic here...
+                }
+              }),
+              const SizedBox(width: 15),
+              const Text(
+                "Admin Approval",
+                style: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+
                 ),
                 const SizedBox(height: 10),
                 const Text(

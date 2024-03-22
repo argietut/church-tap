@@ -10,17 +10,55 @@ import 'package:flutter/material.dart';
 class MemberHomePage extends StatefulWidget {
   const MemberHomePage({Key? key}) : super(key: key);
 
+  void signUserOut() {
+    FirebaseAuth.instance.signOut();
+  }
+
   @override
   State<MemberHomePage> createState() => _MemberHomePageState();
 }
 
-void signUserOut() {
-  FirebaseAuth.instance.signOut();
-}
 
 class _MemberHomePageState extends State<MemberHomePage> {
   bool _isSearching = false;
   SortingButton sortingButton = SortingButton();
+  bool _isGreetingsShown = false; // Add a boolean flag
+
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   Future.delayed(const Duration(seconds: 1), () {
+  //     if (!_isGreetingsShown) { // Check if greetings have not been shown before
+  //       _showWelcomeMessage();
+  //     }
+  //   });
+  // }
+
+  // void _showWelcomeMessage() {
+  //   setState(() {
+  //     _isGreetingsShown = true; // Update the flag to indicate that greetings have been shown
+  //   });
+  //
+  //   showDialog(
+  //     context: context,
+  //     builder: (BuildContext context) {
+  //       return AlertDialog(
+  //         title: const Text('Welcome!'),
+  //         content: const Text('Thank you for joining us!'),
+  //         actions: <Widget>[
+  //           TextButton(
+  //             onPressed: () {
+  //               Navigator.of(context).pop();
+  //             },
+  //             child: const Text('Close'),
+  //           ),
+  //         ],
+  //       );
+  //     },
+  //   );
+  // }
+
 
   @override
   Widget build(BuildContext context) {

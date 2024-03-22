@@ -1,7 +1,9 @@
 import 'package:bethel_app_final/BACK_END/Services/Functions/Authentication.dart';
 import 'package:bethel_app_final/FRONT_END/authentications/auth_classes/my_button1.dart';
 import 'package:bethel_app_final/FRONT_END/authentications/auth_classes/my_textfield.dart';
+import 'package:bethel_app_final/FRONT_END/authentications/auth_classes/snackbar_error.dart';
 import 'package:bethel_app_final/FRONT_END/authentications/member_auth/member_login_page.dart';
+import 'package:bethel_app_final/FRONT_END/constant/color.dart';
 import 'package:flutter/material.dart';
 
 class MemberRegisterPage extends StatefulWidget {
@@ -34,87 +36,124 @@ class _MemberRegisterPageState extends State<MemberRegisterPage> {
       String confirmPassword = confirmPasswordController.text.trim();
 
       // Validate input fields
-      if (username.isEmpty ||
-          email.isEmpty ||
-          password.isEmpty ||
-          confirmPassword.isEmpty) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text("Please fill up all fields."),
-            duration: Duration(seconds: 3),
-          ),
+      if (username.isEmpty
+          || email.isEmpty
+          || password.isEmpty
+          || confirmPassword.isEmpty) {
+        SnackbarUtils.showCustomSnackbar(
+          context,
+          title: 'Ohh my god!',
+          messages: [
+            'Please fill out all fields to proceed.',
+            'Please try again!',
+          ],
         );
         return;
       }
 
+
       // Email validation logic
       if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(email)) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text("Please enter a valid email address format."),
-            duration: Duration(seconds: 3),
-          ),
+        SnackbarUtils.showCustomSnackbar(
+          context,
+          title: 'Ohh my god!',
+          messages: [
+            'Please enter a valid email address format.',
+            'Please try again!',
+          ],
         );
         return;
       }
+
+
       if (!email.endsWith("@gmail.com")) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text("Please enter a valid email address format."),
-            duration: Duration(seconds: 3),
-          ),
+        SnackbarUtils.showCustomSnackbar(
+          context,
+          title: 'Ohh my god!',
+          messages: [
+            'Please enter a valid email address format.',
+            'Please try again!',
+          ],
         );
         return;
       }
 
       // Password validation logic
       if (password.length < 8) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text("Password must be at least 8 characters long."),
-            duration: Duration(seconds: 3),
-          ),
+        SnackbarUtils.showCustomSnackbar(
+          context,
+          title: 'Ohh my god!',
+          messages: [
+            'Password must be at least 8 characters long.',
+            'Please try again!',
+          ],
         );
         return;
       }
+
+
 
       if (!RegExp(r'^(?=.*[a-zA-Z])(?=.*\d)[A-Za-z\d]+$').hasMatch(password)) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text("Password must contain both letters and numbers."),
-            duration: Duration(seconds: 3),
-          ),
+        SnackbarUtils.showCustomSnackbar(
+          context,
+          title: 'Ohh my god!',
+          messages: [
+            'Password must contain both letters and numbers.',
+            'Please try again!',
+          ],
         );
         return;
       }
 
+
       if (password != confirmPassword) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text("Passwords don't match!"),
-            duration: Duration(seconds: 3),
-          ),
+        SnackbarUtils.showCustomSnackbar(
+          context,
+          title: 'Ohh my god!',
+          messages: [
+            'Passwords dont match!',
+            'Please try again!',
+          ],
         );
         return;
       }
+
 
       // Sign up the user
       await tapAuth.createUserAuth(username, email, password);
 
-      // Show a Snackbar indicating successful registration
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Registration successful! Please check your email to verify your account.'),
-          duration: Duration(seconds: 5),
+          elevation: 0,
+          behavior: SnackBarBehavior.fixed,
+          backgroundColor: Colors.transparent,
+          content: Row(
+            children: [
+              Icon(
+                Icons.check_circle,
+                color: appGreen, // Adjust color as needed
+              ),
+              SizedBox(width: 16.0),
+              Expanded(
+                child: Text(
+                  'Registration successful! Please check your email to verify your account.',
+                  style: TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.bold,
+                      color: appBlack),
+                ),
+
+              ),
+            ],
+          ),
         ),
       );
 
-      // Show a loading indicator for 2 seconds
-      showDialog(
+       showDialog(
         context: context,
-        barrierDismissible: false,
+        barrierDismissible: true,
         builder: (BuildContext context) {
-          return const AlertDialog(
+          return AlertDialog(
             content: SizedBox(
               height: 50,
               child: Center(
@@ -125,124 +164,144 @@ class _MemberRegisterPageState extends State<MemberRegisterPage> {
         },
       );
 
-      // Delay for 2 seconds before navigating to the login page
-      await Future.delayed(const Duration(seconds: 2));
+      await Future.delayed(Duration(seconds: 1));
 
-      // Navigate to the member login page
+// Navigate to the member login page directly after registration
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => const MemberLoginPage()),
       );
     } catch (e) {
+      // Show a visually enhanced Snackbar with error message
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text("Failed to create account: $e"),
-          duration: const Duration(seconds: 3),
+          elevation: 0,
+          behavior: SnackBarBehavior.fixed,
+          backgroundColor: Colors.transparent,
+          content: Row(
+            children: [
+              const Icon(
+                Icons.error,
+                color: Colors.red, // Adjust color as needed
+              ),
+              const SizedBox(width: 16.0),
+              Expanded(
+                child: Text(
+                  'Failed to create account: $e', // Consider a user-friendly message here
+                  style: const TextStyle(fontSize: 16.0),
+                ),
+              ),
+            ],
+          ),
         ),
       );
     }
   }
 
+
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        automaticallyImplyLeading: true,
-      ),
-      body: SafeArea(
-        child: Center(
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Image.asset(
-                  'assets/images/churchmain.png',
-                  width: 370,
-                  height: 230,
-                ),
-                const SizedBox(height: 15),
-                const Padding(
-                  padding: EdgeInsets.only(
-                      right: 150), // Adjust the left padding as needed
-                  child: Text(
-                    'Create Account',
-                    style: TextStyle(
-                      color: Colors.black87,
-                      fontSize: 26,
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          automaticallyImplyLeading: true,
+        ),
+        body: SafeArea(
+          child: Center(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Image.asset(
+                    'assets/images/churchmain.png',
+                    width: 370,
+                    height: 230,
+                  ),
+                  const SizedBox(height: 15),
+                  const Padding(
+                    padding: EdgeInsets.only(
+                        right: 150), // Adjust the left padding as needed
+                    child: Text(
+                      'Create Account',
+                      style: TextStyle(
+                        color: Colors.black87,
+                        fontSize: 26,
+                      ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 15),
-                MyTextField(
-                  controller: usernameController,
-                  hintText: 'Username',
-                  obscureText: false,
-                ),
-                const SizedBox(height: 10),
-                MyTextField(
-                  controller: emailController,
-                  hintText: 'Email',
-                  obscureText: false,
-                ),
-                const SizedBox(height: 10),
-                MyTextField(
-                  controller: passwordController,
-                  hintText: 'Password',
-                  obscureText: _obscurePassword,
-                  suffixIcon: GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        _obscurePassword = !_obscurePassword;
-                      });
-                    },
-                    child: Icon(
-                      _obscurePassword ? Icons.visibility_off : Icons.visibility,
-                      color: Colors.grey,
+                  const SizedBox(height: 15),
+                  MyTextField(
+                    controller: usernameController,
+                    hintText: 'Username',
+                    obscureText: false,
+                  ),
+                  const SizedBox(height: 10),
+                  MyTextField(
+                    controller: emailController,
+                    hintText: 'Email',
+                    obscureText: false,
+                  ),
+                  const SizedBox(height: 10),
+                  MyTextField(
+                    controller: passwordController,
+                    hintText: 'Password',
+                    obscureText: _obscurePassword,
+                    suffixIcon: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          _obscurePassword = !_obscurePassword;
+                        });
+                      },
+                      child: Icon(
+                        _obscurePassword ? Icons.visibility_off : Icons.visibility,
+                        color: Colors.grey,
+                      ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 10),
-                MyTextField(
-                  controller: confirmPasswordController,
-                  hintText: 'Confirm Password',
-                  obscureText: _obscurePassword1,
-                  suffixIcon: GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        _obscurePassword1 = !_obscurePassword1;
-                      });
-                    },
-                    child: Icon(
-                      _obscurePassword1 ? Icons.visibility_off : Icons.visibility,
-                      color: Colors.grey,
+                  const SizedBox(height: 10),
+                  MyTextField(
+                    controller: confirmPasswordController,
+                    hintText: 'Confirm Password',
+                    obscureText: _obscurePassword1,
+                    suffixIcon: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          _obscurePassword1 = !_obscurePassword1;
+                        });
+                      },
+                      child: Icon(
+                        _obscurePassword1 ? Icons.visibility_off : Icons.visibility,
+                        color: Colors.grey,
+                      ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 10),
-                MyButton1(
-                  onTap: signUserUp,
-                ),
-                //  const SizedBox(height: 10),
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.center,
-                //   children: [
-                //     Text(
-                //       'Already have an account?',
-                //       style: TextStyle(color: Colors.grey[700]),
-                //     ),
-                //     const SizedBox(width: 4),
-                //     GestureDetector(
-                //       onTap: widget.onTap,
-                //       child: const Text(
-                //         'Login now',
-                //         style: TextStyle(
-                //           color: appGreen,
-                //           fontWeight: FontWeight.bold,
-                //         ),
-                //       ),
-                //     )
-                //   ],
-                // ),
-              ],
+                  const SizedBox(height: 10),
+                  MyButton1(
+                    onTap: signUserUp,
+                  ),
+                  //  const SizedBox(height: 10),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.center,
+                  //   children: [
+                  //     Text(
+                  //       'Already have an account?',
+                  //       style: TextStyle(color: Colors.grey[700]),
+                  //     ),
+                  //     const SizedBox(width: 4),
+                  //     GestureDetector(
+                  //       onTap: widget.onTap,
+                  //       child: const Text(
+                  //         'Login now',
+                  //         style: TextStyle(
+                  //           color: appGreen,
+                  //           fontWeight: FontWeight.bold,
+                  //         ),
+                  //       ),
+                  //     )
+                  //   ],
+                  // ),
+                ],
+              ),
             ),
           ),
         ),

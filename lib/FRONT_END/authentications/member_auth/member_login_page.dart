@@ -1,5 +1,6 @@
 import 'package:bethel_app_final/BACK_END/Services/Functions/Authentication.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/widget_member/navigation_bar.dart';
+import 'package:bethel_app_final/FRONT_END/authentications/auth_classes/snackbar_error.dart';
 import 'package:flutter/material.dart';
 import 'package:bethel_app_final/FRONT_END/authentications/auth_classes/my_button.dart';
 import 'package:bethel_app_final/FRONT_END/authentications/auth_classes/my_textfield.dart';
@@ -35,28 +36,32 @@ class _MemberLoginPageState extends State<MemberLoginPage> {
       String email = emailController.text.trim();
       String password = passwordController.text.trim();
 
+      // Inside your function or method
       if (email.isEmpty || password.isEmpty) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Please enter both email and password.'),
-            duration: Duration(seconds: 3),
-          ),
+        SnackbarUtils.showCustomSnackbar(
+          context,
+          title: 'Ohh my god!',
+          messages: [
+            'Please fill out all fields to proceed.',
+            'Please try again!',
+          ],
         );
         return;
       }
 
       try {
         bool loginSuccessful = await tapAuth.loginUserAuth(email, password);
+
         if (!loginSuccessful) {
-          // If login failed or account not verified, show Snackbar
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text(
-                'Your account is not verified yet. Please check your email and verify your account.',
-              ),
-              duration: Duration(seconds: 5),
-            ),
+          SnackbarUtils.showCustomSnackbar(
+            context,
+            title: 'Ohh my god!',
+            messages: [
+              'Your account is not verified yet.',
+              'Please check your email and verify your account.',
+            ],
           );
+
         } else {
           // If login successful and account verified, navigate to home page
           await Future.delayed(const Duration(seconds: 1));
@@ -75,7 +80,7 @@ class _MemberLoginPageState extends State<MemberLoginPage> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(errorMessage),
-            duration: Duration(seconds: 5),
+            duration: const Duration(seconds: 5),
           ),
         );
       }
