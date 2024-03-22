@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:developer';
+
 import 'package:bethel_app_final/BACK_END/Services/Functions/Authentication.dart';
 import 'package:bethel_app_final/BACK_END/Services/Functions/Users.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/appointment_page.dart';
@@ -24,13 +27,14 @@ class _CustomCalendarState extends State<CustomCalendar> {
   int currentYear = DateTime.now().year;
   UserStorage storage = UserStorage();
   TapAuth tapAuth = TapAuth();
+  late Future _pendingDate;
+  List<int> array = [];
 
-/*  @override
+  @override
   void initState() {
-    storage.getPendingDate(tapAuth.auth.currentUser!.uid);
+    _pendingDate = storage.getPendingDate(tapAuth.auth.currentUser!.uid);
     super.initState();
-  }*/
-
+  }
   @override
   Widget build(BuildContext context) {
     _tableCalendar = TableCalendar(
@@ -44,8 +48,6 @@ class _CustomCalendarState extends State<CustomCalendar> {
         setState(() {
           _selectedDay = selectedDay;
           _focusedDay = focusedDay;
-          print("Selected $_selectedDay");
-          print("Focused $_focusedDay");
         });
       },
       calendarFormat: _calendarFormat,
@@ -55,43 +57,15 @@ class _CustomCalendarState extends State<CustomCalendar> {
         });
       },
       calendarStyle: CalendarStyle(
-        weekendTextStyle: TextStyle(
-            color: Colors.red),
-        outsideDaysVisible: false,
+         // selectedDecoration: if(widget.type ),
+          weekendTextStyle: TextStyle(
+              color: Colors.red),
+          outsideDaysVisible: false,
           weekNumberTextStyle:TextStyle(
               color: Colors.blue)
-          ),
+      ),
       enabledDayPredicate: (day) {
-        List<dynamic> arr = [1,2,3,4,5];
-        Future<List> a = storage.getPendingDate(tapAuth.auth.currentUser!.uid);
-        a.then((value) {
-          print(value.length);
-        },);
-
-//WORKING BUT FUCKING PRINTS FUCKTILLION TIMES
-       /* Future<List> a = storage.getPendingDate(tapAuth.auth.currentUser!.uid);
-        a.then((value) {
-          for(int i = 0;i < value.length;i++){
-            print("${value[i]} $i ");
-          }
-        },);*/
-      //  fillList();
-        if(widget.type == "member") {
-          for(int i = 0;i < arr.length;i++){
-            if(day.day == arr[i]){
-              return false;
-            }
-          }
-        }
-        else{
-          if(day.day == 6){
-            return false;
-          }
-          else{
-            return true;
-          }
-        }
-  return true;
+        return true;
       },
       calendarBuilders: CalendarBuilders(
         disabledBuilder: (context, day, focusedDay) {
@@ -107,49 +81,65 @@ class _CustomCalendarState extends State<CustomCalendar> {
           );
         },
         defaultBuilder:(context, day, focusedDay) {
-          if(day.weekday == DateTime.sunday || day.weekday == DateTime.saturday){
-            return  Container(
-              decoration: BoxDecoration(color: Colors.green.shade300),
-              child: Center(
-                child: Text(
-                  "${day.day}",
-                  style: TextStyle(
-                      color: Colors.black),
-                ),
-              ),
-            );
+          if(widget.type == "member"){
+            for(int i = 0;i < array.length;i++){
+              if(array[i] == day.day){
+                return  Container(
+                  decoration: BoxDecoration(color: Colors.yellow.shade200,border: Border.all(color: Colors.black26,strokeAlign: BorderSide.strokeAlignInside)),
+                  child: Center(
+                    child: Text(
+                      "${day.day}",
+                      style: TextStyle(
+                          color: Colors.black),
+                    ),
+                  ),
+                );
+              }
+            }
           }
+
+
+
         },
         dowBuilder: (context, day) {
           final red = DateFormat.E().format(day);
           final blue = DateFormat.E().format(day);
-        if(day.weekday == DateTime.sunday || day.weekday == DateTime.saturday){
-          return Center(
-            child: Text(
-              red,
-              style: TextStyle(color: Colors.red),
-            ),
-          );
-        }
-        else{
-          return Center(
-            child: Text(
-              blue,
-              style: TextStyle(color: Colors.blue),
-            ),
-          );
-        }
-      },),
+          if(day.weekday == DateTime.sunday || day.weekday == DateTime.saturday){
+            return Center(
+              child: Text(red,
+                style: TextStyle(color: Colors.red),
+              ),
+            );
+          }
+          else{
+            return Center(
+              child: Text(
+                blue,
+                style: TextStyle(color: Colors.blue),
+              ),
+            );
+          }
+        },),
     );
+    return Scaffold(
+        body: FutureBuilder(future: _pendingDate, builder: (context, snapshot) {
+          if(snapshot.connectionState == ConnectionState.waiting && !snapshot.hasData){
+            return Center(
+              child: CircularProgressIndicator(
+                color: Colors.green.shade200,
+              ),);
+          }
+          else if(snapshot.connectionState == ConnectionState.done && snapshot.hasData && widget.type == "admin"){
+            return admin(context);
+          }
+          else {
+            array = snapshot.data;
+            return member(context);
+          }
 
 
-  if(widget.type == "admin"){
-return admin(context);
-  }
-
-  else{
-return member(context);
-  }
+        },)
+    );
 
   }
 

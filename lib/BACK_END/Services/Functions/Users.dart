@@ -22,7 +22,7 @@ class UserStorage {
     }
   }
 
- Future<List> getPendingDate(String uniqueID) async {
+ Future<List<int>> getPendingDate(String uniqueID) async {
     List<int> documents = [];
      await db.collection("users").doc("members").collection(uniqueID).doc("Event").collection("Pending Appointment")
         .get().then((value) {
