@@ -65,7 +65,7 @@ class _AddAppointmentState extends State<AddAppointment> {
     return ListView(
       padding: const EdgeInsets.all(16.0),
       children: [
-        InputDatePickerFormField(
+      /*  InputDatePickerFormField(
           errorInvalidText: "Date is not valid ",
           errorFormatText: "Date is not in a Correct Format",
           acceptEmptyDate: false,
@@ -77,9 +77,28 @@ class _AddAppointmentState extends State<AddAppointment> {
               _selectedDate = date;
             });
           },
+        ),*/
+        TextFormField( //USED THIS KAY PARA WALAY BROKEN DATES UG YEARS SA DATABASE
+          enabled: false,
+          readOnly: true,
+          decoration: const InputDecoration(
+              border: OutlineInputBorder(
+                  borderRadius: BorderRadius.only()
+              ),
+              enabled: false,
+              disabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                      color: Colors.black)
+              )
+          ),
+          style: TextStyle(
+              color: Colors.black),
+          initialValue: "${_selectedDate.month}"+"/${_selectedDate.day}/"+"${_selectedDate.year}",
         ),
+
         DropdownButtonFormField<String>(
           value: _selectedAppointmentType,
+
           onChanged: (String? newValue) {
             setState(() {
               _selectedAppointmentType = newValue!;
@@ -158,6 +177,7 @@ class _AddAppointmentState extends State<AddAppointment> {
               onPressed: () {
                 Navigator.of(context).pop();
                 Navigator.pop(context, true);
+              //  Navigator.pushReplacement(context, newRoute)
               },
               child: Text('OK'),
             ),
