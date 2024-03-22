@@ -1,73 +1,170 @@
+import 'package:bethel_app_final/FRONT_END/MemberScreens/screen_pages/profile_screen_pages/changepassword.dart';
+import 'package:bethel_app_final/FRONT_END/constant/color.dart';
 import 'package:flutter/material.dart';
+import 'package:bethel_app_final/BACK_END/Services/Functions/Authentication.dart';
+import 'package:image_picker/image_picker.dart';
 
-class MyProfile extends StatelessWidget {
+class MyProfile extends StatefulWidget {
+
   const MyProfile({Key? key}) : super(key: key);
+
+  @override
+  State<MyProfile> createState() => _MyProfileState();
+}
+
+class _MyProfileState extends State<MyProfile> {
+  XFile? _image;
+  TapAuth tapAuth = TapAuth();
+
+
+  @override
+  void initState() {
+    print("HELLOWASHFKASJFASDGADSFGAFDH");
+    print(tapAuth.auth.currentUser?.photoURL);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Profile'),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const CircleAvatar(
-              radius: 60,
-              backgroundImage: NetworkImage(
-                'https://example.com/your-profile-image.jpg', // Replace with the actual profile image URL
+        child: Padding(
+          padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    "My Profile",
+                    style: TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+
+                ],
               ),
-            ),
-            const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () {
-                // Handle Edit Profile button tap
-              },
-              child: const Text('Edit Profile'),
-            ),
-            const SizedBox(height: 16),
-            const ProfileDetail(title: 'Name', value: 'Argiezu'),
-            const ProfileDetail(title: 'Address', value: 'New York City'),
-            const ProfileDetail(title: 'Date of Birth', value: 'January 1, 199999'),
-            const ProfileDetail(title: 'Gender', value: 'Male'),
-          ],
+              const SizedBox(height: 15),
+              const Divider(
+                color: appGreen,
+              ),
+              const SizedBox(height: 60),
+              Center(
+                child: Stack(
+                  children: [
+                    Builder(builder: (context) =>  CircleAvatar(
+                      radius: 50,
+                      backgroundImage: NetworkImage(
+                          "${tapAuth.auth.currentUser?.photoURL}"),
+                    ),
+                    ),
+
+                    Positioned(
+                      child: IconButton(
+                        onPressed: _addImageField,
+                        icon: const Icon(Icons.add_a_photo),
+
+                      ),
+                      bottom: -10,
+                      left: 65,
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 30),
+
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 30),
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Row(
+                      children: [
+                        const Icon(Icons.person),
+                        const SizedBox(width: 10),
+                        Text(
+                          'Name: ${tapAuth.auth.currentUser?.displayName}',
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 30),
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Row(
+                      children: [
+                        const Icon(Icons.email),
+                        const SizedBox(width: 10),
+                        Text(
+                          'Email: ${tapAuth.auth.currentUser?.email}',
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+
+                  ),
+                  const SizedBox(height: 50),
+                  Center(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(context, MaterialPageRoute(
+                            builder: (context)=> const ChangePassword()
+                        ),
+                        );
+                      },
+                      style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(appGreen)
+                      ),
+                      child: const Text('Change Password',
+                        style: TextStyle(
+                            color: appBlack
+                        ),),
+                    ),
+                  ),
+
+                ],
+              ),
+            ],
+          ),
+
         ),
+
       ),
     );
   }
-}
 
-class ProfileDetail extends StatelessWidget {
-  final String title;
-  final String value;
+  Future<void> _addImageField() async {
+    final ImagePicker _picker = ImagePicker();
+    final XFile? image =
+    await _picker.pickImage(source: ImageSource.gallery);
 
-  const ProfileDetail({
-    Key? key,
-    required this.title,
-    required this.value,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            '$title: ',
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          Text(
-            value,
-            style: const TextStyle(fontSize: 16),
-          ),
-        ],
-      ),
-    );
+    if (image != null) {
+      setState(() {
+        _image = image;
+      });
+      // Update profile picture
+      tapAuth.auth.currentUser?.updatePhotoURL(image.path);
+    }
   }
+
 }

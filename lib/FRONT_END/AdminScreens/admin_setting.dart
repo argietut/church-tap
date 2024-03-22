@@ -39,7 +39,7 @@ class _AdminSettingsState extends State<AdminSettings> {
               IconButton(
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(
-                      builder: (context) => const MyProfile()
+                      builder: (context) =>  MyProfile()
                   ),
                   );
                 },
@@ -80,7 +80,7 @@ class _AdminSettingsState extends State<AdminSettings> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const MyProfile()),
+                MaterialPageRoute(builder: (context) =>  MyProfile()),
               );
             },
             child: const Padding(

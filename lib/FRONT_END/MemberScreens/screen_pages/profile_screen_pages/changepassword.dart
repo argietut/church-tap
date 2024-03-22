@@ -55,57 +55,75 @@ class _ChangePasswordState extends State<ChangePassword> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Change Password'),
-        backgroundColor: appGreen2,
-        elevation: 0,
+
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text(
-              'Enter your Email and we will send you a password change link',
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 20),
-            ),
-            const SizedBox(height: 10),
-            Form(
-              key: formKey,
-              child: TextFormField(
-                controller: _emailController,
-                decoration: InputDecoration(
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(color: appBlack),
-                    borderRadius: BorderRadius.circular(12),
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              const Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    "Change password",
+                    style: TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(color: appGreen),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  hintText: 'Email',
-                  fillColor: appWhite,
-                  filled: true,
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your email';
-                  }
-                  return null;
-                },
+                  SizedBox(width: 50),
+                ],
               ),
-            ),
-            const SizedBox(height: 10),
-            MaterialButton(
-              onPressed: _loading ? null : passwordReset,
-              color: appGreen2,
-              child: _loading
-                  ? const CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-              )
-                  : const Text('Change Password'),
-            ),
-          ],
+              const SizedBox(height: 15),
+              const Divider(
+                color: appGreen,
+              ),
+              const SizedBox(height: 50),
+              const Text(
+                'Enter your Email and we will send you a password change link',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 20),
+              ),
+              const SizedBox(height: 10),
+              Form(
+                key: formKey,
+                child: TextFormField(
+                  controller: _emailController,
+                  decoration: InputDecoration(
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(color: appBlack),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(color: appGreen),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    hintText: 'Email',
+                    fillColor: appWhite,
+                    filled: true,
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your email';
+                    }
+                    return null;
+                  },
+                ),
+              ),
+              const SizedBox(height: 10),
+              MaterialButton(
+                onPressed: _loading ? null : passwordReset,
+                color: appGreen2,
+                child: _loading
+                    ? const CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                )
+                    : const Text('Change Password'),
+              ),
+            ],
+          ),
         ),
       ),
     );

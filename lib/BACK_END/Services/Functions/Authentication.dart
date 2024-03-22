@@ -1,19 +1,21 @@
 import 'dart:developer';
-
 import 'package:bethel_app_final/BACK_END/Services/Functions/Users.dart';
+import 'package:bethel_app_final/FRONT_END/MemberScreens/profile_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class TapAuth {
   late String _uid;
-  late String _name;
-  late String _email;
+  late String _name = '';
+  late String _email = '';
   late String _password;
-  late String _profilePicture;
+  late String _profilePicture = '';
   late String _token;
   late UserCredential _userCredential;
   User? _user;
   final FirebaseAuth auth = FirebaseAuth.instance;
   late UserStorage store;
+
+
 
   Future<void> createUserAuth(String name, String email,
       String password) async {
@@ -49,7 +51,9 @@ class TapAuth {
           await auth.signOut();
           return false; // Account not verified
         } else {
+          auth.currentUser?.updatePhotoURL('assets/images/default.png');
           // Proceed to sign in the user since the email is verified
+          print(auth.currentUser?.photoURL);
           return true; // Account verified
         }
       } else {
@@ -61,6 +65,7 @@ class TapAuth {
       return false; // Login failed
     }
   }
+
 
 Future<void> sendUserVerifcationEmail() async{
     auth.currentUser?.sendEmailVerification();
@@ -87,6 +92,8 @@ Future<void> sendUserVerifcationEmail() async{
     getEmail() {
       return _email;
     }
+
+
     registerUserToFireStore() {
       var user_full_details = <String, String>{
         "name": getUsername(),
@@ -95,7 +102,44 @@ Future<void> sendUserVerifcationEmail() async{
       };
       return user_full_details;
     }
+
+
+
+
+
+
+    //get current user ID
     getCurrentUserUID(){
     return auth.currentUser?.uid;
     }
+
+  // Get current user name
+  String getCurrentUserName() {
+    return _name;
+  }
+
+  //para sa  pending appointment
+  User? getCurrentUser() {
+    return tapAuth.auth.currentUser;
+  }
+
+//user profile information
+//   String get profilePicture => _profilePicture;
+//
+//   void setProfilePicture(String url) {
+//     _profilePicture = url;
+//   }
+//
+//   Future<void> getCurrentUserInformation() async {
+//     _user = auth.currentUser;
+//     if (_user != null) {
+//       _uid = _user!.uid;
+//       _email = _user!.email ?? '';
+//       _name = _user!.displayName ?? '';
+//       _profilePicture = _user!.photoURL ?? '';
+//     }
+//   }
+
+
+
 }
