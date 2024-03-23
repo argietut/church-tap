@@ -169,7 +169,7 @@ class _ProfileState extends State<Profile> {
                     ),
                   ),
                   Icon(
-                    Icons.policy_outlined,
+                    Icons.security,
                     color: appBlack,
                   ),
                 ],
@@ -213,7 +213,7 @@ class _ProfileState extends State<Profile> {
                     ),
                   ),
                   Icon(
-                    Icons.policy_outlined,
+                    Icons.security,
                     color: appBlack,
                   ),
                 ],

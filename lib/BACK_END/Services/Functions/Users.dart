@@ -42,6 +42,8 @@ class UserStorage {
   }
 
 
+
+
   //TODO check if admin or not
 /*Future<bool> isAdmin(String uid) async{
     try{
