@@ -5,6 +5,7 @@ import 'package:bethel_app_final/BACK_END/Services/Functions/Authentication.dart
 import 'package:bethel_app_final/BACK_END/Services/Functions/Users.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/appointment_page.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/screen_pages/appointment_source_directory/add_appointment.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -28,7 +29,9 @@ class _CustomCalendarState extends State<CustomCalendar> {
   UserStorage storage = UserStorage();
   TapAuth tapAuth = TapAuth();
   late Future _pendingDate;
-  List<int> array = [];
+  late Future _disabledDate;
+  List<DateTime> disabledDays = [];
+  List<DateTime> pendingDays = [];
 
   @override
   void initState() {
@@ -39,8 +42,8 @@ class _CustomCalendarState extends State<CustomCalendar> {
   Widget build(BuildContext context) {
     _tableCalendar = TableCalendar(
       focusedDay: _focusedDay,
-      firstDay: DateTime.utc(currentYear, 1, 1),
-      lastDay: DateTime.utc(currentYear + 1, 1, 1),
+      firstDay: DateTime.utc(DateTime.now().year, DateTime.now().month, 1),
+      lastDay: DateTime.utc(DateTime.now().year+1, 2, 1),
       selectedDayPredicate: (day) {
         return isSameDay(_selectedDay, day);
       },
@@ -64,7 +67,20 @@ class _CustomCalendarState extends State<CustomCalendar> {
           weekNumberTextStyle:TextStyle(
               color: Colors.blue)
       ),
+      onDayLongPressed: (selectedDay, focusedDay) {
+        if(widget.type =="admins") {
+          var setDisableDays = <String, dynamic>{
+            "date": Timestamp.fromDate(_selectedDay),
+            "userID": tapAuth.getCurrentUserUID(),
+          };
+          storage.setDisableDay(setDisableDays, tapAuth.auth.currentUser!.uid);
+          print("test");
+        }
+      },
       enabledDayPredicate: (day) {
+        if(widget.type == "admins") {
+
+        }
         return true;
       },
       calendarBuilders: CalendarBuilders(
@@ -81,9 +97,9 @@ class _CustomCalendarState extends State<CustomCalendar> {
           );
         },
         defaultBuilder:(context, day, focusedDay) {
-          if(widget.type == "member"){
-            for(int i = 0;i < array.length;i++){
-              if(array[i] == day.day){
+          if(widget.type == "members"){
+            for(int i = 0;i < pendingDays.length;i++){
+              if(pendingDays[i].month == day.month && pendingDays[i].day == day.day && pendingDays[i].year == day.year){
                 return  Container(
                   decoration: BoxDecoration(color: Colors.yellow.shade200,border: Border.all(color: Colors.black26,strokeAlign: BorderSide.strokeAlignInside)),
                   child: Center(
@@ -96,6 +112,9 @@ class _CustomCalendarState extends State<CustomCalendar> {
                 );
               }
             }
+          }
+          else{
+
           }
 
 
@@ -129,11 +148,11 @@ class _CustomCalendarState extends State<CustomCalendar> {
                 color: Colors.green.shade200,
               ),);
           }
-          else if(snapshot.connectionState == ConnectionState.done && snapshot.hasData && widget.type == "admin"){
+          else if(snapshot.connectionState == ConnectionState.done && snapshot.hasData && widget.type == "admins"){
             return admin(context);
           }
           else {
-            array = snapshot.data;
+            pendingDays = snapshot.data;
             return member(context);
           }
 
@@ -168,10 +187,6 @@ Widget EventMakerButton(){
       
     }, child: Row(children: [Icon(Icons.calendar_month),Text("  Events")],mainAxisAlignment: MainAxisAlignment.center,));
 }
-/*void fillList() async {
-    setState(() async{
-      arr = await storage.getPendingDate(tapAuth.auth.currentUser!.uid);
-    });
 
-}*/
+
 }
