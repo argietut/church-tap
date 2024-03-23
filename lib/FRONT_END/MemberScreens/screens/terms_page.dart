@@ -8,16 +8,34 @@ class Terms extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('TERMS AND CONDITIONS'),
+       title: const Text("")
       ),
-      body: const SingleChildScrollView(
+      body:  const SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.all(16.0),
+          padding: EdgeInsets.only(top: 10, left: 20, right: 20),
           child: Column(
-            // removed const from here
-            // Changed from a single Text widget to a Column widget
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+
+                  Text(
+                    "Terms and Condition",
+                    style: TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(width: 50),
+                ],
+              ),
+              SizedBox(height: 15),
+              Divider(
+                color: appGreen,
+              ),
+              SizedBox(height: 10),
+
               Text(
                 "February 17, 2024 ",
                 style: TextStyle(

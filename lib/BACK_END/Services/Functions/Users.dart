@@ -58,6 +58,7 @@ class UserStorage {
         .collection("Pending Appointment")
         .snapshots();
   }
+
   //TODO check if admin or not
 
 }

@@ -22,7 +22,8 @@ class MemberHomePage extends StatefulWidget {
 class _MemberHomePageState extends State<MemberHomePage> {
   bool _isSearching = false;
   SortingButton sortingButton = SortingButton();
-  bool _isGreetingsShown = false; // Add a boolean flag
+
+ // bool _isGreetingsShown = false; // Add a boolean flag
 
 
   // @override
