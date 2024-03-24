@@ -36,13 +36,14 @@ class _CustomCalendarState extends State<CustomCalendar> {
   @override
   void initState() {
     _pendingDate = storage.getPendingDate(tapAuth.auth.currentUser!.uid);
+    _disabledDate = storage.getDisableDay();
     super.initState();
   }
   @override
   Widget build(BuildContext context) {
     _tableCalendar = TableCalendar(
       focusedDay: _focusedDay,
-      firstDay: DateTime.utc(DateTime.now().year, DateTime.now().month, 1),
+      firstDay: DateTime.utc(DateTime.now().year, DateTime.now().month, DateTime.now().day),
       lastDay: DateTime.utc(DateTime.now().year+1, 2, 1),
       selectedDayPredicate: (day) {
         return isSameDay(_selectedDay, day);
@@ -72,14 +73,19 @@ class _CustomCalendarState extends State<CustomCalendar> {
           var setDisableDays = <String, dynamic>{
             "date": Timestamp.fromDate(_selectedDay),
             "userID": tapAuth.getCurrentUserUID(),
+            "name" : tapAuth.auth.currentUser!.displayName
           };
           storage.setDisableDay(setDisableDays, tapAuth.auth.currentUser!.uid);
           print("test");
         }
       },
       enabledDayPredicate: (day) {
-        if(widget.type == "admins") {
-
+       for(int i = 0; i < disabledDays.length;i++){
+         if(disabledDays[i].month == day.month &&
+             disabledDays[i].day == day.day &&
+             disabledDays[i].year == day.year) {
+           return false;
+         }
         }
         return true;
       },
@@ -141,7 +147,7 @@ class _CustomCalendarState extends State<CustomCalendar> {
         },),
     );
     return Scaffold(
-        body: FutureBuilder(future: _pendingDate, builder: (context, snapshot) {
+        body: FutureBuilder(future: Future.wait([_pendingDate,_disabledDate]), builder: (context, snapshot) {
           if(snapshot.connectionState == ConnectionState.waiting && !snapshot.hasData){
             return Center(
               child: CircularProgressIndicator(
@@ -152,7 +158,8 @@ class _CustomCalendarState extends State<CustomCalendar> {
             return admin(context);
           }
           else {
-            pendingDays = snapshot.data;
+            pendingDays = snapshot.data![0];
+            disabledDays = snapshot.data![1];
             return member(context);
           }
 
