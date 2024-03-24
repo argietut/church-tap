@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:bethel_app_final/FRONT_END/MemberScreens/profile_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 
@@ -63,14 +64,23 @@ class UserStorage {
       }
   }
 
-  /*Future<List<DateTime>> getDisableDay(String uid) async{
+  Future<List<DateTime>> getDisableDay() async{
       List<DateTime> documents = [];
-      await db.collection("users")
-      .doc("admins")
-      .collection()
-      .where(['date'] ==);
+      try{
+        db.collectionGroup("Disabled Days")
+            .get()
+            .then((value) {
+              for(var element in value.docs){
+                Timestamp t = element.data()["date"];
+                DateTime dats = t.toDate();
+                documents.add(dats);
+              }
+            },);
+      }catch(e){
+
+      }
     return documents;
-  }*/
+  }
   
   Stream<QuerySnapshot> fetchPendingAppointments(String uid) {
     return db
