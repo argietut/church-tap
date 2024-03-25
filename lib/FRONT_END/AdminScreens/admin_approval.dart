@@ -1,55 +1,49 @@
-import 'dart:async';
 import 'dart:developer';
-import 'package:flutter/material.dart';
 import 'package:bethel_app_final/BACK_END/Services/Functions/Users.dart';
+import 'package:bethel_app_final/FRONT_END/AdminScreens/widget_admin/sort_approval.dart';
+import 'package:bethel_app_final/FRONT_END/MemberScreens/widget_member/sort_icon.dart';
+import 'package:bethel_app_final/FRONT_END/constant/color.dart';
+import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AdminApproval extends StatefulWidget {
-  const AdminApproval({Key? key}) : super(key: key);
+
+  const AdminApproval({Key? key,}) : super(key: key);
 
   @override
   State<AdminApproval> createState() => _AdminApprovalState();
 }
 
 class _AdminApprovalState extends State<AdminApproval> {
-  final UserStorage userStorage = UserStorage();
-  final StreamController<List<Map<String, dynamic>>> _pendingAppointmentsController =
-  StreamController<List<Map<String, dynamic>>>();
+  late Stream<QuerySnapshot> _pendingAppointmentsStream;
+  Map<String, bool> showOptionsMap = {};
+  SortingButton sortingButton = SortingButton();
 
   @override
   void initState() {
     super.initState();
-    _initializePendingAppointments();
+    _initializeStream();
   }
 
-  @override
-  void dispose() {
-    _pendingAppointmentsController.close();
-    super.dispose();
-  }
-
-  Future<void> _initializePendingAppointments() async {
+  Future<void> _initializeStream() async {
     try {
-      final List<String> memberIds = await _fetchMemberIds();
-      List<Map<String, dynamic>> allPendingAppointments = [];
-
-      for (String memberId in memberIds) {
-        final memberPendingAppointments = await userStorage.getAllPendingAppointmentsForMember(memberId);
-        allPendingAppointments.addAll(memberPendingAppointments);
-      }
-
-      _pendingAppointmentsController.sink.add(allPendingAppointments);
+      _pendingAppointmentsStream = UserStorage().fetchAllPendingAppointments();
     } catch (e) {
-      log("Error initializing pending appointments: $e");
+      log("Error initializing stream: $e");
     }
   }
 
-  Future<List<String>> _fetchMemberIds() async {
 
-    return ['member1', 'member2', 'member3'];
-  }
 
   @override
   Widget build(BuildContext context) {
+    if (_pendingAppointmentsStream == null) {
+      return const Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.only(top: 40, left: 20, right: 20),
@@ -57,16 +51,23 @@ class _AdminApprovalState extends State<AdminApproval> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
-
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                IconButton(
-                  onPressed: () {},
-                  icon: const Icon(Icons.tune),
 
-                ),
+                sortingButton.buildIconButton(onPressed: () {
+                  // Handle sorting logic here
+                  sortingButton.toggleSortingOption();
+                  // Implement sorting logic here based on sortingButton.currentSortingOption
+                  if (sortingButton.currentSortingOption == ApprovalSortingOption.Month) {
+                    // Sort by month
+                    // Your sorting logic here...
+                  } else {
+                    // Sort by week
+                    // Your sorting logic here...
+                  }
+                }),
                 const Text(
-                  "Admin approval",
+                  "Admin Approval",
                   style: TextStyle(
                     fontSize: 30,
                     fontWeight: FontWeight.bold,
@@ -76,62 +77,159 @@ class _AdminApprovalState extends State<AdminApproval> {
               ],
             ),
             const SizedBox(height: 15),
-            const Divider(color: Colors.green),
+            const Divider(
+              color: Colors.green,
+            ),
             const SizedBox(height: 10),
             Expanded(
-              child: StreamBuilder<List<Map<String, dynamic>>>(
-                stream: _pendingAppointmentsController.stream,
-                builder: (context, appointmentSnapshot) {
-                  if (appointmentSnapshot.connectionState == ConnectionState.waiting) {
+              child: StreamBuilder<QuerySnapshot>(
+                stream: _pendingAppointmentsStream,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(child: CircularProgressIndicator());
                   }
-                  if (appointmentSnapshot.hasError) {
-                    return Center(child: Text('Error: ${appointmentSnapshot.error}'));
+                  if (snapshot.hasError) {
+                    return Center(child: Text('Error: ${snapshot.error}'));
                   }
-                  final allPendingAppointments = appointmentSnapshot.data ?? [];
-                  if (allPendingAppointments.isEmpty) {
-                    return const Center(child: Text('No pending appointments found.'));
-                  }
-
-                  return ListView.builder(
-                    itemCount: allPendingAppointments.length,
-                    itemBuilder: (context, index) {
-                      final appointmentData = allPendingAppointments[index];
-                      final documentId = appointmentData['id'];
-                      return Card(
-                        color: Colors.amber,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('Member ID: ${appointmentData['memberId']}'),
-                            ListTile(
-                              title: Text('Appointment Type: ${appointmentData['appointmentType']}'),
-                              subtitle: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text('Description: ${appointmentData['description']}'),
-                                  Text('Date: ${appointmentData['date']}'),
-                                ],
-                              ),
-                              trailing: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  IconButton(
-                                    icon: const Icon(Icons.info),
-                                    onPressed: () {
-                                      setState(() {
-                                        // Handle showing details
-                                      });
-                                    },
-                                  ),
-                                  // Add approval and rejection buttons here
-                                ],
-                              ),
-                            ),
-                          ],
+                  if (snapshot.data == null || snapshot.data!.docs.isEmpty) {
+                    return const Center(
+                      child: Text(
+                        'No pending appointments found.',
+                        style: TextStyle(
+                          fontSize: 18,
                         ),
-                      );
-                    },
+                      ),
+                    );
+                  }
+                  return ListView(
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text(
+                          'Pending Requests:',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                      ...snapshot.data!.docs.map((
+                          DocumentSnapshot document) {
+                        final id = document.id;
+                        Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+                        Timestamp timeStamp = data["date"];
+                        DateTime dateTime = timeStamp.toDate();
+                        List<String> months = [
+                          "January", "February", "March", "April", "May", "June", "July",
+                          "August", "September", "October", "November", "December"
+                        ];
+                        String formattedDate = "${months[dateTime.month - 1]} ${dateTime.day}, ${dateTime.year}";
+                        return Card(
+                          color: Colors.amber.shade200,
+                          elevation: 2,
+                          margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+                          child: ListTile(
+                            title: Text(
+                              'Appointment type: ${data['appointmenttype'] ?? ''}',
+                            ),
+                            subtitle: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Description: ${data['description'] ?? ''}',
+                                ),
+                                Text(
+                                  'Date: $formattedDate',
+                                ),
+                                Text(
+                                  'name: ${data['name'] ?? ''}',
+                                ),
+                                Text(
+                                  'email: ${data['email'] ?? ''}',
+                                ),
+                              ],
+                            ),
+                            trailing: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                IconButton(
+                                  icon: const Icon(Icons.info),
+                                  onPressed: () {
+                                    setState(() {
+                                      showOptionsMap[id] = !(showOptionsMap[id] ?? false);
+                                    });
+                                  },
+                                ),
+                                if (showOptionsMap[id] ?? false)
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.grey.shade200,
+                                      borderRadius: BorderRadius.circular(8.0),
+                                    ),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+
+
+                                        IconButton(
+                                          icon: const Icon(
+                                              Icons.check,
+                                              color: appGreen,
+                                              size: 24.0),
+                                          onPressed: () {
+
+                                          },
+                                        ),
+
+
+                                        const SizedBox(width: 8.0),
+
+                                        IconButton(
+                                          icon: const Icon(
+                                              Icons.close,
+                                              color: Colors.red,
+                                              size: 24.0),
+                                          onPressed: () {
+                                            showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) {
+                                                return AlertDialog(
+                                                  title: const Text("Confirm Delete"),
+                                                  content: const Text("Are you sure you want to delete this request?"),
+                                                  actions: <Widget>[
+                                                    TextButton(
+                                                      onPressed: () {
+                                                        Navigator.of(context).pop(); // Close the dialog
+                                                      },
+                                                      child: const Text("Cancel"),
+                                                    ),
+                                                    TextButton(
+                                                      onPressed: () {
+
+                                                      },
+                                                      child: const Text("Delete",
+                                                        style: TextStyle(
+                                                            color: appRed
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                );
+                                              },
+                                            );
+                                          },
+                                        ),
+
+                                      ],
+                                    ),
+                                  ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                      ).toList(),
+                    ],
                   );
                 },
               ),
@@ -142,4 +240,3 @@ class _AdminApprovalState extends State<AdminApproval> {
     );
   }
 }
-

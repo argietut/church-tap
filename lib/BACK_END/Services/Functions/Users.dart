@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:developer';
-import 'package:bethel_app_final/FRONT_END/MemberScreens/profile_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserStorage {
@@ -85,13 +84,12 @@ class UserStorage {
               }
             },);
       }catch(e){
-
       }
     return documents;
   }
-  
-  Stream<QuerySnapshot> fetchPendingAppointments(String uid) {
 
+  
+  Stream<QuerySnapshot> fetchPendingAppointments(String uniqueID) {
     return db
         .collection("users")
         .doc("members")
@@ -101,27 +99,10 @@ class UserStorage {
         .snapshots();
   }
 
-
-  Future<List<Map<String, dynamic>>> getAllPendingAppointmentsForMember(String memberId) async {
-    List<Map<String, dynamic>> pendingAppointments = [];
-    try {
-      QuerySnapshot querySnapshot = await db
-          .collection("users")
-          .doc("members")
-          .collection(memberId)
-          .doc("Event")
-          .collection("Pending Appointment")
-          .get();
-      querySnapshot.docs.forEach((document) {
-        Map<String, dynamic> appointmentData = document.data() as Map<String, dynamic>;
-
-        appointmentData['documentId'] = document.id;
-        pendingAppointments.add(appointmentData);
-      });
-    } catch (e) {
-      log("Error fetching pending appointments for member $memberId: $e");
-    }
-    return pendingAppointments;
+  Stream<QuerySnapshot> fetchAllPendingAppointments() {
+    return db
+        .collectionGroup("Pending Appointment")
+        .snapshots();
   }
 
 }
