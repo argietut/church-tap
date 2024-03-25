@@ -18,18 +18,17 @@ class TapAuth {
 
 
   Future<void> createUserAuth(String name, String email,
-      String password) async {
+      String password,String type) async {
     try {
       _userCredential = await auth.createUserWithEmailAndPassword(
           email: email, password: password);
-      sendUserVerifcationEmail();
-      _userCredential.user?.updateDisplayName(name);
+      auth.currentUser?.sendEmailVerification();
       _user = _userCredential.user;
       _name = name;
       setRegisterAllDetails();
       if(_user!.uid.length > 4) {
         store = UserStorage();
-        store.createUser(_uid,registerUserToFireStore());
+        store.createUser(_uid,registerUserToFireStore(),type);
       }
     } catch (e) {
       log("ERROR CODE AUTHENTICATION: $e");

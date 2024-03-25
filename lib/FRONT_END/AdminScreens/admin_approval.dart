@@ -57,11 +57,13 @@ class _AdminApprovalState extends State<AdminApproval> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
+
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 IconButton(
                   onPressed: () {},
                   icon: const Icon(Icons.tune),
+
                 ),
                 const Text(
                   "Admin approval",

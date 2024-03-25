@@ -113,7 +113,7 @@ class _HomePageState extends State<HomePage> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const CustomCalendar(type: "member")),
+              MaterialPageRoute(builder: (context) => const CustomCalendar(type: "members")),
             );
           },
           shape: RoundedRectangleBorder(

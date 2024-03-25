@@ -3,6 +3,7 @@ import 'package:bethel_app_final/FRONT_END/AdminScreens/admin_approval.dart';
 import 'package:bethel_app_final/FRONT_END/AdminScreens/admin_home.dart';
 import 'package:bethel_app_final/FRONT_END/AdminScreens/AdminCreateEvents.dart';
 import 'package:bethel_app_final/FRONT_END/AdminScreens/admin_setting.dart';
+import 'package:bethel_app_final/FRONT_END/MemberScreens/widget_member/Calendar.dart';
 import 'package:bethel_app_final/FRONT_END/constant/color.dart';
 import 'package:flutter/material.dart';
 
@@ -18,7 +19,7 @@ class _AdminNavigationPageState extends State<AdminNavigationPage> {
   final List<StatefulWidget> _children = [
     const AdminHomePage(),
     const AdminApproval(),
-    const AdminCalendar(),
+    const CustomCalendar(type: "admins"),
     const AdminSettings(),
   ];
 
@@ -107,7 +108,7 @@ class _AdminNavigationPageState extends State<AdminNavigationPage> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const AdminAppointmentPage()),
+              MaterialPageRoute(builder: (context) => const CustomCalendar(type: "admins")),
             );
           },
           shape: RoundedRectangleBorder(

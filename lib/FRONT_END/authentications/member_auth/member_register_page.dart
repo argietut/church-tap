@@ -120,7 +120,7 @@ class _MemberRegisterPageState extends State<MemberRegisterPage> {
 
 
       // Sign up the user
-      await tapAuth.createUserAuth(username, email, password);
+      await tapAuth.createUserAuth(username, email, password,"members");
 
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
