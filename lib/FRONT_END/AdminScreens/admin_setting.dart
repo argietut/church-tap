@@ -157,37 +157,7 @@ class _AdminSettingsState extends State<AdminSettings> {
             width: 50,
             height: 1,
           ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const Settings()),
-              );
-            },
-            child: const Padding(
-              padding: EdgeInsets.all(15),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Expanded(
-                    child: Text(
-                      "Settings",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 17,
-                          fontWeight: FontWeight.w300),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                  Icon(
-                    Icons.settings,
-                    color: appBlack,
-                  ),
-                ],
-              ),
-            ),
-          ),
+
 
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 30),
