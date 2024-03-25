@@ -102,6 +102,9 @@ class _AdminCalendarState extends State<AdminCalendar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: true,
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.only(top: 40, left: 20, right: 20),
