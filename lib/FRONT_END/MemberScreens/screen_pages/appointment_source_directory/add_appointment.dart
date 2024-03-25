@@ -151,6 +151,8 @@ class _AddAppointmentState extends State<AddAppointment> {
       "date": Timestamp.fromDate(_selectedDate),
       "userID": tapAuth.getCurrentUserUID(),
       "appointmenttype": _selectedAppointmentType,
+      "name" : tapAuth.auth.currentUser!.displayName,
+      "email" : tapAuth.auth.currentUser!.email
     };
     userStorage.createMemberEvent(tapAuth.getCurrentUserUID(), page,"member");
 
