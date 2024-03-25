@@ -30,141 +30,131 @@ class _MyProfileState extends State<MyProfile> {
     return Scaffold(
       appBar: AppBar(),
       body: RefreshIndicator(
-        backgroundColor: Colors.transparent,
         key: _refreshIndicatorKey,
         onRefresh: () async {
           // Add a small delay to simulate loading
-          await Future.delayed(const Duration(milliseconds: 1000));
+          await Future.delayed(Duration(milliseconds: 1000));
           setState(() {});
         },
-        child: Stack(
-          children: [
-            Container(
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage("assets/images/background_image.jpg"),
-                  fit: BoxFit.cover,
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      "My Profile",
+                      style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-            ),
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
-                child: Column(
+                const SizedBox(height: 15),
+                const Divider(
+                  color: appGreen,
+                ),
+                const SizedBox(height: 60),
+                Center(
+                  child: Stack(
+                    children: [
+                      Builder(
+                        builder: (context) => CircleAvatar(
+                          radius: 50,
+                          backgroundImage: NetworkImage(
+                              "${tapAuth.auth.currentUser?.photoURL}"),
+                        ),
+                      ),
+                      Positioned(
+                        child: IconButton(
+                          onPressed: _addImageField,
+                          icon: const Icon(Icons.add_a_photo),
+                        ),
+                        bottom: -10,
+                        left: 65,
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 30),
+                Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text(
-                          "My Profile",
-                          style: TextStyle(
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 15),
-                    const Divider(
-                      color: appGreen,
-                    ),
-                    const SizedBox(height: 60),
-                    Center(
-                      child: Stack(
+                    const SizedBox(height: 30),
+                    Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Row(
                         children: [
-                          Builder(
-                            builder: (context) => CircleAvatar(
-                              radius: 50,
-                              backgroundImage: NetworkImage(
-                                  "${tapAuth.auth.currentUser?.photoURL}"),
+                          const Icon(Icons.person),
+                          const SizedBox(width: 10),
+                          Text(
+                            'Name: ${tapAuth.auth.currentUser?.displayName}',
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
                             ),
-                          ),
-                          Positioned(
-                            child: IconButton(
-                              onPressed: _addImageField,
-                              icon: const Icon(Icons.add_a_photo),
-                            ),
-                            bottom: -10,
-                            left: 65,
                           ),
                         ],
                       ),
                     ),
                     const SizedBox(height: 30),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const SizedBox(height: 30),
-                        Container(
-                          padding: const EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                            color: Colors.grey[200],
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Row(
-                            children: [
-                              const Icon(Icons.person),
-                              const SizedBox(width: 10),
-                              Text(
-                                'Name: ${tapAuth.auth.currentUser?.displayName}',
-                                style: const TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(height: 30),
-                        Container(
-                          padding: const EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                            color: Colors.grey[200],
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Row(
-                            children: [
-                              const Icon(Icons.email),
-                              const SizedBox(width: 10),
-                              Text(
-                                'Email: ${tapAuth.auth.currentUser?.email}',
-                                style: const TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(height: 50),
-                        Center(
-                          child: ElevatedButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                  const ChangePassword(),
-                                ),
-                              );
-                            },
-                            style: ButtonStyle(
-                                backgroundColor:
-                                MaterialStateProperty.all(appGreen)),
-                            child: const Text(
-                              'Change Password',
-                              style: TextStyle(color: appBlack),
+                    Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Row(
+                        children: [
+                          const Icon(Icons.email),
+                          const SizedBox(width: 10),
+                          Text(
+                            'Email: ${tapAuth.auth.currentUser?.email}',
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 50),
+                    Center(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const ChangePassword(),
+                            ),
+                          );
+                        },
+                        style: ButtonStyle(
+                            backgroundColor:
+                            MaterialStateProperty.all(
+                                appGreen2)
                         ),
-                      ],
+                        child: const Text(
+                          'Change Password',
+                          style: TextStyle(
+                              color: appBlack
+                          ),
+                        ),
+                      ),
                     ),
                   ],
                 ),
-              ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
@@ -182,7 +172,7 @@ class _MyProfileState extends State<MyProfile> {
       // Update profile picture
       tapAuth.auth.currentUser?.updatePhotoURL(image.path);
       // Add loading delay
-      await Future.delayed(const Duration(seconds: 1));
+      await Future.delayed(Duration(seconds: 1));
       // Refresh the page after updating the picture
       _refreshIndicatorKey.currentState?.show();
     }

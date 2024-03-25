@@ -135,7 +135,7 @@ class _AddAppointmentState extends State<AddAppointment> {
       print('Error fetching appointment types: $e');
       return [];
     }
-  }
+}
 // DEPRECATED
   void _addAppointment(DateTime selectedDate) async {
     tapAuth = TapAuth();

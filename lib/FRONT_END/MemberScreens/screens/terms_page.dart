@@ -19,9 +19,8 @@ class Terms extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-
                   Text(
-                    "Terms and Condition",
+                    "Terms of Service",
                     style: TextStyle(
                       fontSize: 30,
                       fontWeight: FontWeight.bold,
