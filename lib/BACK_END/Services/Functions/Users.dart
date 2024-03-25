@@ -9,7 +9,7 @@ class UserStorage {
 
 
   Future<void> createUser(String uniqueID,
-      Map<String, String> userInformation, type) async {
+      Map<String, String> userInformation,String type) async {
     try {
 
       db.collection("users")
@@ -93,7 +93,7 @@ class UserStorage {
     return db
         .collection("users")
         .doc("members")
-        .collection(uniqueID)
+        .collection(uid)
         .doc("Event")
         .collection("Pending Appointment")
         .snapshots();
