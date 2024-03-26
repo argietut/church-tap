@@ -89,7 +89,7 @@ class UserStorage {
   }
 
   
-  Stream<QuerySnapshot> fetchPendingAppointments(String uniqueID) {
+  Stream<QuerySnapshot> fetchPendingAppointments(String uid) {
     return db
         .collection("users")
         .doc("members")

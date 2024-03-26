@@ -84,22 +84,24 @@ class _AdminHomePageState extends State<AdminHomePage> {
                 ),
               ),
             if (approvedData.isEmpty) // Display message if no approved data
-              Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Text(
-                      'No Events yet!',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
+              const Expanded(
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'No Events yet!',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                    SizedBox(height: 10),
-                    Text(
-                      'Time to chill and find yourself.',
-                    ),
-                  ],
+                      SizedBox(height: 10),
+                      Text(
+                        'Time to chill and find yourself.',
+                      ),
+                    ],
+                  ),
                 ),
               ),
           ],

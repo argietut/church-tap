@@ -5,6 +5,7 @@ import 'package:bethel_app_final/BACK_END/Services/Functions/Authentication.dart
 import 'package:bethel_app_final/BACK_END/Services/Functions/Users.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/appointment_page.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/screen_pages/appointment_source_directory/add_appointment.dart';
+import 'package:bethel_app_final/FRONT_END/constant/color.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -60,7 +61,7 @@ class _CustomCalendarState extends State<CustomCalendar> {
           _calendarFormat = format;
         });
       },
-      calendarStyle: CalendarStyle(
+      calendarStyle: const CalendarStyle(
          // selectedDecoration: if(widget.type ),
           weekendTextStyle: TextStyle(
               color: Colors.red),
@@ -92,11 +93,11 @@ class _CustomCalendarState extends State<CustomCalendar> {
       calendarBuilders: CalendarBuilders(
         disabledBuilder: (context, day, focusedDay) {
           return  Container(
-            decoration: BoxDecoration(color: Colors.black26),
+            decoration: const BoxDecoration(color: Colors.black26),
             child: Center(
               child: Text(
                 "${day.day}",
-                style: TextStyle(
+                style: const TextStyle(
                     color: Colors.black),
               ),
             ),
@@ -111,7 +112,7 @@ class _CustomCalendarState extends State<CustomCalendar> {
                   child: Center(
                     child: Text(
                       "${day.day}",
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: Colors.black),
                     ),
                   ),
@@ -132,7 +133,7 @@ class _CustomCalendarState extends State<CustomCalendar> {
           if(day.weekday == DateTime.sunday || day.weekday == DateTime.saturday){
             return Center(
               child: Text(red,
-                style: TextStyle(color: Colors.red),
+                style: const TextStyle(color: Colors.red),
               ),
             );
           }
@@ -140,7 +141,7 @@ class _CustomCalendarState extends State<CustomCalendar> {
             return Center(
               child: Text(
                 blue,
-                style: TextStyle(color: Colors.blue),
+                style: const TextStyle(color: Colors.blue),
               ),
             );
           }
@@ -171,28 +172,147 @@ class _CustomCalendarState extends State<CustomCalendar> {
 
   Widget admin(BuildContext context) {
     return Scaffold(
-      body: ListView(children: [_tableCalendar],)
-      ,);
+        body: Expanded(
+          child: Padding(
+            padding: const EdgeInsets.only(top: 40, left: 20, right: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    IconButton(
+                      onPressed: () {},
+                      icon: const Icon(Icons.edit),
+                    ),
+                    const Text(
+                      "Calendar",
+                      style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(width: 50),
+                  ],
+                ),
+                const SizedBox(height: 15),
+                const Divider(
+                  color: appGreen,
+                ),
+                const SizedBox(height: 10),
+                Expanded(
+                  child: ListView(
+                    children: [_tableCalendar],
+
+                  ),
+                ),
+
+                const Center(
+                  child: Text('Create events',
+                  style: TextStyle(
+                    fontSize: 20,
+
+                  ),
+                  ),
+                ),
+                const SizedBox(height: 15),
+                EventMakerButton(),
+                const SizedBox(height: 180),
+              ],
+            ),
+          ),
+        ),
+        );
   }
 
 Widget member(BuildContext context){
   return Scaffold(
     appBar: AppBar(
-      automaticallyImplyLeading: true),
-    body: ListView(children: [_tableCalendar,Row(children: [AppointmentMakerButton(),EventMakerButton()],mainAxisAlignment: MainAxisAlignment.center)],)
-    ,);
+      automaticallyImplyLeading: true
+    ),
+
+      body: Expanded(
+        child: Padding(
+          padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+
+            children: [
+              const Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Request Appointment",
+                    style: TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(width: 50),
+                ],
+              ),
+              const SizedBox(height: 15),
+              const Divider(
+                color: appGreen,
+              ),
+              const SizedBox(height: 10),
+              Expanded(
+                child: ListView(
+                  children: [
+                    _tableCalendar,
+                    Row(
+                      children: [
+                        Expanded(
+                          child: AppointmentMakerButton(),
+                        ),
+                        Expanded(
+                          child: EventMakerButton(),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+      );
 }
 Widget AppointmentMakerButton(){
     return TextButton(onPressed: () {
-      Navigator.push(context, MaterialPageRoute(builder: (context) => AddAppointment(firstDate: DateTime.utc(currentYear,1,1), lastDate: DateTime(currentYear+1,1,1,0), selectedDate:_selectedDay ),));
-    }, child: Row(children: [Icon(Icons.calendar_today),Text("  Appointment")],
-      mainAxisAlignment: MainAxisAlignment.center,),
+      Navigator.push(context, MaterialPageRoute(
+        builder: (context) => AddAppointment(
+            firstDate: DateTime.utc(currentYear,1,1),
+            lastDate: DateTime(currentYear+1,1,1,0), selectedDate:_selectedDay ),
+      )
+      );
+    }, child: const Row(
+      children: [
+        Icon(
+          Icons.event_note_outlined
+        ),
+        Text("  Appointment")
+      ],
+      mainAxisAlignment: MainAxisAlignment.center,
+     ),
     );
 }
 Widget EventMakerButton(){
     return TextButton(onPressed: () {
       
-    }, child: Row(children: [Icon(Icons.calendar_month),Text("  Events")],mainAxisAlignment: MainAxisAlignment.center,));
+    }, child: const Row(
+      children: [
+        Icon(
+            Icons.calendar_month_outlined),
+        Text(
+            "  Events",
+          style: TextStyle(
+            color: appBlack
+          ),
+        )
+      ],
+      mainAxisAlignment: MainAxisAlignment.center,));
 }
 
 

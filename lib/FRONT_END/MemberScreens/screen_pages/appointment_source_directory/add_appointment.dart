@@ -44,12 +44,17 @@ class _AddAppointmentState extends State<AddAppointment> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Add Appointment")),
+      appBar: AppBar(
+          title: const Text(
+              "Add Appointment")
+      ),
       body: FutureBuilder<List<String>>(
         future: _fetchAppointmentTypes(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return Center(
+                child: CircularProgressIndicator()
+            );
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else {
