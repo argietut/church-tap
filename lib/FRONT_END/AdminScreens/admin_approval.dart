@@ -34,7 +34,6 @@ class _AdminApprovalState extends State<AdminApproval> {
   }
 
 
-
   @override
   Widget build(BuildContext context) {
     if (_pendingAppointmentsStream == null) {
@@ -53,19 +52,12 @@ class _AdminApprovalState extends State<AdminApproval> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                IconButton(
+                  onPressed: () {
 
-                sortingButton.buildIconButton(onPressed: () {
-                  // Handle sorting logic here
-                  sortingButton.toggleSortingOption();
-                  // Implement sorting logic here based on sortingButton.currentSortingOption
-                  if (sortingButton.currentSortingOption == ApprovalSortingOption.Month) {
-                    // Sort by month
-                    // Your sorting logic here...
-                  } else {
-                    // Sort by week
-                    // Your sorting logic here...
-                  }
-                }),
+                  },
+                  icon: const Icon(Icons.sort),
+                ),
                 const Text(
                   "Admin Approval",
                   style: TextStyle(
@@ -169,8 +161,6 @@ class _AdminApprovalState extends State<AdminApproval> {
                                     child: Row(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
-
-
                                         IconButton(
                                           icon: const Icon(
                                               Icons.check,
@@ -180,7 +170,6 @@ class _AdminApprovalState extends State<AdminApproval> {
 
                                           },
                                         ),
-
 
                                         const SizedBox(width: 8.0),
 
@@ -194,8 +183,8 @@ class _AdminApprovalState extends State<AdminApproval> {
                                               context: context,
                                               builder: (BuildContext context) {
                                                 return AlertDialog(
-                                                  title: const Text("Confirm Delete"),
-                                                  content: const Text("Are you sure you want to delete this request?"),
+                                                  title: const Text("Confirm Denied"),
+                                                  content: const Text("Are you sure you want to denied this request?"),
                                                   actions: <Widget>[
                                                     TextButton(
                                                       onPressed: () {
@@ -207,7 +196,7 @@ class _AdminApprovalState extends State<AdminApproval> {
                                                       onPressed: () {
 
                                                       },
-                                                      child: const Text("Delete",
+                                                      child: const Text("Denied",
                                                         style: TextStyle(
                                                             color: appRed
                                                         ),
