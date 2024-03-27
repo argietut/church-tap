@@ -1,7 +1,5 @@
-import 'package:bethel_app_final/FRONT_END/AdminScreens/admin_calendar.dart';
 import 'package:bethel_app_final/FRONT_END/AdminScreens/admin_approval.dart';
 import 'package:bethel_app_final/FRONT_END/AdminScreens/admin_home.dart';
-import 'package:bethel_app_final/FRONT_END/AdminScreens/AdminCreateEvents.dart';
 import 'package:bethel_app_final/FRONT_END/AdminScreens/admin_setting.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/widget_member/Calendar.dart';
 import 'package:bethel_app_final/FRONT_END/constant/color.dart';
@@ -95,30 +93,6 @@ class _AdminNavigationPageState extends State<AdminNavigationPage> {
               ),
             ),
           ],
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: Container(
-        margin: const EdgeInsets.only(top: 10),
-        height: 64,
-        width: 64,
-        child: FloatingActionButton(
-          backgroundColor: appWhite,
-          elevation: 0,
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const CustomCalendar(type: "admins")),
-            );
-          },
-          shape: RoundedRectangleBorder(
-            side: const BorderSide(width: 3, color: appGreen),
-            borderRadius: BorderRadius.circular(100),
-          ),
-          child: const Icon(
-            Icons.add,
-            color: appGreen,
-          ),
         ),
       ),
     );
