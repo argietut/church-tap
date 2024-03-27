@@ -19,6 +19,7 @@ class EventPage extends StatefulWidget {
 
 class _EventPageState extends State<EventPage> {
   final TapAuth tapAuth = TapAuth();
+  late Stream<QuerySnapshot> _approvedAppointmentsStream;
   late Stream<QuerySnapshot> _pendingAppointmentsStream;
   Map<String, bool> showOptionsMap = {};
   SortingButton sortingButton = SortingButton();
@@ -33,7 +34,10 @@ class _EventPageState extends State<EventPage> {
     try {
       final currentUser = tapAuth.getCurrentUser();
       if (currentUser != null) {
-        _pendingAppointmentsStream = UserStorage().fetchPendingAppointments(currentUser.uid);
+        _approvedAppointmentsStream =
+            UserStorage().fetchApprovedAppointments(currentUser.uid);
+        _pendingAppointmentsStream =
+            UserStorage().fetchPendingAppointments(currentUser.uid);
       } else {
         throw ArgumentError("Current user not found.");
       }
@@ -64,7 +68,7 @@ class _EventPageState extends State<EventPage> {
 
   @override
   Widget build(BuildContext context) {
-    if (_pendingAppointmentsStream == null) {
+    if (_pendingAppointmentsStream == null || _approvedAppointmentsStream == null)    {
       return const Scaffold(
         body: Center(
           child: CircularProgressIndicator(),
@@ -109,6 +113,85 @@ class _EventPageState extends State<EventPage> {
             ),
             const SizedBox(height: 10),
             Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 10),
+                  const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text(
+                      'Approved Requests',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: StreamBuilder<QuerySnapshot>(
+                      stream: _approvedAppointmentsStream,
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
+                          return const Center(child: CircularProgressIndicator());
+                        }
+                        if (snapshot.hasError) {
+                          return Center(child: Text('Error: ${snapshot.error}'));
+                        }
+                        if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                          return const Center(
+                            child: Text(
+                              'No approved appointment.',
+                              style: TextStyle(
+                                fontSize: 18,
+                              ),
+                            ),
+                          );
+                        }
+                        return ListView.builder(
+                          itemCount: snapshot.data!.docs.length,
+                          itemBuilder: (context, index) {
+                            final document = snapshot.data!.docs[index];
+                            final id = document.id;
+                            Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+                            Timestamp timeStamp = data["date"];
+                            DateTime dateTime = timeStamp.toDate();
+                            List<String> months = [
+                              "January", "February", "March", "April", "May", "June",
+                              "July", "August", "September", "October", "November", "December"
+                            ];
+                            String formattedDate =
+                                "${months[dateTime.month - 1]} ${dateTime.day}, ${dateTime.year}";
+                            return Card(
+                              color: Colors.green.shade200,
+                              elevation: 2,
+                              margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+                              child: ListTile(
+                                title: Text(
+                                  'Appointment type: ${data['appointmenttype'] ?? ''}',
+                                ),
+                                subtitle: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Description: ${data['description'] ?? ''}',
+                                    ),
+                                    Text(
+                                      'Date: $formattedDate',
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            Expanded(
               child: StreamBuilder<QuerySnapshot>(
                 stream: _pendingAppointmentsStream,
                 builder: (context, snapshot) {
@@ -121,7 +204,7 @@ class _EventPageState extends State<EventPage> {
                   if (snapshot.data == null || snapshot.data!.docs.isEmpty) {
                     return const Center(
                       child: Text(
-                        'No pending appointments found.',
+                        'No pending appointment.',
                         style: TextStyle(
                           fontSize: 18,
                         ),

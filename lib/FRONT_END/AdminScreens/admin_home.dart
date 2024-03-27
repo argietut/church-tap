@@ -17,6 +17,7 @@ void signUserOut() {
 
 class _AdminHomePageState extends State<AdminHomePage> {
   final UserStorage userStorage = UserStorage();
+  String _selectedEventType = 'Upcoming Events';
 
   String formatDateTime(Timestamp? timeStamp) {
     if (timeStamp == null) {
@@ -29,8 +30,6 @@ class _AdminHomePageState extends State<AdminHomePage> {
     ];
     return "${months[dateTime.month - 1]} ${dateTime.day}, ${dateTime.year}";
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -63,17 +62,41 @@ class _AdminHomePageState extends State<AdminHomePage> {
             const Divider(
               color: appGreen,
             ),
-            const SizedBox(height: 20),
-            const Text(
-              'Upcoming events',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
+            const SizedBox(height: 10),
+            DropdownButtonHideUnderline(
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8.0),
+                  color: Colors.grey[200],
+                ),
+                child: DropdownButton<String>(
+                  value: _selectedEventType,
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      _selectedEventType = newValue!;
+                    });
+                  },
+                  items: <String>['Upcoming Events', 'Completed Events']
+                      .map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(
+                        value,
+                        style: const TextStyle(
+                          color: Colors.black87,
+                          fontSize: 14,
+                        ),
+                      ),
+                    );
+                  }).toList(),
+                ),
               ),
             ),
+
             Expanded(
               child: StreamBuilder<QuerySnapshot>(
-                stream: userStorage.fetchApprovedAppointments(),
+                stream: userStorage.fetchAllApprovedAppointments(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(child: CircularProgressIndicator());
@@ -82,10 +105,10 @@ class _AdminHomePageState extends State<AdminHomePage> {
                     return Center(child: Text('Error: ${snapshot.error}'));
                   }
                   if (snapshot.data == null || snapshot.data!.docs.isEmpty) {
-                    return const Center(
+                    return Center(
                       child: Text(
-                        'No approved appointments found.',
-                        style: TextStyle(
+                        'No ${_selectedEventType.toLowerCase()} found.',
+                        style: const TextStyle(
                           fontSize: 18,
                         ),
                       ),
@@ -100,9 +123,20 @@ class _AdminHomePageState extends State<AdminHomePage> {
                       Timestamp timeStamp = data["date"];
                       String formattedDate = formatDateTime(timeStamp);
 
+                      if (_selectedEventType == 'Completed Events') {
+                        if (DateTime.now().isBefore(timeStamp.toDate())) {
+                          return const SizedBox.shrink();
+                        }
+                      } else {
+                        if (DateTime.now().isAfter(timeStamp.toDate())) {
+                          return const SizedBox.shrink();
+                        }
+                      }
 
                       return Card(
-                        color: appGreen3,
+                        color: _selectedEventType == 'Completed Events'
+                            ? Colors.grey
+                            : appGreen3,
                         elevation: 2,
                         margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
                         child: ListTile(
@@ -128,6 +162,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                           ),
                         ),
                       );
+
                     },
                   );
                 },

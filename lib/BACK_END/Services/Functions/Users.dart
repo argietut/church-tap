@@ -97,13 +97,30 @@ class UserStorage {
         .snapshots();
   }
 
-  // get all pending appointment of each members
+  // get all pending appointment of all members
   Stream<QuerySnapshot> fetchAllPendingAppointments() {
     return db
         .collectionGroup("Pending Appointment")
         .snapshots();
   }
 
+  // get member approved appointment
+  // user bounded
+  Stream<QuerySnapshot> fetchApprovedAppointments(String uid) {
+    return db
+        .collection("users")
+        .doc("members")
+        .collection(uid)
+        .doc("Event")
+        .collection("Approved Appointment")
+        .snapshots();
+  }
+  // get all approved appointment of all member
+  Stream<QuerySnapshot> fetchAllApprovedAppointments() {
+    return db
+        .collectionGroup("Approved Appointment")
+        .snapshots();
+  }
 
   Future<void> approvedAppointment(String userID, String appointmentId) async {
     try {
@@ -115,8 +132,6 @@ class UserStorage {
           .collection("Pending Appointment")
           .doc(appointmentId)
           .get();
-
-      // Move the appointment to the Approved Appointment subcollection
       await db
           .collection("users")
           .doc("members")
@@ -125,8 +140,6 @@ class UserStorage {
           .collection("Approved Appointment")
           .doc(appointmentId) // Use the same appointmentId
           .set(appointmentDoc.data() as Map<String, dynamic>);
-
-      // Delete the appointment from the Pending Appointment subcollection
       await db
           .collection("users")
           .doc("members")
@@ -150,8 +163,6 @@ class UserStorage {
           .collection("Pending Appointment")
           .doc(appointmentId)
           .get();
-
-      // Move the appointment to the Denied Appointment subcollection
       await db
           .collection("users")
           .doc("members")
@@ -160,8 +171,6 @@ class UserStorage {
           .collection("Denied Appointment")
           .doc(appointmentId)
           .set(appointmentDoc.data() as Map<String, dynamic>);
-
-      // Delete the appointment from the Pending Appointment subcollection
       await db
           .collection("users")
           .doc("members")
@@ -175,17 +184,10 @@ class UserStorage {
     }
   }
 
-
-  Stream<QuerySnapshot> fetchApprovedAppointments() {
-    return db
-        .collectionGroup("Approved Appointment")
-        .snapshots();
-  }
-  Stream<QuerySnapshot> fetchdenyAppointment() {
+  Stream<QuerySnapshot> fetchDenyAppointment() {
     return db
         .collectionGroup("Denied Appointment")
         .snapshots();
   }
-
 
 }

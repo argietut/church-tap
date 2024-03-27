@@ -97,7 +97,7 @@ class _AdminApprovalState extends State<AdminApproval> {
                   if (snapshot.data == null || snapshot.data!.docs.isEmpty) {
                     return const Center(
                       child: Text(
-                        'No pending appointments found.',
+                        'No pending appointment.',
                         style: TextStyle(
                           fontSize: 18,
                         ),
