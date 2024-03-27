@@ -1,4 +1,6 @@
+import 'package:bethel_app_final/BACK_END/Services/Functions/Users.dart';
 import 'package:bethel_app_final/FRONT_END/constant/color.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -13,18 +15,22 @@ void signUserOut() {
   FirebaseAuth.instance.signOut();
 }
 
-enum SortType { byDays, byWeeks, byMonths }
-
 class _AdminHomePageState extends State<AdminHomePage> {
-  SortType _sortType = SortType.byDays;
-  List<dynamic> approvedData = [];
+  final UserStorage userStorage = UserStorage();
 
-  void _sortBy(SortType sortType) {
-    setState(() {
-      _sortType = sortType;
-    });
-    print('Sorting by: $sortType');
+  String formatDateTime(Timestamp? timeStamp) {
+    if (timeStamp == null) {
+      return 'No date available';
+    }
+    DateTime dateTime = timeStamp.toDate();
+    List<String> months = [
+      "January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December"
+    ];
+    return "${months[dateTime.month - 1]} ${dateTime.day}, ${dateTime.year}";
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -40,17 +46,6 @@ class _AdminHomePageState extends State<AdminHomePage> {
                 IconButton(
                   onPressed: () {
                     // Toggling sort order when IconButton is pressed
-                    switch (_sortType) {
-                      case SortType.byDays:
-                        _sortBy(SortType.byWeeks);
-                        break;
-                      case SortType.byWeeks:
-                        _sortBy(SortType.byMonths);
-                        break;
-                      case SortType.byMonths:
-                        _sortBy(SortType.byDays);
-                        break;
-                    }
                   },
                   icon: const Icon(Icons.sort),
                 ),
@@ -68,52 +63,79 @@ class _AdminHomePageState extends State<AdminHomePage> {
             const Divider(
               color: appGreen,
             ),
-            const SizedBox(height: 10),
-            if (approvedData.isNotEmpty) // Display approved data if available
-              Expanded(
-                child: ListView.builder(
-                  itemCount: approvedData.length,
-                  itemBuilder: (context, index) {
-                    final data = approvedData[index];
-                    return ListTile(
-                      title: Text(data.title), // Replace with appropriate data field
-                      subtitle: Text(data.details), // Replace with appropriate data field
-                      // Add more UI elements as needed
-                    );
-                  },
-                ),
+            const SizedBox(height: 20),
+            const Text(
+              'Upcoming events',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
               ),
-            if (approvedData.isEmpty) // Display message if no approved data
-              const Expanded(
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'No Events yet!',
+            ),
+            Expanded(
+              child: StreamBuilder<QuerySnapshot>(
+                stream: userStorage.fetchApprovedAppointments(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                  if (snapshot.hasError) {
+                    return Center(child: Text('Error: ${snapshot.error}'));
+                  }
+                  if (snapshot.data == null || snapshot.data!.docs.isEmpty) {
+                    return const Center(
+                      child: Text(
+                        'No approved appointments found.',
                         style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
                         ),
                       ),
-                      SizedBox(height: 10),
-                      Text(
-                        'Time to chill and find yourself.',
-                      ),
-                    ],
-                  ),
-                ),
+                    );
+                  }
+                  return ListView.builder(
+                    itemCount: snapshot.data!.docs.length,
+                    itemBuilder: (context, index) {
+                      DocumentSnapshot document = snapshot.data!.docs[index];
+                      final id = document.id;
+                      Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+                      Timestamp timeStamp = data["date"];
+                      String formattedDate = formatDateTime(timeStamp);
+
+
+                      return Card(
+                        color: appGreen3,
+                        elevation: 2,
+                        margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+                        child: ListTile(
+                          title: Text(
+                            'Appointment type: ${data['appointmenttype'] ?? ''}',
+                          ),
+                          subtitle: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Description: ${data['description'] ?? ''}',
+                              ),
+                              Text(
+                                'Date: $formattedDate',
+                              ),
+                              Text(
+                                'Name: ${data['name'] ?? ''}',
+                              ),
+                              Text(
+                                'Email: ${data['email'] ?? ''}',
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                },
               ),
+            ),
           ],
         ),
       ),
     );
-  }
-
-  // Method to update the approved data
-  void updateApprovedData(dynamic newData) {
-    setState(() {
-      approvedData.add(newData);
-    });
   }
 }

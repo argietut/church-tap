@@ -1,14 +1,12 @@
 import 'dart:developer';
 import 'package:bethel_app_final/BACK_END/Services/Functions/Users.dart';
-import 'package:bethel_app_final/FRONT_END/AdminScreens/widget_admin/sort_approval.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/widget_member/sort_icon.dart';
 import 'package:bethel_app_final/FRONT_END/constant/color.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AdminApproval extends StatefulWidget {
-
-  const AdminApproval({Key? key,}) : super(key: key);
+  const AdminApproval({Key? key}) : super(key: key);
 
   @override
   State<AdminApproval> createState() => _AdminApprovalState();
@@ -18,6 +16,7 @@ class _AdminApprovalState extends State<AdminApproval> {
   late Stream<QuerySnapshot> _pendingAppointmentsStream;
   Map<String, bool> showOptionsMap = {};
   SortingButton sortingButton = SortingButton();
+  final UserStorage userStorage = UserStorage();
 
   @override
   void initState() {
@@ -32,7 +31,21 @@ class _AdminApprovalState extends State<AdminApproval> {
       log("Error initializing stream: $e");
     }
   }
+  Future<void> approvedAppointment(String userID, String appointmentId) async {
+    try {
+      await userStorage.approvedAppointment(userID, appointmentId);
+    } catch (e) {
+      log("Error approving appointment: $e");
+    }
+  }
 
+  Future<void> denyAppointment(String userID, String appointmentId) async {
+    try {
+      await userStorage.denyAppointment(userID, appointmentId);
+    } catch (e) {
+      log("Error denying appointment: $e");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,9 +66,7 @@ class _AdminApprovalState extends State<AdminApproval> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 IconButton(
-                  onPressed: () {
-
-                  },
+                  onPressed: () {},
                   icon: const Icon(Icons.sort),
                 ),
                 const Text(
@@ -105,21 +116,33 @@ class _AdminApprovalState extends State<AdminApproval> {
                           ),
                         ),
                       ),
-                      ...snapshot.data!.docs.map((
-                          DocumentSnapshot document) {
+                      ...snapshot.data!.docs.map((DocumentSnapshot document) {
                         final id = document.id;
-                        Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+                        Map<String, dynamic> data =
+                        document.data() as Map<String, dynamic>;
                         Timestamp timeStamp = data["date"];
                         DateTime dateTime = timeStamp.toDate();
                         List<String> months = [
-                          "January", "February", "March", "April", "May", "June", "July",
-                          "August", "September", "October", "November", "December"
+                          "January",
+                          "February",
+                          "March",
+                          "April",
+                          "May",
+                          "June",
+                          "July",
+                          "August",
+                          "September",
+                          "October",
+                          "November",
+                          "December"
                         ];
-                        String formattedDate = "${months[dateTime.month - 1]} ${dateTime.day}, ${dateTime.year}";
+                        String formattedDate =
+                            "${months[dateTime.month - 1]} ${dateTime.day}, ${dateTime.year}";
                         return Card(
                           color: Colors.amber.shade200,
                           elevation: 2,
-                          margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+                          margin: const EdgeInsets.symmetric(
+                              vertical: 8, horizontal: 4),
                           child: ListTile(
                             title: Text(
                               'Appointment type: ${data['appointmenttype'] ?? ''}',
@@ -163,44 +186,77 @@ class _AdminApprovalState extends State<AdminApproval> {
                                       children: [
                                         IconButton(
                                           icon: const Icon(
-                                              Icons.check,
-                                              color: appGreen,
-                                              size: 24.0),
-                                          onPressed: () {
-
-                                          },
-                                        ),
-
-                                        const SizedBox(width: 8.0),
-
-                                        IconButton(
-                                          icon: const Icon(
-                                              Icons.close,
-                                              color: Colors.red,
-                                              size: 24.0),
+                                            Icons.check,
+                                            color: appGreen,
+                                            size: 24.0,
+                                          ),
                                           onPressed: () {
                                             showDialog(
                                               context: context,
                                               builder: (BuildContext context) {
-                                                return AlertDialog(
-                                                  title: const Text("Confirm Denied"),
-                                                  content: const Text("Are you sure you want to denied this request?"),
+                                               return AlertDialog(
+                                                  title: const Text("Confirm Approval"),
+                                                  content: const Text("Are you sure you want to approve this request?"),
                                                   actions: <Widget>[
                                                     TextButton(
                                                       onPressed: () {
-                                                        Navigator.of(context).pop(); // Close the dialog
+                                                        Navigator.of(context).pop();
                                                       },
                                                       child: const Text("Cancel"),
                                                     ),
                                                     TextButton(
                                                       onPressed: () {
-
+                                                        String appointmentId = id; // Get the appointmentId from the document
+                                                        String userID = data['userID']; // Get the userID from the document
+                                                        if (appointmentId.isNotEmpty && userID.isNotEmpty) {
+                                                          approvedAppointment(userID, appointmentId);
+                                                          Navigator.of(context).pop(); // Close the dialog
+                                                        } else {
+                                                          // Handle case where either appointmentId or userID is empty
+                                                        }
                                                       },
-                                                      child: const Text("Denied",
-                                                        style: TextStyle(
-                                                            color: appRed
-                                                        ),
-                                                      ),
+                                                      child: const Text("Approve", style: TextStyle(color: appGreen)),
+                                                    ),
+                                                  ],
+                                                );
+                                              },
+                                            );
+                                          },
+                                        ),
+
+                                        const SizedBox(width: 8.0),
+                                        IconButton(
+                                          icon: const Icon(
+                                              Icons.close,
+                                              color: Colors.red,
+                                              size: 24.0
+                                          ),
+                                          onPressed: () {
+                                            showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) {
+                                               return AlertDialog(
+                                                  title: const Text("Confirm Deny"),
+                                                  content: const Text("Are you sure you want to deny this request?"),
+                                                  actions: <Widget>[
+                                                    TextButton(
+                                                      onPressed: () {
+                                                        Navigator.of(context).pop();
+                                                      },
+                                                      child: const Text("Cancel"),
+                                                    ),
+                                                    TextButton(
+                                                      onPressed: () {
+                                                        String appointmentId = id; // Get the appointmentId from the document
+                                                        String userID = data['userID']; // Get the userID from the document
+                                                        if (appointmentId.isNotEmpty && userID.isNotEmpty) {
+                                                          denyAppointment(userID, appointmentId);
+                                                          Navigator.of(context).pop(); // Close the dialog
+                                                        } else {
+                                                          // Handle case where either appointmentId or userID is empty
+                                                        }
+                                                      },
+                                                      child: const Text("Deny", style: TextStyle(color: appRed)),
                                                     ),
                                                   ],
                                                 );
@@ -214,10 +270,10 @@ class _AdminApprovalState extends State<AdminApproval> {
                                   ),
                               ],
                             ),
+
                           ),
                         );
-                      },
-                      ).toList(),
+                      }).toList(),
                     ],
                   );
                 },
