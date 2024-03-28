@@ -1,15 +1,19 @@
+import 'package:bethel_app_final/BACK_END/Services/Functions/Users.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
-import 'church_event_source.dart';
-
 
 class AddEventChurch extends StatefulWidget {
   final DateTime firstDate3;
   final DateTime lastDate3;
   final DateTime selectedDate3; // Modify to accept the selected date
-  const AddEventChurch({Key? key, required this.firstDate3, required this.lastDate3, required this.selectedDate3, required churchEvent}) : super(key: key);
+  const AddEventChurch(
+      {Key? key,
+        required this.firstDate3,
+        required this.lastDate3,
+        required this.selectedDate3,
+        required String churchEvent})
+      : super(key: key);
 
   @override
   State<AddEventChurch> createState() => _AddEventChurchState();
@@ -28,7 +32,8 @@ class _AddEventChurchState extends State<AddEventChurch> {
     _fetchEventChurchTypes().then((types) {
       setState(() {
         _churchEventTypes = types;
-        _selectedChurchEventType = _churchEventTypes.isNotEmpty ? _churchEventTypes.first : '';
+        _selectedChurchEventType =
+        _churchEventTypes.isNotEmpty ? _churchEventTypes.first : '';
       });
     });
   }
@@ -42,7 +47,9 @@ class _AddEventChurchState extends State<AddEventChurch> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Add Church Event")),
+      appBar: AppBar(
+        title: const Text("Create Church Event"),
+      ),
       body: FutureBuilder<List<String>>(
         future: _fetchEventChurchTypes(),
         builder: (context, snapshot) {
@@ -103,43 +110,34 @@ class _AddEventChurchState extends State<AddEventChurch> {
   }
 
   Future<List<String>> _fetchEventChurchTypes() async {
-    try {
-      // Simulate fetching event types from Firestore
-      await Future.delayed(Duration(seconds: 1)); // Simulate network delay
-      List<String> eventTypes = ['Meeting', 'Conference', 'Seminar', 'Workshop', 'Webinar'];
-      return eventTypes;
-    } catch (e) {
-      print('Error fetching event types: $e');
-      return [];
-    }
+    // Simulate fetching event types from somewhere
+    await Future.delayed(Duration(microseconds: 100)); // Simulate network delay
+    List<String> eventTypes = ['Meeting', 'Conference', 'Seminar', 'Workshop', 'Webinar'];
+    return eventTypes;
   }
 
   void _addEvent(DateTime selectedDate) async {
     final description = _descController3.text;
-
     final currentUser = FirebaseAuth.instance.currentUser;
     if (currentUser == null) {
       print('No user is currently signed in');
       return;
     }
 
-    final eventDocRef = await FirebaseFirestore.instance.collection('churchEvent').add({
-      "description": description,
-      "date": Timestamp.fromDate(_selectedDate3),
-
-      "ChurchEventType": _selectedChurchEventType,
-    });
-
-    final churchevent = ChurchEvent(
-      id: eventDocRef.id,
-      description: description,
-      date: _selectedDate3,
-      churchEventType: _selectedChurchEventType,
+    await UserStorage().createAdminEvent(
+      currentUser.uid,
+      {
+        "description": description,
+        "date": Timestamp.fromDate(_selectedDate3),
+        "ChurchEventType": _selectedChurchEventType,
+      },
+      "Church Event", // Specify the event type as "Church Event"
     );
-    _showSuccessDialogEvent();
+
+    _showSuccessDialogEvent(context);
   }
 
-  void _showSuccessDialogEvent() {
+  void _showSuccessDialogEvent(BuildContext context) {
     showDialog(
       context: context,
       builder: (BuildContext context) {

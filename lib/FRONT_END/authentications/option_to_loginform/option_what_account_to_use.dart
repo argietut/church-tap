@@ -1,4 +1,4 @@
-import 'package:bethel_app_final/BACK_END/Services/Functions/Member_Functions/member_functions.dart';
+import 'package:bethel_app_final/BACK_END/Services/Functions/Authentication.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/screens/terms_page.dart';
 import 'package:bethel_app_final/FRONT_END/authentications/auth_classes/squaretile.dart';
 import 'package:bethel_app_final/FRONT_END/authentications/member_auth/member_auth_page.dart';
@@ -47,13 +47,13 @@ class OptionToPlatformToLogin extends StatelessWidget {
                   )
               ),
               const SizedBox(height: 50),
-              Container(
+              SizedBox(
                 width: 280,
                 height: 45,
                 child: ElevatedButton(
                   onPressed: () async {
                     try {
-                      await AuthServiceGoogle().signInWithGoogle(context); // Pass the context here
+                      await AuthServiceGoogle().signInWithGoogle(context);
                     } catch (e) {
                       print("Error signing in with Google: $e");
                       // Handle error

@@ -35,7 +35,6 @@ class UserStorage {
   }
 
 
-
  Future<List<DateTime>> getPendingDate(String uid) async {
     List<DateTime> documents = [];
      await db.collection("users")
@@ -85,8 +84,6 @@ class UserStorage {
     return documents;
   }
 
-  // get member pending appointment
-  // user bounded
   Stream<QuerySnapshot> fetchPendingAppointments(String uid) {
     return db
         .collection("users")
@@ -97,15 +94,13 @@ class UserStorage {
         .snapshots();
   }
 
-  // get all pending appointment of all members
+
   Stream<QuerySnapshot> fetchAllPendingAppointments() {
     return db
         .collectionGroup("Pending Appointment")
         .snapshots();
   }
 
-  // get member approved appointment
-  // user bounded
   Stream<QuerySnapshot> fetchApprovedAppointments(String uid) {
     return db
         .collection("users")
@@ -115,7 +110,7 @@ class UserStorage {
         .collection("Approved Appointment")
         .snapshots();
   }
-  // get all approved appointment of all member
+
   Stream<QuerySnapshot> fetchAllApprovedAppointments() {
     return db
         .collectionGroup("Approved Appointment")
@@ -190,4 +185,24 @@ class UserStorage {
         .snapshots();
   }
 
+  Future<void> createAdminEvent(String uniqueID, Map<String, dynamic> dateTime,
+      String event) async {
+    try {
+      db.collection("users")
+          .doc("admin")
+          .collection(uniqueID)
+          .doc("Event")
+          .collection("Church Event")
+          .doc().set(dateTime);
+    } catch (e) {
+      log("Error code STORAGE: $e");
+    }
+  }
+
+
+  Stream<QuerySnapshot> fetchChurchEvent(){
+    return db
+        .collectionGroup("Church Event")
+        .snapshots();
+  }
 }

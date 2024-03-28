@@ -107,7 +107,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                   if (snapshot.data == null || snapshot.data!.docs.isEmpty) {
                     return Center(
                       child: Text(
-                        'No ${_selectedEventType.toLowerCase()} found.',
+                        'No ${_selectedEventType.toLowerCase()}',
                         style: const TextStyle(
                           fontSize: 18,
                         ),
