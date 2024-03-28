@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:bethel_app_final/BACK_END/Services/Functions/Authentication.dart';
 import 'package:bethel_app_final/BACK_END/Services/Functions/Users.dart';
+import 'package:bethel_app_final/FRONT_END/AdminScreens/church_event_source/add_event_church.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/appointment_page.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/screen_pages/appointment_source_directory/add_appointment.dart';
 import 'package:bethel_app_final/FRONT_END/constant/color.dart';
@@ -216,7 +217,9 @@ class _CustomCalendarState extends State<CustomCalendar> {
                   ),
                 ),
                 const SizedBox(height: 15),
-                EventMakerButton(),
+                EventMakerButton(
+                    context
+                ),
                 const SizedBox(height: 180),
               ],
             ),
@@ -265,9 +268,9 @@ Widget member(BuildContext context){
                         Expanded(
                           child: AppointmentMakerButton(),
                         ),
-                        Expanded(
-                          child: EventMakerButton(),
-                        ),
+                        // Expanded(
+                        //   child: EventMakerButton(),
+                        // ),
                       ],
                     ),
                   ],
@@ -298,22 +301,40 @@ Widget AppointmentMakerButton(){
      ),
     );
 }
-Widget EventMakerButton(){
-    return TextButton(onPressed: () {
-      
-    }, child: const Row(
-      children: [
-        Icon(
-            Icons.calendar_month_outlined),
-        Text(
-            "  Events",
-          style: TextStyle(
-            color: appBlack
+  Widget EventMakerButton(BuildContext context) {
+    final DateTime currentDate = DateTime.now();
+    final DateTime firstDate = DateTime(currentDate.year - 1);
+    final DateTime lastDate = DateTime(currentDate.year + 1);
+    final DateTime selectedDate = currentDate;
+
+    return TextButton(
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => AddEventChurch(
+              firstDate3: firstDate,
+              lastDate3: lastDate,
+              selectedDate3: selectedDate,
+              churchEvent: 'exampleChurchEvent', // Provide a church event value
+            ),
           ),
-        )
-      ],
-      mainAxisAlignment: MainAxisAlignment.center,));
-}
+        );
+      },
+      child: Row(
+        children: [
+          Icon(Icons.calendar_month_outlined),
+          Text(
+            "  Events",
+            style: TextStyle(
+              color: Colors.black,
+            ),
+          ),
+        ],
+        mainAxisAlignment: MainAxisAlignment.center,
+      ),
+    );
+  }
 
 
 }

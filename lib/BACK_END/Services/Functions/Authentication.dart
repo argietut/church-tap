@@ -1,7 +1,11 @@
 import 'dart:developer';
 import 'package:bethel_app_final/BACK_END/Services/Functions/Users.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/profile_page.dart';
+import 'package:bethel_app_final/FRONT_END/MemberScreens/widget_member/navigation_bar.dart';
+import 'package:bethel_app_final/FRONT_END/authentications/auth_classes/snackbar_error.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class TapAuth {
   late String _uid;
@@ -65,7 +69,6 @@ class TapAuth {
     }
   }
 
-
 Future<void> sendUserVerifcationEmail() async{
     auth.currentUser?.sendEmailVerification();
 }
@@ -92,7 +95,6 @@ Future<void> sendUserVerifcationEmail() async{
       return _email;
     }
 
-
     registerUserToFireStore() {
       var user_full_details = <String, String>{
         "name": getUsername(),
@@ -101,11 +103,6 @@ Future<void> sendUserVerifcationEmail() async{
       };
       return user_full_details;
     }
-
-
-
-
-
 
     //get current user ID
     getCurrentUserUID(){
@@ -121,24 +118,64 @@ Future<void> sendUserVerifcationEmail() async{
   User? getCurrentUser() {
     return tapAuth.auth.currentUser;
   }
-
-//user profile information
-//   String get profilePicture => _profilePicture;
-//
-//   void setProfilePicture(String url) {
-//     _profilePicture = url;
-//   }
-//
-//   Future<void> getCurrentUserInformation() async {
-//     _user = auth.currentUser;
-//     if (_user != null) {
-//       _uid = _user!.uid;
-//       _email = _user!.email ?? '';
-//       _name = _user!.displayName ?? '';
-//       _profilePicture = _user!.photoURL ?? '';
-//     }
-//   }
-
-
-
 }
+
+class AuthServiceGoogle {
+  Future<void> signInWithGoogle(BuildContext context) async {
+    try {
+      final GoogleSignInAccount? gUser = await GoogleSignIn().signIn();
+      if (gUser == null) {
+        print("Google sign-in canceled or failed");
+        return;
+      }
+
+      final GoogleSignInAuthentication gAuth = await gUser.authentication;
+      final credential = GoogleAuthProvider.credential(
+        accessToken: gAuth.accessToken,
+        idToken: gAuth.idToken,
+      );
+      final userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
+
+      if (userCredential.user != null) {
+        if (userCredential.user!.emailVerified) {
+          // Save user data using UserStorage
+          final UserStorage userStorage = UserStorage();
+          await userStorage.createUser(
+            userCredential.user!.uid,
+            {
+              "name": userCredential.user!.displayName ?? "",
+              "email": userCredential.user!.email ?? "",
+              "Unique ID": userCredential.user!.uid,
+            },
+            'members',
+          );
+          // Initialize TapAuth and set user details
+          final TapAuth tapAuth = TapAuth();
+          tapAuth.setRegisterAllDetails();
+
+          // Navigate to the homepage
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const HomePage(),
+            ),
+          );
+        } else {
+          // User's email is not verified, show a Snackbar
+          SnackbarUtils.showCustomSnackbar(
+            context,
+            title: 'Account Not Verified',
+            messages: [
+              'Your account is not verified yet.',
+              'Please check your email and verify your account.',
+            ],
+          );
+        }
+      }
+    } catch (e) {
+      print("Error signing in with Google: $e");
+      // Handle error
+    }
+  }
+}
+
