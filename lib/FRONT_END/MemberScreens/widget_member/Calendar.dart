@@ -247,7 +247,7 @@ Widget member(BuildContext context){
                   Text(
                     "Request Appointment",
                     style: TextStyle(
-                      fontSize: 30,
+                      fontSize: 26,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
