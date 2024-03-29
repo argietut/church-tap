@@ -18,6 +18,9 @@ void signUserOut() {
 class _AdminHomePageState extends State<AdminHomePage> {
   final UserStorage userStorage = UserStorage();
   String _selectedEventType = 'Upcoming Events';
+  bool sortByMonth = false;
+  bool sortByDay = false;
+  int clickCount = 0;
 
   String formatDateTime(Timestamp? timeStamp) {
     if (timeStamp == null) {
@@ -29,6 +32,24 @@ class _AdminHomePageState extends State<AdminHomePage> {
       "July", "August", "September", "October", "November", "December"
     ];
     return "${months[dateTime.month - 1]} ${dateTime.day}, ${dateTime.year}";
+  }
+
+  List<DocumentSnapshot> sortEventsByMonth(List<DocumentSnapshot> events) {
+    events.sort((a, b) {
+      DateTime dateA = (a.data() as Map<String, dynamic>)["date"].toDate();
+      DateTime dateB = (b.data() as Map<String, dynamic>)["date"].toDate();
+      return dateA.month.compareTo(dateB.month);
+    });
+    return events;
+  }
+
+  List<DocumentSnapshot> sortEventsByDay(List<DocumentSnapshot> events) {
+    events.sort((a, b) {
+      DateTime dateA = (a.data() as Map<String, dynamic>)["date"].toDate();
+      DateTime dateB = (b.data() as Map<String, dynamic>)["date"].toDate();
+      return dateA.day.compareTo(dateB.day);
+    });
+    return events;
   }
 
   @override
@@ -44,10 +65,20 @@ class _AdminHomePageState extends State<AdminHomePage> {
               children: [
                 IconButton(
                   onPressed: () {
-                    // Toggling sort order when IconButton is pressed
+                    setState(() {
+                      clickCount++;
+                      if (clickCount % 2 == 1) {
+                        sortByMonth = true;
+                        sortByDay = false;
+                      } else {
+                        sortByMonth = false;
+                        sortByDay = true;
+                      }
+                    });
                   },
                   icon: const Icon(Icons.sort),
                 ),
+
                 const Text(
                   "Admin Events",
                   style: TextStyle(
@@ -93,7 +124,6 @@ class _AdminHomePageState extends State<AdminHomePage> {
                 ),
               ),
             ),
-
             Expanded(
               child: StreamBuilder<QuerySnapshot>(
                 stream: userStorage.fetchAllApprovedAppointments(),
@@ -114,10 +144,16 @@ class _AdminHomePageState extends State<AdminHomePage> {
                       ),
                     );
                   }
+                  List<DocumentSnapshot> sortedEvents = snapshot.data!.docs;
+                  if (sortByMonth) {
+                    sortedEvents = sortEventsByMonth(sortedEvents);
+                  } else if (sortByDay) {
+                    sortedEvents = sortEventsByDay(sortedEvents);
+                  }
                   return ListView.builder(
-                    itemCount: snapshot.data!.docs.length,
+                    itemCount: sortedEvents.length,
                     itemBuilder: (context, index) {
-                      DocumentSnapshot document = snapshot.data!.docs[index];
+                      DocumentSnapshot document = sortedEvents[index];
                       final id = document.id;
                       Map<String, dynamic> data = document.data() as Map<String, dynamic>;
                       Timestamp timeStamp = data["date"];
@@ -173,4 +209,5 @@ class _AdminHomePageState extends State<AdminHomePage> {
       ),
     );
   }
+
 }
