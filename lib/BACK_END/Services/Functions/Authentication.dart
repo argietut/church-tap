@@ -2,7 +2,6 @@ import 'dart:developer';
 import 'package:bethel_app_final/BACK_END/Services/Functions/Users.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/profile_page.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/widget_member/navigation_bar.dart';
-import 'package:bethel_app_final/FRONT_END/authentications/auth_classes/snackbar_error.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -161,14 +160,14 @@ class AuthServiceGoogle {
             ),
           );
         } else {
-          // User's email is not verified, show a Snackbar
-          SnackbarUtils.showCustomSnackbar(
+          // Show Snackbar for unverified account
+          showSnackbar(
             context,
             title: 'Account Not Verified',
             messages: [
-              'Your account is not verified yet.',
-              'Please check your email and verify your account.',
+              'Your account is not verified yet. Please check your email and verify your account.',
             ],
+            backgroundColor: Colors.red,
           );
         }
       }
@@ -177,5 +176,29 @@ class AuthServiceGoogle {
       // Handle error
     }
   }
+
+  void showSnackbar(BuildContext context, {required String title, required List<String> messages, Color? backgroundColor}) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: backgroundColor ?? Colors.blue, // Default color if not provided
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              title,
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 16.0,
+              ),
+            ),
+            const SizedBox(height: 4.0),
+            ...messages.map((message) => Text(message)),
+          ],
+        ),
+      ),
+    );
+  }
+
 }
 

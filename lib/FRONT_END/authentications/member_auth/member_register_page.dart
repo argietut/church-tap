@@ -1,7 +1,6 @@
 import 'package:bethel_app_final/BACK_END/Services/Functions/Authentication.dart';
 import 'package:bethel_app_final/FRONT_END/authentications/auth_classes/my_button1.dart';
 import 'package:bethel_app_final/FRONT_END/authentications/auth_classes/my_textfield.dart';
-import 'package:bethel_app_final/FRONT_END/authentications/auth_classes/snackbar_error.dart';
 import 'package:bethel_app_final/FRONT_END/authentications/member_auth/member_login_page.dart';
 import 'package:bethel_app_final/FRONT_END/constant/color.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +27,16 @@ class _MemberRegisterPageState extends State<MemberRegisterPage> {
   bool _obscurePassword = true;
   bool _obscurePassword1 = true;
 
+  void showSnackbar(String message, {Color? backgroundColor}) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: backgroundColor,
+        duration: const Duration(seconds: 3),
+      ),
+    );
+  }
+
   void signUserUp() async {
     try {
       String username = usernameController.text.trim();
@@ -36,95 +45,50 @@ class _MemberRegisterPageState extends State<MemberRegisterPage> {
       String confirmPassword = confirmPasswordController.text.trim();
 
       // Validate input fields
-      if (username.isEmpty
-          || email.isEmpty
-          || password.isEmpty
-          || confirmPassword.isEmpty) {
-        SnackbarUtils.showCustomSnackbar(
-          context,
-          title: 'Ohh my god!',
-          messages: [
-            'Please fill out all fields to proceed.',
-            'Please try again!',
-          ],
-        );
+      if (username.isEmpty || email.isEmpty || password.isEmpty || confirmPassword.isEmpty) {
+        showSnackbar('Please fill out all fields to proceed. Please try again!',
+            backgroundColor: Colors.red);
         return;
       }
-
 
       // Email validation logic
       if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(email)) {
-        SnackbarUtils.showCustomSnackbar(
-          context,
-          title: 'Ohh my god!',
-          messages: [
-            'Please enter a valid email address format.',
-            'Please try again!',
-          ],
-        );
+        showSnackbar('Please enter a valid email address format. Please try again!',
+            backgroundColor: Colors.red);
         return;
       }
 
-
       if (!email.endsWith("@gmail.com")) {
-        SnackbarUtils.showCustomSnackbar(
-          context,
-          title: 'Ohh my god!',
-          messages: [
-            'Please enter a valid email address format.',
-            'Please try again!',
-          ],
-        );
+        showSnackbar('Please enter a valid email address format. Please try again!',
+            backgroundColor: Colors.red);
         return;
       }
 
       // Password validation logic
       if (password.length < 8) {
-        SnackbarUtils.showCustomSnackbar(
-          context,
-          title: 'Ohh my god!',
-          messages: [
-            'Password must be at least 8 characters long.',
-            'Please try again!',
-          ],
-        );
+        showSnackbar('Password must be at least 8 characters long. Please try again!',
+            backgroundColor: Colors.red);
         return;
       }
-
-
 
       if (!RegExp(r'^(?=.*[a-zA-Z])(?=.*\d)[A-Za-z\d]+$').hasMatch(password)) {
-        SnackbarUtils.showCustomSnackbar(
-          context,
-          title: 'Ohh my god!',
-          messages: [
-            'Password must contain both letters and numbers.',
-            'Please try again!',
-          ],
-        );
+        showSnackbar('Password must contain both letters and numbers. Please try again!',
+            backgroundColor: Colors.red);
         return;
       }
-
 
       if (password != confirmPassword) {
-        SnackbarUtils.showCustomSnackbar(
-          context,
-          title: 'Ohh my god!',
-          messages: [
-            'Passwords dont match!',
-            'Please try again!',
-          ],
-        );
+        showSnackbar('Passwords don\'t match. Please try again!',
+            backgroundColor: Colors.red);
         return;
       }
 
-
       // Sign up the user
-      await tapAuth.createUserAuth(username, email, password,"members");
+      await tapAuth.createUserAuth(username, email, password, "members");
 
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          elevation: 0,
+          elevation: 2,
           behavior: SnackBarBehavior.fixed,
           backgroundColor: Colors.transparent,
           content: Row(
@@ -142,18 +106,17 @@ class _MemberRegisterPageState extends State<MemberRegisterPage> {
                       fontWeight: FontWeight.bold,
                       color: appBlack),
                 ),
-
               ),
             ],
           ),
         ),
       );
 
-       showDialog(
+      showDialog(
         context: context,
         barrierDismissible: true,
         builder: (BuildContext context) {
-          return AlertDialog(
+          return const AlertDialog(
             content: SizedBox(
               height: 50,
               child: Center(
@@ -164,9 +127,9 @@ class _MemberRegisterPageState extends State<MemberRegisterPage> {
         },
       );
 
-      await Future.delayed(Duration(seconds: 1));
+      await Future.delayed(const Duration(seconds: 1));
 
-// Navigate to the member login page directly after registration
+      // Navigate to the member login page directly after registration
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => const MemberLoginPage()),
       );
