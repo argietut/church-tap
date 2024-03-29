@@ -1,34 +1,42 @@
-import 'package:bethel_app_final/FRONT_END/constant/color.dart';
-import 'package:flutter/material.dart';
-
-enum ApprovalSortingOption {
-  Month,
-  Week,
-}
-
-class ApprovalSortingButton {
-  ApprovalSortingOption _currentSortingOption = ApprovalSortingOption.Month;
-
-  ApprovalSortingOption get currentSortingOption => _currentSortingOption;
-
-  void toggleSortingOption() {
-    _currentSortingOption = _currentSortingOption == ApprovalSortingOption.Month
-        ? ApprovalSortingOption.Week
-        : ApprovalSortingOption.Month;
-  }
-
-  Widget buildIconButton({required VoidCallback onPressed}) {
-    return IconButton(
-      onPressed: onPressed,
-      style: IconButton.styleFrom(
-        shape: const CircleBorder(
-          side: BorderSide(
-            color: appGrey,
-            width: 1.0,
-          ),
-        ),
-      ),
-      icon: const Icon(Icons.sort),
-    );
-  }
-}
+// import 'dart:async';
+// import 'dart:developer';
+// import 'package:cloud_firestore/cloud_firestore.dart';
+//
+//
+// abstract class UserStorage {
+//   Future<void> approvedAppointment(String userID, String appointmentId);
+//   Future<void> denyAppointment(String userID, String appointmentId);
+//   Stream<QuerySnapshot> fetchAllPendingAppointments();
+// // Add any other abstract methods or properties here
+// }
+//
+// // Concrete implementation of UserStorage
+// class ConcreteUserStorage extends UserStorage {
+//   final FirebaseFirestore db = FirebaseFirestore.instance;
+//
+//   @override
+//   Future<void> approvedAppointment(String userID, String appointmentId) async {
+//     try {
+//       // Implementation for approving appointment
+//     } catch (e) {
+//       log("Error approving appointment: $e");
+//     }
+//   }
+//
+//   @override
+//   Future<void> denyAppointment(String userID, String appointmentId) async {
+//     try {
+//       // Implementation for denying appointment
+//     } catch (e) {
+//       log("Error denying appointment: $e");
+//     }
+//   }
+//
+//   @override
+//   Stream<QuerySnapshot> fetchAllPendingAppointments() {
+//     // Implementation for fetching all pending appointments
+//     return db.collection("pending_appointments").snapshots();
+//   }
+//
+//
+// }

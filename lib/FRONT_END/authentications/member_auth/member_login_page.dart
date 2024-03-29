@@ -46,7 +46,8 @@ class _MemberLoginPageState extends State<MemberLoginPage> {
       String password = passwordController.text.trim();
 
       if (email.isEmpty || password.isEmpty) {
-        showSnackbar('Please fill out all fields to proceed. Please try again!', backgroundColor: Colors.red);
+        showSnackbar('Please fill out all fields to proceed. Please try again!',
+            backgroundColor: Colors.red);
         return;
       }
 
@@ -54,13 +55,34 @@ class _MemberLoginPageState extends State<MemberLoginPage> {
         bool loginSuccessful = await tapAuth.loginUserAuth(email, password);
 
         if (!loginSuccessful) {
-          showSnackbar('Your account is not verified yet. Please check your email and verify your account.', backgroundColor: Colors.red);
+          showSnackbar('Your account is not verified yet. Please check your email and verify your account.',
+              backgroundColor: Colors.red);
         } else {
-          // If login successful and account verified, navigate to home page
+          showDialog(
+            context: context,
+            barrierDismissible: true,
+            builder: (BuildContext context) {
+              return const AlertDialog(
+                content: SizedBox(
+                  height: 50,
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                ),
+              );
+            },
+          );
           await Future.delayed(const Duration(seconds: 1));
-          Navigator.of(context).pushReplacement(
+
+          // Navigate to HomePage and await until navigation completes
+          await Navigator.of(context).pushReplacement(
             MaterialPageRoute(builder: (context) => const HomePage()),
           );
+
+          // Stop the loading once navigation is completed
+          setState(() {
+            _loading = false;
+          });
         }
       } on Exception catch (e) {
         // Catch exceptions thrown by loginUserAuth
@@ -74,7 +96,8 @@ class _MemberLoginPageState extends State<MemberLoginPage> {
       }
     } catch (e) {
       print("Error occurred: $e");
-      showSnackbar('An error occurred. Please try again later.', backgroundColor: Colors.red);
+      showSnackbar('An error occurred. Please try again later.',
+          backgroundColor: Colors.red);
     } finally {
       setState(() {
         _loading = false; // Stop circular loading

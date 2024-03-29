@@ -17,6 +17,9 @@ class _AdminApprovalState extends State<AdminApproval> {
   Map<String, bool> showOptionsMap = {};
   SortingButton sortingButton = SortingButton();
   final UserStorage userStorage = UserStorage();
+  bool sortByMonth = false;
+  bool sortByDay = false;
+  int clickCount = 0;
 
   @override
   void initState() {
@@ -26,11 +29,13 @@ class _AdminApprovalState extends State<AdminApproval> {
 
   Future<void> _initializeStream() async {
     try {
-      _pendingAppointmentsStream = UserStorage().fetchAllPendingAppointments();
+      _pendingAppointmentsStream =
+          UserStorage().fetchAllPendingAppointments();
     } catch (e) {
       log("Error initializing stream: $e");
     }
   }
+
   Future<void> approvedAppointment(String userID, String appointmentId) async {
     try {
       await userStorage.approvedAppointment(userID, appointmentId);
@@ -46,6 +51,29 @@ class _AdminApprovalState extends State<AdminApproval> {
       log("Error denying appointment: $e");
     }
   }
+
+  // Method to sort appointments by month
+  List<DocumentSnapshot> sortAppointmentsByMonth(QuerySnapshot snapshot) {
+    List<DocumentSnapshot> appointments = snapshot.docs;
+    if (sortByMonth) {
+      appointments.sort((a, b) {
+        DateTime dateA = (a.data() as Map<String, dynamic>)["date"].toDate();
+        DateTime dateB = (b.data() as Map<String, dynamic>)["date"].toDate();
+        return dateA.month.compareTo(dateB.month);
+      });
+    }
+    return appointments;
+  }
+
+  List<DocumentSnapshot> sortAppointmentsEventsByDay(List<DocumentSnapshot> appointments) {
+    appointments.sort((a, b) {
+      DateTime dateA = (a.data() as Map<String, dynamic>)["date"].toDate();
+      DateTime dateB = (b.data() as Map<String, dynamic>)["date"].toDate();
+      return dateA.day.compareTo(dateB.day);
+    });
+    return appointments;
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +94,18 @@ class _AdminApprovalState extends State<AdminApproval> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    setState(() {
+                      clickCount++;
+                      if (clickCount % 2 == 1) {
+                        sortByMonth = true;
+                        sortByDay = false;
+                      } else {
+                        sortByMonth = false;
+                        sortByDay = true;
+                      }
+                    });
+                  },
                   icon: const Icon(Icons.sort),
                 ),
                 const Text(
@@ -104,6 +143,8 @@ class _AdminApprovalState extends State<AdminApproval> {
                       ),
                     );
                   }
+                  List<DocumentSnapshot> sortedAppointments =
+                  sortAppointmentsByMonth(snapshot.data!);
                   return ListView(
                     children: [
                       const Padding(
@@ -116,7 +157,7 @@ class _AdminApprovalState extends State<AdminApproval> {
                           ),
                         ),
                       ),
-                      ...snapshot.data!.docs.map((DocumentSnapshot document) {
+                      ...sortedAppointments.map((DocumentSnapshot document) {
                         final id = document.id;
                         Map<String, dynamic> data =
                         document.data() as Map<String, dynamic>;
@@ -171,7 +212,8 @@ class _AdminApprovalState extends State<AdminApproval> {
                                   icon: const Icon(Icons.info),
                                   onPressed: () {
                                     setState(() {
-                                      showOptionsMap[id] = !(showOptionsMap[id] ?? false);
+                                      showOptionsMap[id] =
+                                      !(showOptionsMap[id] ?? false);
                                     });
                                   },
                                 ),
@@ -194,28 +236,42 @@ class _AdminApprovalState extends State<AdminApproval> {
                                             showDialog(
                                               context: context,
                                               builder: (BuildContext context) {
-                                               return AlertDialog(
-                                                  title: const Text("Confirm Approval"),
-                                                  content: const Text("Are you sure you want to approve this request?"),
+                                                return AlertDialog(
+                                                  title:
+                                                  const Text("Confirm Approval"),
+                                                  content: const Text(
+                                                      "Are you sure you want to approve this request?"),
                                                   actions: <Widget>[
                                                     TextButton(
                                                       onPressed: () {
-                                                        Navigator.of(context).pop();
+                                                        Navigator.of(context)
+                                                            .pop();
                                                       },
-                                                      child: const Text("Cancel"),
+                                                      child:
+                                                      const Text("Cancel"),
                                                     ),
                                                     TextButton(
                                                       onPressed: () {
-                                                        String appointmentId = id; // Get the appointmentId from the document
-                                                        String userID = data['userID']; // Get the userID from the document
-                                                        if (appointmentId.isNotEmpty && userID.isNotEmpty) {
-                                                          approvedAppointment(userID, appointmentId);
-                                                          Navigator.of(context).pop(); // Close the dialog
+                                                        String appointmentId =
+                                                            id; // Get the appointmentId from the document
+                                                        String userID =
+                                                        data['userID']; // Get the userID from the document
+                                                        if (appointmentId
+                                                            .isNotEmpty &&
+                                                            userID.isNotEmpty) {
+                                                          approvedAppointment(
+                                                              userID,
+                                                              appointmentId);
+                                                          Navigator.of(context)
+                                                              .pop(); // Close the dialog
                                                         } else {
                                                           // Handle case where either appointmentId or userID is empty
                                                         }
                                                       },
-                                                      child: const Text("Approve", style: TextStyle(color: appGreen)),
+                                                      child: const Text(
+                                                          "Approve",
+                                                          style: TextStyle(
+                                                              color: appGreen)),
                                                     ),
                                                   ],
                                                 );
@@ -223,40 +279,49 @@ class _AdminApprovalState extends State<AdminApproval> {
                                             );
                                           },
                                         ),
-
                                         const SizedBox(width: 8.0),
                                         IconButton(
-                                          icon: const Icon(
-                                              Icons.close,
-                                              color: Colors.red,
-                                              size: 24.0
-                                          ),
+                                          icon: const Icon(Icons.close,
+                                              color: Colors.red, size: 24.0),
                                           onPressed: () {
                                             showDialog(
                                               context: context,
                                               builder: (BuildContext context) {
-                                               return AlertDialog(
-                                                  title: const Text("Confirm Deny"),
-                                                  content: const Text("Are you sure you want to deny this request?"),
+                                                return AlertDialog(
+                                                  title:
+                                                  const Text("Confirm Deny"),
+                                                  content: const Text(
+                                                      "Are you sure you want to deny this request?"),
                                                   actions: <Widget>[
                                                     TextButton(
                                                       onPressed: () {
-                                                        Navigator.of(context).pop();
+                                                        Navigator.of(context)
+                                                            .pop();
                                                       },
-                                                      child: const Text("Cancel"),
+                                                      child:
+                                                      const Text("Cancel"),
                                                     ),
                                                     TextButton(
                                                       onPressed: () {
-                                                        String appointmentId = id; // Get the appointmentId from the document
-                                                        String userID = data['userID']; // Get the userID from the document
-                                                        if (appointmentId.isNotEmpty && userID.isNotEmpty) {
-                                                          denyAppointment(userID, appointmentId);
-                                                          Navigator.of(context).pop(); // Close the dialog
+                                                        String appointmentId =
+                                                            id; // Get the appointmentId from the document
+                                                        String userID =
+                                                        data['userID']; // Get the userID from the document
+                                                        if (appointmentId
+                                                            .isNotEmpty &&
+                                                            userID.isNotEmpty) {
+                                                          denyAppointment(
+                                                              userID,
+                                                              appointmentId);
+                                                          Navigator.of(context)
+                                                              .pop(); // Close the dialog
                                                         } else {
                                                           // Handle case where either appointmentId or userID is empty
                                                         }
                                                       },
-                                                      child: const Text("Deny", style: TextStyle(color: appRed)),
+                                                      child: const Text("Deny",
+                                                          style: TextStyle(
+                                                              color: appRed)),
                                                     ),
                                                   ],
                                                 );
@@ -264,13 +329,11 @@ class _AdminApprovalState extends State<AdminApproval> {
                                             );
                                           },
                                         ),
-
                                       ],
                                     ),
                                   ),
                               ],
                             ),
-
                           ),
                         );
                       }).toList(),
