@@ -150,7 +150,7 @@ class _AdminApprovalState extends State<AdminApproval> {
                       const Padding(
                         padding: EdgeInsets.all(8.0),
                         child: Text(
-                          'Pending Requests:',
+                          'Pending Requests',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 16,

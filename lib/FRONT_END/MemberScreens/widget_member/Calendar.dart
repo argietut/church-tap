@@ -203,6 +203,7 @@ class _CustomCalendarState extends State<CustomCalendar> {
 
                   ),
                 ),
+                const SizedBox(height: 30),
 
                 const Center(
                   child: Text('Create events',
@@ -213,10 +214,10 @@ class _CustomCalendarState extends State<CustomCalendar> {
                   ),
                 ),
                 const SizedBox(height: 15),
-                EventMakerButton(
-                    context
-                ),
-                const SizedBox(height: 180),
+
+                EventMakerButton(context),
+
+                const SizedBox(height: 140),
               ],
             ),
           ),
@@ -263,6 +264,7 @@ Widget member(BuildContext context){
                       children: [
                         Expanded(
                           child: AppointmentMakerButton(),
+
                         ),
                         // Expanded(
                         //   child: EventMakerButton(),
@@ -283,7 +285,8 @@ Widget AppointmentMakerButton(){
       Navigator.push(context, MaterialPageRoute(
         builder: (context) => AddAppointment(
             firstDate: DateTime.utc(currentYear,1,1),
-            lastDate: DateTime(currentYear+1,1,1,0), selectedDate:_selectedDay ),
+            lastDate: DateTime(currentYear+1,1,1,0),
+            selectedDate:_selectedDay, type: 'members' ),
       )
       );
     }, child: const Row(
@@ -308,16 +311,15 @@ Widget AppointmentMakerButton(){
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => AddEventChurch(
-              firstDate3: firstDate,
-              lastDate3: lastDate,
-              selectedDate3: selectedDate,
-              churchEvent: 'exampleChurchEvent', // Provide a church event value
+            builder: (context) => AddAppointment(
+                firstDate: DateTime.utc(currentYear,1,1),
+                lastDate: DateTime(currentYear+1,1,1,0),
+                selectedDate:_selectedDay, type: 'admins',// Provide a church event value
             ),
           ),
         );
       },
-      child: Row(
+      child: const Row(
         children: [
           Icon(Icons.calendar_month_outlined),
           Text(

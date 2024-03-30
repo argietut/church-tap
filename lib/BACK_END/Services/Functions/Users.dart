@@ -21,14 +21,24 @@ class UserStorage {
   }
 
   Future<void> createMemberEvent(String uniqueID, Map<String, dynamic> dateTime,
-      String event) async {
+      String type) async {
     try {
-      db.collection("users")
-          .doc("members")
-          .collection(uniqueID)
-          .doc("Event")
-          .collection("Pending Appointment")
-          .doc().set(dateTime);
+      if (type == "members"){
+        db.collection("users")
+            .doc("members")
+            .collection(uniqueID)
+            .doc("Event")
+            .collection("Pending Appointment")
+            .doc().set(dateTime);
+      }
+      else {
+        db.collection("users")
+            .doc("admins")
+            .collection(uniqueID)
+            .doc("Event")
+            .collection("Church Event")
+            .doc().set(dateTime);
+      }
     } catch (e) {
       log("Error code STORAGE: $e");
     }
@@ -185,24 +195,12 @@ class UserStorage {
         .snapshots();
   }
 
-  Future<void> createAdminEvent(String uniqueID, Map<String, dynamic> dateTime,
-      String event) async {
-    try {
-      db.collection("users")
-          .doc("admin")
-          .collection(uniqueID)
-          .doc("Event")
-          .collection("Church Event")
-          .doc().set(dateTime);
-    } catch (e) {
-      log("Error code STORAGE: $e");
-    }
-  }
 
-
-  Stream<QuerySnapshot> fetchChurchEvent(){
+  Stream<QuerySnapshot> fetchCreateMemberEvent(){
     return db
         .collectionGroup("Church Event")
         .snapshots();
   }
+
+
 }
