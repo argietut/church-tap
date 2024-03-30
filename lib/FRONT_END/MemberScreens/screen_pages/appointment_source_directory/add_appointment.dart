@@ -2,14 +2,19 @@ import 'package:bethel_app_final/BACK_END/Services/Functions/Authentication.dart
 import 'package:bethel_app_final/BACK_END/Services/Functions/Users.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'appointment_source.dart';
+
 
 class AddAppointment extends StatefulWidget {
+  final String type;
   final DateTime firstDate;
   final DateTime lastDate;
   final DateTime selectedDate; // Modify to accept the selected date
-  const AddAppointment({Key? key, required this.firstDate, required this.lastDate, required this.selectedDate}) : super(key: key);
+  const AddAppointment({Key? key,
+    required this.firstDate,
+    required this.lastDate,
+    required this.selectedDate,
+    required this.type}) : super(key: key);
+
 
   @override
   State<AddAppointment> createState() => _AddAppointmentState();
@@ -159,7 +164,8 @@ class _AddAppointmentState extends State<AddAppointment> {
       "name" : tapAuth.auth.currentUser!.displayName,
       "email" : tapAuth.auth.currentUser!.email
     };
-    userStorage.createMemberEvent(tapAuth.getCurrentUserUID(), page,"member");
+
+    userStorage.createMemberEvent(tapAuth.getCurrentUserUID(), page, widget.type);
 
 /*    final appointment = Appointment(
       id: appointmentDocRef.id,

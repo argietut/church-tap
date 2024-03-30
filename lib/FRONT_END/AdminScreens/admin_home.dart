@@ -17,10 +17,27 @@ void signUserOut() {
 
 class _AdminHomePageState extends State<AdminHomePage> {
   final UserStorage userStorage = UserStorage();
+  late Stream<QuerySnapshot> _approvedAppointmentsStream;
+  late Stream<QuerySnapshot> _churchEventsStream;
   String _selectedEventType = 'Upcoming Events';
   bool sortByMonth = false;
   bool sortByDay = false;
   int clickCount = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeStreams();
+  }
+
+  Future<void> _initializeStreams() async {
+    try {
+      _approvedAppointmentsStream = userStorage.fetchAllApprovedAppointments();
+      _churchEventsStream = userStorage.fetchCreateMemberEvent();
+    } catch (e) {
+      print('Error initializing streams: $e');
+    }
+  }
 
   String formatDateTime(Timestamp? timeStamp) {
     if (timeStamp == null) {
@@ -34,7 +51,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
     return "${months[dateTime.month - 1]} ${dateTime.day}, ${dateTime.year}";
   }
 
-  List<DocumentSnapshot> sortEventsByMonth(List<DocumentSnapshot> events) {
+  List<DocumentSnapshot> _sortEventsByMonth(List<DocumentSnapshot> events) {
     events.sort((a, b) {
       DateTime dateA = (a.data() as Map<String, dynamic>)["date"].toDate();
       DateTime dateB = (b.data() as Map<String, dynamic>)["date"].toDate();
@@ -43,7 +60,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
     return events;
   }
 
-  List<DocumentSnapshot> sortEventsByDay(List<DocumentSnapshot> events) {
+  List<DocumentSnapshot> _sortEventsByDay(List<DocumentSnapshot> events) {
     events.sort((a, b) {
       DateTime dateA = (a.data() as Map<String, dynamic>)["date"].toDate();
       DateTime dateB = (b.data() as Map<String, dynamic>)["date"].toDate();
@@ -78,7 +95,6 @@ class _AdminHomePageState extends State<AdminHomePage> {
                   },
                   icon: const Icon(Icons.sort),
                 ),
-
                 const Text(
                   "Admin Events",
                   style: TextStyle(
@@ -94,13 +110,9 @@ class _AdminHomePageState extends State<AdminHomePage> {
               color: appGreen,
             ),
             const SizedBox(height: 10),
-            DropdownButtonHideUnderline(
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8.0),
-                  color: Colors.grey[200],
-                ),
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: DropdownButtonHideUnderline(
                 child: DropdownButton<String>(
                   value: _selectedEventType,
                   onChanged: (String? newValue) {
@@ -124,9 +136,20 @@ class _AdminHomePageState extends State<AdminHomePage> {
                 ),
               ),
             ),
+            const SizedBox(height: 10),
+            const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text(
+                'Members approved appointments',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+              ),
+            ),
             Expanded(
               child: StreamBuilder<QuerySnapshot>(
-                stream: userStorage.fetchAllApprovedAppointments(),
+                stream: _approvedAppointmentsStream,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(child: CircularProgressIndicator());
@@ -134,7 +157,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                   if (snapshot.hasError) {
                     return Center(child: Text('Error: ${snapshot.error}'));
                   }
-                  if (snapshot.data == null || snapshot.data!.docs.isEmpty) {
+                  if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
                     return Center(
                       child: Text(
                         'No ${_selectedEventType.toLowerCase()}',
@@ -144,61 +167,80 @@ class _AdminHomePageState extends State<AdminHomePage> {
                       ),
                     );
                   }
-                  List<DocumentSnapshot> sortedEvents = snapshot.data!.docs;
+                  List<DocumentSnapshot> events = snapshot.data!.docs;
                   if (sortByMonth) {
-                    sortedEvents = sortEventsByMonth(sortedEvents);
+                    events = _sortEventsByMonth(events);
                   } else if (sortByDay) {
-                    sortedEvents = sortEventsByDay(sortedEvents);
+                    events = _sortEventsByDay(events);
+                  }
+                  List<DocumentSnapshot> upcomingEvents = [];
+                  List<DocumentSnapshot> completedEvents = [];
+                  for (var event in events) {
+                    if (isEventCompleted(event)) {
+                      completedEvents.add(event);
+                    } else {
+                      upcomingEvents.add(event);
+                    }
                   }
                   return ListView.builder(
-                    itemCount: sortedEvents.length,
+                    itemCount: _selectedEventType == 'Upcoming events' ? upcomingEvents.length : completedEvents.length,
                     itemBuilder: (context, index) {
-                      DocumentSnapshot document = sortedEvents[index];
-                      final id = document.id;
-                      Map<String, dynamic> data = document.data() as Map<String, dynamic>;
-                      Timestamp timeStamp = data["date"];
-                      String formattedDate = formatDateTime(timeStamp);
-
-                      if (_selectedEventType == 'Completed Events') {
-                        if (DateTime.now().isBefore(timeStamp.toDate())) {
-                          return const SizedBox.shrink();
-                        }
-                      } else {
-                        if (DateTime.now().isAfter(timeStamp.toDate())) {
-                          return const SizedBox.shrink();
-                        }
-                      }
-
-                      return Card(
-                        color: _selectedEventType == 'Completed Events'
-                            ? Colors.grey
-                            : appGreen3,
-                        elevation: 2,
-                        margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
-                        child: ListTile(
-                          title: Text(
-                            'Appointment type: ${data['appointmenttype'] ?? ''}',
-                          ),
-                          subtitle: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Description: ${data['description'] ?? ''}',
-                              ),
-                              Text(
-                                'Date: $formattedDate',
-                              ),
-                              Text(
-                                'Name: ${data['name'] ?? ''}',
-                              ),
-                              Text(
-                                'Email: ${data['email'] ?? ''}',
-                              ),
-                            ],
-                          ),
+                      return _buildEventCard(_selectedEventType == 'Upcoming events' ? upcomingEvents[index] : completedEvents[index]);
+                    },
+                  );
+                },
+              ),
+            ),
+            const SizedBox(height: 10),
+            const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text(
+                'Church events',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+              ),
+            ),
+            Expanded(
+              child: StreamBuilder<QuerySnapshot>(
+                stream: _churchEventsStream,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                  if (snapshot.hasError) {
+                    return Center(child: Text('Error: ${snapshot.error}'));
+                  }
+                  if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                    return const Center(
+                      child: Text(
+                        'No church events available.',
+                        style: TextStyle(
+                          fontSize: 18,
                         ),
-                      );
-
+                      ),
+                    );
+                  }
+                  List<DocumentSnapshot> events = snapshot.data!.docs;
+                  if (sortByMonth) {
+                    events = _sortEventsByMonth(events);
+                  } else if (sortByDay) {
+                    events = _sortEventsByDay(events);
+                  }
+                  List<DocumentSnapshot> upcomingChurchEvents = [];
+                  List<DocumentSnapshot> completedChurchEvents = [];
+                  for (var event in events) {
+                    if (isEventCompleted(event)) {
+                      completedChurchEvents.add(event);
+                    } else {
+                      upcomingChurchEvents.add(event);
+                    }
+                  }
+                  return ListView.builder(
+                    itemCount: _selectedEventType == 'Upcoming Events' ? upcomingChurchEvents.length : completedChurchEvents.length,
+                    itemBuilder: (context, index) {
+                      return _buildEventCard(_selectedEventType == 'Upcoming Events' ? upcomingChurchEvents[index] : completedChurchEvents[index]);
                     },
                   );
                 },
@@ -210,4 +252,44 @@ class _AdminHomePageState extends State<AdminHomePage> {
     );
   }
 
+  bool isEventCompleted(DocumentSnapshot event) {
+    Timestamp timeStamp = event["date"];
+    DateTime eventDateTime = timeStamp.toDate();
+    DateTime currentDateTime = DateTime.now();
+    return eventDateTime.isBefore(currentDateTime);
+  }
+
+  Widget _buildEventCard(DocumentSnapshot event) {
+    Map<String, dynamic> data = event.data() as Map<String, dynamic>;
+    Timestamp timeStamp = data["date"];
+    DateTime dateTime = timeStamp.toDate();
+    String formattedDate = formatDateTime(timeStamp);
+    return Card(
+      color: Colors.green.shade200,
+      elevation: 2,
+      margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+      child: ListTile(
+        title: Text(
+          'Appointment type: ${data['appointmenttype'] ?? ''}',
+        ),
+        subtitle: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Description: ${data['description'] ?? ''}',
+            ),
+            Text(
+              'Date: $formattedDate',
+            ),
+            Text(
+              'Name: ${data['name'] ?? ''}',
+            ),
+            Text(
+              'Email: ${data['email'] ?? ''}',
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }

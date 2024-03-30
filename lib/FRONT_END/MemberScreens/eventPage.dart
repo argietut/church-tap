@@ -149,12 +149,11 @@ class _EventPageState extends State<EventPage> {
             const Divider(
               color: Colors.green,
             ),
-            const SizedBox(height: 10),
+
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 10),
                   const Padding(
                     padding: EdgeInsets.all(8.0),
                     child: Text(
@@ -172,11 +171,13 @@ class _EventPageState extends State<EventPage> {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
                           return const Center(
-                              child: CircularProgressIndicator());
+                              child: CircularProgressIndicator()
+                          );
                         }
                         if (snapshot.hasError) {
                           return Center(
-                              child: Text('Error: ${snapshot.error}'));
+                              child: Text('Error: ${snapshot.error}')
+                          );
                         }
                         if (!snapshot.hasData ||
                             snapshot.data!.docs.isEmpty) {
@@ -328,7 +329,9 @@ class _EventPageState extends State<EventPage> {
                           color: Colors.amber.shade200,
                           elevation: 2,
                           margin: const EdgeInsets.symmetric(
-                              vertical: 8, horizontal: 4),
+                              vertical: 8,
+                              horizontal: 4
+                          ),
                           child: ListTile(
                             title: Text(
                               'Appointment type: ${data['appointmenttype'] ?? ''}',
