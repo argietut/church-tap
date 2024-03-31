@@ -80,11 +80,13 @@ class _CustomCalendarState extends State<CustomCalendar> {
           for(var disableDay in disabledDays){
             if(day.month == disableDay.month && day.day == disableDay.day && day.year == disableDay.year){
               storage.unsetDisableDay(day.day,day.month,day.year);
+              print(DateTime.utc(day.year,day.month,day.day));
               break; // Stops the loop for no more unecesarry checks
             }
 
           }
         }
+      },onCalendarCreated: (pageController) {
       },
       enabledDayPredicate: (day) {
        for(int i = 0; i < disabledDays.length;i++){
@@ -93,7 +95,7 @@ class _CustomCalendarState extends State<CustomCalendar> {
              disabledDays[i].year == day.year) {
            return false;
          }
-        }
+        };
         return true;
       },
       calendarBuilders: CalendarBuilders(

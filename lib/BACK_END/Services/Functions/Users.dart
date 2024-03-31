@@ -77,9 +77,26 @@ class UserStorage {
       }
   }
 Future<void> unsetDisableDay(int day,int month, int year) async{
-    var a = DateTime.utc(year,month,day);
-    print(a);
+    db.collectionGroup("Disabled Days")
+        .get()
+        .then((value) {
+          for(var element in value.docs){
+            var a = element.data()['date'];
+            Timestamp timestamp = a;
+            DateTime dateTime = timestamp.toDate();
+            if(dateTime.day == day && dateTime.month == month && dateTime.year == year){
+                db.runTransaction((Transaction transaction) async{
+                     transaction.delete(element.reference);
+                },);
+                break;
+            }
+            else{
+              print("NO");
+            }
+          }
+        },);
 }
+
   Future<List<DateTime>> getDisableDay() async{
       List<DateTime> documents = [];
       try{
