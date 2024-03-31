@@ -116,12 +116,9 @@ class _CustomCalendarState extends State<CustomCalendar> {
             }
           }
           else{
-
           }
-
-
-
         },
+
         dowBuilder: (context, day) {
           final red = DateFormat.E().format(day);
           final blue = DateFormat.E().format(day);
@@ -173,21 +170,18 @@ class _CustomCalendarState extends State<CustomCalendar> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
+                const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    IconButton(
-                      onPressed: () {},
-                      icon: const Icon(Icons.edit),
-                    ),
-                    const Text(
+                    SizedBox(width: 50),
+                    Text(
                       "Calendar",
                       style: TextStyle(
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const SizedBox(width: 50),
+                    SizedBox(width: 50),
                   ],
                 ),
                 const SizedBox(height: 15),
@@ -201,21 +195,28 @@ class _CustomCalendarState extends State<CustomCalendar> {
 
                   ),
                 ),
-                const SizedBox(height: 30),
+                const SizedBox(height: 10),
 
                 const Center(
                   child: Text('Create events',
                   style: TextStyle(
-                    fontSize: 20,
+                    fontSize: 18,
 
                   ),
                   ),
                 ),
-                const SizedBox(height: 15),
+                const SizedBox(height: 6),
 
-                EventMakerButton(context),
+                Container(
+                  margin: const EdgeInsets.symmetric(vertical: 10.0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8.0),
+                    border: Border.all(color: appGreen), // Adding border
+                  ),
+                  child: EventMakerButton(context),
+                ),
 
-                const SizedBox(height: 140),
+                const SizedBox(height: 20),
               ],
             ),
           ),
@@ -258,16 +259,27 @@ Widget member(BuildContext context){
                 child: ListView(
                   children: [
                     _tableCalendar,
-                    Row(
-                      children: [
-                        Expanded(
-                          child: AppointmentMakerButton(),
+
+                    const SizedBox(height: 10),
+                    const Center(
+                      child: Text('Request appointment',
+                        style: TextStyle(
+                          fontSize: 18,
 
                         ),
-                        // Expanded(
-                        //   child: EventMakerButton(),
-                        // ),
-                      ],
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    Expanded(
+                      child: Container(
+                        margin: const EdgeInsets.symmetric(vertical: 10.0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(14.0),
+                          border: Border.all(color: appGreen),
+                        ),
+                        child: AppointmentMakerButton(),
+                      ),
+
                     ),
                   ],
                 ),
@@ -290,9 +302,13 @@ Widget AppointmentMakerButton(){
     }, child: const Row(
       children: [
         Icon(
-          Icons.event_note_outlined
+          Icons.calendar_month
         ),
-        Text("  Appointment")
+        Text("  Appointment",
+          style: TextStyle(
+              color: appBlack
+          ),
+        )
       ],
       mainAxisAlignment: MainAxisAlignment.center,
      ),

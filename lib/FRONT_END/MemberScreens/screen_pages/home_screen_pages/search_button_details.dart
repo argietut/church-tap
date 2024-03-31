@@ -13,7 +13,7 @@ class SearchButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(
-        horizontal:60,
+        horizontal:55,
         vertical: 12.0,
       ),
       alignment: Alignment.centerRight,
@@ -26,12 +26,12 @@ class SearchButton extends StatelessWidget {
         ),
         borderRadius: BorderRadius.circular(32.0),
         boxShadow: [
-          BoxShadow(
-            color: appGrey.withOpacity(0.5),
-            blurRadius: 2.0,
-            spreadRadius: 2.0,
-            offset: const Offset(0, 1.0),
-          )
+          // BoxShadow(
+          //   color: appGrey.withOpacity(0.5),
+          //   // blurRadius: 2.0,
+          //   spreadRadius: 2.0,
+          //   // offset: const Offset(0, 1.0),
+          // )
         ],
       ),
       child: const Row(

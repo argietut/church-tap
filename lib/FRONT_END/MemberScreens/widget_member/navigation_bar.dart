@@ -19,7 +19,7 @@ class _HomePageState extends State<HomePage> {
   final List<StatefulWidget> _children = [
     const MemberHomePage(),
      const EventPage(),
-    const Notifications(),
+    const Notifications(userID: ''),
     const Profile(),
   ];
 
@@ -57,7 +57,7 @@ class _HomePageState extends State<HomePage> {
               ),
               label: 'Home',
               activeIcon: Text(
-                "HOME",
+                "",
                 style: TextStyle(
                     fontSize: 8,
                     color: appWhite
@@ -71,7 +71,7 @@ class _HomePageState extends State<HomePage> {
               ),
               label: 'Events',
               activeIcon: Text(
-                "EVENTS",
+                "",
                 style: TextStyle(
                     fontSize: 8,
                 color: appWhite),
@@ -84,7 +84,7 @@ class _HomePageState extends State<HomePage> {
               ),
               label: 'Notifications',
               activeIcon: Text(
-                "NOTIFICATIONS",
+                "",
                 style: TextStyle(fontSize: 8),
               ),
             ),
@@ -95,7 +95,7 @@ class _HomePageState extends State<HomePage> {
               ),
               label: 'Profile',
               activeIcon: Text(
-                "PROFILE",
+                "",
                 style: TextStyle(fontSize: 8),
               ),
             ),

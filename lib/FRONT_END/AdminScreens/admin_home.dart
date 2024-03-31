@@ -109,7 +109,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
             const Divider(
               color: appGreen,
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 4),
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: DropdownButtonHideUnderline(
@@ -127,7 +127,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                       child: Text(
                         value,
                         style: const TextStyle(
-                          color: Colors.black87,
+                          color: appBlack,
                           fontSize: 14,
                         ),
                       ),
@@ -136,7 +136,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                 ),
               ),
             ),
-            const SizedBox(height: 10),
+
             const Padding(
               padding: EdgeInsets.all(8.0),
               child: Text(
@@ -173,19 +173,10 @@ class _AdminHomePageState extends State<AdminHomePage> {
                   } else if (sortByDay) {
                     events = _sortEventsByDay(events);
                   }
-                  List<DocumentSnapshot> upcomingEvents = [];
-                  List<DocumentSnapshot> completedEvents = [];
-                  for (var event in events) {
-                    if (isEventCompleted(event)) {
-                      completedEvents.add(event);
-                    } else {
-                      upcomingEvents.add(event);
-                    }
-                  }
                   return ListView.builder(
-                    itemCount: _selectedEventType == 'Upcoming events' ? upcomingEvents.length : completedEvents.length,
+                    itemCount: events.length,
                     itemBuilder: (context, index) {
-                      return _buildEventCard(_selectedEventType == 'Upcoming events' ? upcomingEvents[index] : completedEvents[index]);
+                      return _buildApprovedAppointmentCard(events[index]);
                     },
                   );
                 },
@@ -228,19 +219,10 @@ class _AdminHomePageState extends State<AdminHomePage> {
                   } else if (sortByDay) {
                     events = _sortEventsByDay(events);
                   }
-                  List<DocumentSnapshot> upcomingChurchEvents = [];
-                  List<DocumentSnapshot> completedChurchEvents = [];
-                  for (var event in events) {
-                    if (isEventCompleted(event)) {
-                      completedChurchEvents.add(event);
-                    } else {
-                      upcomingChurchEvents.add(event);
-                    }
-                  }
                   return ListView.builder(
-                    itemCount: _selectedEventType == 'Upcoming Events' ? upcomingChurchEvents.length : completedChurchEvents.length,
+                    itemCount: events.length,
                     itemBuilder: (context, index) {
-                      return _buildEventCard(_selectedEventType == 'Upcoming Events' ? upcomingChurchEvents[index] : completedChurchEvents[index]);
+                      return _buildChurchEventCard(events[index]);
                     },
                   );
                 },
@@ -252,17 +234,9 @@ class _AdminHomePageState extends State<AdminHomePage> {
     );
   }
 
-  bool isEventCompleted(DocumentSnapshot event) {
-    Timestamp timeStamp = event["date"];
-    DateTime eventDateTime = timeStamp.toDate();
-    DateTime currentDateTime = DateTime.now();
-    return eventDateTime.isBefore(currentDateTime);
-  }
-
-  Widget _buildEventCard(DocumentSnapshot event) {
+  Widget _buildApprovedAppointmentCard(DocumentSnapshot event) {
     Map<String, dynamic> data = event.data() as Map<String, dynamic>;
     Timestamp timeStamp = data["date"];
-    DateTime dateTime = timeStamp.toDate();
     String formattedDate = formatDateTime(timeStamp);
     return Card(
       color: Colors.green.shade200,
@@ -286,6 +260,33 @@ class _AdminHomePageState extends State<AdminHomePage> {
             ),
             Text(
               'Email: ${data['email'] ?? ''}',
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildChurchEventCard(DocumentSnapshot event) {
+    Map<String, dynamic> data = event.data() as Map<String, dynamic>;
+    Timestamp timeStamp = data["date"];
+    String formattedDate = formatDateTime(timeStamp);
+    return Card(
+      color: Colors.green.shade200,
+      elevation: 2,
+      margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+      child: ListTile(
+        title: Text(
+          'Event type: ${data['eventType'] ?? ''}',
+        ),
+        subtitle: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Description: ${data['description'] ?? ''}',
+            ),
+            Text(
+              'Date: $formattedDate',
             ),
           ],
         ),

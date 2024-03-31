@@ -72,6 +72,7 @@ class _MemberHomePageState extends State<MemberHomePage> {
                 children: [
                   IconButton(
                     onPressed: () {
+
                       setState(() {
                         clickCount++;
                         if (clickCount % 2 == 1) {
@@ -83,6 +84,11 @@ class _MemberHomePageState extends State<MemberHomePage> {
                         }
                       });
                     },
+                    style: IconButton.styleFrom(
+                      shape: const CircleBorder(
+                        side: BorderSide(color: appGrey, width: 1),
+                      ),
+                    ),
                     icon: const Icon(Icons.sort),
                   ),
                   GestureDetector(
@@ -121,20 +127,18 @@ class _MemberHomePageState extends State<MemberHomePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: 10),
+            const SizedBox(height: 4),
             const Padding(
               padding: EdgeInsets.all(8.0),
-              child: Center(
-                child: Text(
-                  'Church event',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                  ),
+              child: Text(
+                'Church event',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
                 ),
               ),
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 6),
             Expanded(
               child: Column(
                 children: [
