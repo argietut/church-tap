@@ -1,112 +1,173 @@
-import 'package:bethel_app_final/FRONT_END/constant/color.dart';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:bethel_app_final/BACK_END/Services/Functions/Users.dart';
 
 class Notifications extends StatefulWidget {
-  const Notifications({Key? key}) : super(key: key);
+  final String userID;
+
+  const Notifications({Key? key, required this.userID}) : super(key: key);
 
   @override
-  State<Notifications> createState() => _NotificationsState();
+  _NotificationsState createState() => _NotificationsState();
 }
 
 class _NotificationsState extends State<Notifications> {
+  List<Appointment> appointments = [];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchPendingAppointments();
+  }
+
+  void fetchPendingAppointments() async {
+    List<Appointment> pendingAppointments = [];
+
+    Stream<QuerySnapshot> stream =
+    UserStorage().fetchPendingAppointments(widget.userID);
+    stream.listen((QuerySnapshot snapshot) {
+      setState(() {
+        pendingAppointments.clear();
+        snapshot.docs.forEach((doc) {
+          Map<String, dynamic>? data = doc.data() as Map<String, dynamic>?;
+
+          if (data != null) {
+            pendingAppointments.add(Appointment(
+              id: doc.id,
+              title: data['title'] ?? '',
+              status: data['status'] ?? '',
+            ));
+          }
+        });
+        appointments = pendingAppointments;
+      });
+    });
+  }
+
+  Future<void> approveAppointment(String appointmentId) async {
+    try {
+      await UserStorage().approvedAppointment(widget.userID, appointmentId);
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error approving appointment')),
+      );
+      log("Error approving appointment: $e");
+    }
+  }
+
+  Future<void> denyAppointment(String appointmentId) async {
+    try {
+      await UserStorage().denyAppointment(widget.userID, appointmentId);
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error denying appointment')),
+      );
+      log("Error denying appointment: $e");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.only(top: 40, left: 20, right: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      body: Padding(
+        padding: const EdgeInsets.only(top: 40, left: 20, right: 20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.tune),
-            ),
-            const Text(
-              "Notifications",
-              style: TextStyle(
-                fontSize: 30,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(width: 50),
-          ],
-        ),
-              const SizedBox(height: 15),
-              const Divider(
-                color: appGreen,
-              ),
-              const SizedBox(height: 10),
-              Center(
-                child: ElevatedButton(
-                  onPressed: () {
-                    // Implement your logic for marking all as read here
-                  },
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 50, vertical: 2),
-                    foregroundColor: Colors.blue, // Change color as needed
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                IconButton(
+                  onPressed: () {},
+                  icon: const Icon(Icons.read_more_outlined),
+                ),
+                const Text(
+                  "Notification",
+                  style: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
                   ),
-                  child: const Text(
-                    'Mark all as read',
-                    style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
-                        color: appBlack
+                ),
+                const SizedBox(width: 50),
+              ],
+            ),
+            const SizedBox(height: 15),
+            const Divider(
+              color: Colors.green,
+            ),
+            Expanded(
+              child: ListView.builder(
+                itemCount: appointments.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Card(
+                    margin: const EdgeInsets.symmetric(
+                        vertical: 8, horizontal: 16),
+                    elevation: 2,
+                    child: ListTile(
+                      title: Text(
+                        appointments[index].title,
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Status: ${appointments[index].status}',
+                            style: TextStyle(color: Colors.grey),
+                          ),
+                          if (appointments[index].status == 'Approved' ||
+                              appointments[index].status == 'Denied')
+                            Text(
+                              appointments[index].notification ?? '',
+                              style: TextStyle(color: Colors.red),
+                            ),
+                        ],
+                      ),
+                      trailing: appointments[index].status == 'Pending'
+                          ? Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          IconButton(
+                            onPressed: () {
+                              approveAppointment(appointments[index].id);
+                            },
+                            icon: Icon(Icons.check),
+                            color: Colors.green,
+                          ),
+                          IconButton(
+                            onPressed: () {
+                              denyAppointment(appointments[index].id);
+                            },
+                            icon: Icon(Icons.close),
+                            color: Colors.red,
+                          ),
+                        ],
+                      )
+                          : null,
                     ),
-                  ),
-                ),
+                  );
+                },
               ),
-              const SizedBox(height: 20),
-              
-              // New Notification Text
-              const Text(
-                "New",
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: appBlack,
-                ),
-              ),
-              const SizedBox(height: 10),
-              const ListTile(
-                title: Text("Notification 1"),
-                subtitle: Text("Notification description"),
-              ),
-              const SizedBox(height: 10),
-              const ListTile(
-                title: Text("Notification 2"),
-                subtitle: Text("Notification description"),
-              ),
-              
-              const SizedBox(height: 20),
-              
-              // Earlier Notification Text
-              const Text(
-                "Earlier",
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: appBlack,
-                ),
-              ),
-              const SizedBox(height: 10),
-              const ListTile(
-                title: Text("Notification 3"),
-                subtitle: Text("Notification description"),
-              ),
-              const SizedBox(height: 10),
-              const ListTile(
-                title: Text("Notification 4"),
-                subtitle: Text("Notification description"),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
   }
+}
+
+class Appointment {
+  final String id;
+  final String title;
+  final String status;
+  final String? notification;
+
+  Appointment({
+    required this.id,
+    required this.title,
+    required this.status,
+    this.notification,
+  });
 }

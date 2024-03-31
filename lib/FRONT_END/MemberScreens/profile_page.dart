@@ -262,7 +262,12 @@ class _ProfileState extends State<Profile> {
                         onPressed: () {
                           Navigator.of(context).pop();
                         },
-                        child: const Text('No'),
+                        child: const Text(
+                          'No',
+                          style: TextStyle(
+                              color: appBlack
+                          ),
+                        ),
                       ),
                       TextButton(
                         onPressed: () async {
@@ -279,7 +284,12 @@ class _ProfileState extends State<Profile> {
 
                           Navigator.of(context).pop();
                         },
-                        child: const Text('Yes'),
+                        child: const Text(
+                          'Yes',
+                          style: TextStyle(
+                              color: appRed
+                          ),
+                        ),
                       ),
                     ],
                   );

@@ -31,10 +31,10 @@ class _AdminNavigationPageState extends State<AdminNavigationPage> {
       resizeToAvoidBottomInset: false,
       bottomNavigationBar: BottomAppBar(
         shape: const CircularNotchedRectangle(),
-        color: appGreen,
+        color: appGreen2,
         child: BottomNavigationBar(
           elevation: 6,
-          backgroundColor: appGreen,
+          backgroundColor: appGreen2,
           selectedItemColor: appWhite,
           unselectedItemColor: appWhite,
           type: BottomNavigationBarType.fixed,

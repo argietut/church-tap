@@ -58,20 +58,20 @@ class _MemberLoginPageState extends State<MemberLoginPage> {
           showSnackbar('Your account is not verified yet. Please check your email and verify your account.',
               backgroundColor: Colors.red);
         } else {
-          showDialog(
-            context: context,
-            barrierDismissible: true,
-            builder: (BuildContext context) {
-              return const AlertDialog(
-                content: SizedBox(
-                  height: 50,
-                  child: Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                ),
-              );
-            },
-          );
+          // showDialog(
+          //   context: context,
+          //   barrierDismissible: true,
+          //   builder: (BuildContext context) {
+          //     return const AlertDialog(
+          //       content: SizedBox(
+          //         height: 50,
+          //         child: Center(
+          //           child: CircularProgressIndicator(),
+          //         ),
+          //       ),
+          //     );
+          //   },
+          // );
           await Future.delayed(const Duration(seconds: 1));
 
           // Navigate to HomePage and await until navigation completes
