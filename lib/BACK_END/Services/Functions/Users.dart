@@ -88,10 +88,10 @@ Future<void> unsetDisableDay(int day,int month, int year) async{
                 db.runTransaction((Transaction transaction) async{
                      transaction.delete(element.reference);
                 },);
-                break;
+                // Remove Break due to duplicate disabled dates
             }
             else{
-              print("NO");
+              continue;
             }
           }
         },);
