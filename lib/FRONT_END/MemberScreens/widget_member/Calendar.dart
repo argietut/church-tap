@@ -72,7 +72,18 @@ class _CustomCalendarState extends State<CustomCalendar> {
             "name" : tapAuth.auth.currentUser!.displayName
           };
           storage.setDisableDay(setDisableDays, tapAuth.auth.currentUser!.uid);
-          print("test");
+        }
+      },
+      onDisabledDayLongPressed: (day) {
+        if(widget.type == "admins"){
+          print(day);
+          for(var disableDay in disabledDays){
+            if(day.month == disableDay.month && day.day == disableDay.day && day.year == disableDay.year){
+              storage.unsetDisableDay(day.day,day.month,day.year);
+              break; // Stops the loop for no more unecesarry checks
+            }
+
+          }
         }
       },
       enabledDayPredicate: (day) {
@@ -197,25 +208,22 @@ class _CustomCalendarState extends State<CustomCalendar> {
                 const SizedBox(height: 10),
                 Expanded(
                   child: ListView(
-                    children: [_tableCalendar],
+                    children: [_tableCalendar ,Center(
+                      child: Text('Create events',
+                        style: TextStyle(
+                          fontSize: 20,
+                        ),
+                      ),
+                    ),EventMakerButton(context),],
 
                   ),
                 ),
-                const SizedBox(height: 30),
 
-                const Center(
-                  child: Text('Create events',
-                  style: TextStyle(
-                    fontSize: 20,
 
-                  ),
-                  ),
-                ),
-                const SizedBox(height: 15),
 
-                EventMakerButton(context),
 
-                const SizedBox(height: 140),
+
+
               ],
             ),
           ),

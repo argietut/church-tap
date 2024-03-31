@@ -76,7 +76,10 @@ class UserStorage {
         log(e.toString());
       }
   }
-
+Future<void> unsetDisableDay(int day,int month, int year) async{
+    var a = DateTime.utc(year,month,day);
+    print(a);
+}
   Future<List<DateTime>> getDisableDay() async{
       List<DateTime> documents = [];
       try{
