@@ -26,13 +26,16 @@ class _CustomCalendarState extends State<CustomCalendar> {
   TapAuth tapAuth = TapAuth();
   late Future _pendingDate;
   late Future _disabledDate;
+  late Future _approvedDate;
   List<DateTime> disabledDays = [];
   List<DateTime> pendingDays = [];
+  List<DateTime> approvedDate = [];
 
   @override
   void initState() {
     _pendingDate = storage.getPendingDate(tapAuth.auth.currentUser!.uid);
     _disabledDate = storage.getDisableDay();
+    _approvedDate = storage.getApprovedDate(tapAuth.auth.currentUser!.uid, widget.type);
     super.initState();
   }
 
@@ -93,7 +96,6 @@ class _CustomCalendarState extends State<CustomCalendar> {
             return false;
           }
         }
-        ;
         return true;
       },
       calendarBuilders: CalendarBuilders(
@@ -109,7 +111,6 @@ class _CustomCalendarState extends State<CustomCalendar> {
           );
         },
         defaultBuilder: (context, day, focusedDay) {
-          if (widget.type == "members") {
             for (int i = 0; i < pendingDays.length; i++) {
               if (pendingDays[i].month == day.month &&
                   pendingDays[i].day == day.day &&
@@ -129,7 +130,25 @@ class _CustomCalendarState extends State<CustomCalendar> {
                 );
               }
             }
-          } else {}
+            for(int i = 0;i < approvedDate.length;i++){
+              if(approvedDate[i].month == day.month &&
+                  approvedDate[i].day == day.day &&
+                  approvedDate[i].year == day.year) {
+               return Container(
+                  decoration: BoxDecoration(
+                      color: Colors.lightGreen.shade200,
+                      border: Border.all(
+                          color: Colors.black26,
+                          strokeAlign: BorderSide.strokeAlignInside)),
+                  child: Center(
+                    child: Text(
+                      "${day.day}",
+                      style: const TextStyle(color: Colors.black),
+                    ),
+                  ),
+                );
+              }
+            }
         },
         dowBuilder: (context, day) {
           final red = DateFormat.E().format(day);
@@ -155,30 +174,26 @@ class _CustomCalendarState extends State<CustomCalendar> {
     );
     return Scaffold(
         body: FutureBuilder(
-      future: Future.wait([_pendingDate, _disabledDate]),
+      future: Future.wait([_pendingDate, _disabledDate,_approvedDate]),
       builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.done &&
-            snapshot.hasData &&
-            widget.type == "members") {
+        if (snapshot.connectionState == ConnectionState.done && snapshot.hasData && widget.type == "members") {
           disabledDays = snapshot.data![1];
           pendingDays = snapshot.data![0];
+          approvedDate = snapshot.data![2];
           return member(context);
-        } else if (snapshot.connectionState == ConnectionState.done &&
-            snapshot.hasData &&
-            widget.type == "admins") {
+        }
+        else if (snapshot.connectionState == ConnectionState.done && snapshot.hasData && widget.type == "admins") {
+          disabledDays = snapshot.data![1];
+          approvedDate = snapshot.data![2];
           return admin(context);
-        } else {
-          if(widget.type == "admins"){
-            return admin(context);
-          }
-          else{
-            return member(context);
-          }
-          /*  Center(
+        }
+        else {
+          return
+            Center(
             child: CircularProgressIndicator(
               color: Colors.green.shade200,
             ),
-          );*/
+          );
         }
       },
     ));
