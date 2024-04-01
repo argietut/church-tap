@@ -1,10 +1,29 @@
 import 'dart:async';
 import 'dart:developer';
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserStorage {
   //TODO write database for all users
   final FirebaseFirestore db = FirebaseFirestore.instance;
+
+
+  Future<void> storeNotification(String title, String body) async {
+    try {
+      int notificationId = DateTime.now().millisecondsSinceEpoch & 0xFFFFFFFF;
+      await AwesomeNotifications().createNotification(
+        content: NotificationContent(
+          id: notificationId,
+          channelKey: 'channelKey',
+          title: title,
+          body: body,
+        ),
+      );
+    } catch (e) {
+      log("Error storing notification: $e");
+    }
+  }
+
 
   Future<void> createUser(String uniqueID,
       Map<String, String> userInformation,String type) async {
@@ -195,6 +214,18 @@ Future<void> unsetDisableDay(int day,int month, int year) async{
           .collection("Pending Appointment")
           .doc(appointmentId)
           .get();
+
+      // Update status field to 'Approved'
+      await db
+          .collection("users")
+          .doc("members")
+          .collection(userID)
+          .doc("Event")
+          .collection("Pending Appointment")
+          .doc(appointmentId)
+          .update({'status': 'Approved'});
+
+      // Move appointment to 'Approved Appointment' collection
       await db
           .collection("users")
           .doc("members")
@@ -203,6 +234,8 @@ Future<void> unsetDisableDay(int day,int month, int year) async{
           .collection("Approved Appointment")
           .doc(appointmentId) // Use the same appointmentId
           .set(appointmentDoc.data() as Map<String, dynamic>);
+
+      // Delete from 'Pending Appointment' collection
       await db
           .collection("users")
           .doc("members")
@@ -211,6 +244,11 @@ Future<void> unsetDisableDay(int day,int month, int year) async{
           .collection("Pending Appointment")
           .doc(appointmentId)
           .delete();
+
+      // Send notification
+      await storeNotification(
+          'Appointment Approved',
+          'Your appointment has been approved.');
     } catch (e) {
       log("Error approving appointment: $e");
     }
@@ -226,6 +264,18 @@ Future<void> unsetDisableDay(int day,int month, int year) async{
           .collection("Pending Appointment")
           .doc(appointmentId)
           .get();
+
+      // Update status field to 'Denied'
+      await db
+          .collection("users")
+          .doc("members")
+          .collection(userID)
+          .doc("Event")
+          .collection("Pending Appointment")
+          .doc(appointmentId)
+          .update({'status': 'Denied'});
+
+      // Move appointment to 'Denied Appointment' collection
       await db
           .collection("users")
           .doc("members")
@@ -234,6 +284,8 @@ Future<void> unsetDisableDay(int day,int month, int year) async{
           .collection("Denied Appointment")
           .doc(appointmentId)
           .set(appointmentDoc.data() as Map<String, dynamic>);
+
+      // Delete from 'Pending Appointment' collection
       await db
           .collection("users")
           .doc("members")
@@ -242,10 +294,16 @@ Future<void> unsetDisableDay(int day,int month, int year) async{
           .collection("Pending Appointment")
           .doc(appointmentId)
           .delete();
+
+      // Send notification
+      await storeNotification(
+          'Appointment Denied',
+          'Your appointment has been denied.');
     } catch (e) {
       log("Error denying appointment: $e");
     }
   }
+
 
   Stream<QuerySnapshot> fetchDenyAppointment() {
     return db

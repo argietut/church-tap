@@ -150,6 +150,7 @@ class _CustomCalendarState extends State<CustomCalendar> {
               }
             }
         },
+
         dowBuilder: (context, day) {
           final red = DateFormat.E().format(day);
           final blue = DateFormat.E().format(day);
@@ -201,51 +202,61 @@ class _CustomCalendarState extends State<CustomCalendar> {
 
   Widget admin(BuildContext context) {
     return Scaffold(
-      body: Expanded(
-        child: Padding(
-          padding: const EdgeInsets.only(top: 40, left: 20, right: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  IconButton(
-                    onPressed: () {},
-                    icon: const Icon(Icons.edit),
-                  ),
-                  const Text(
-                    "Calendar",
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(width: 50),
-                ],
-              ),
-              const SizedBox(height: 15),
-              const Divider(
-                color: appGreen,
-              ),
-              const SizedBox(height: 10),
-              Expanded(
-                child: ListView(
+        body: Expanded(
+          child: Padding(
+            padding: const EdgeInsets.only(top: 40, left: 20, right: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    _tableCalendar,
-                    Center(
-                      child: Text(
-                        'Create events',
-                        style: TextStyle(
-                          fontSize: 20,
-                        ),
+                    SizedBox(width: 50),
+                    Text(
+                      "Calendar",
+                      style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
-                    EventMakerButton(context),
+                    SizedBox(width: 50),
                   ],
                 ),
-              ),
-            ],
+                const SizedBox(height: 15),
+                const Divider(
+                  color: appGreen,
+                ),
+                const SizedBox(height: 10),
+                Expanded(
+                  child: ListView(
+                    children: [_tableCalendar],
+
+                  ),
+                ),
+                const SizedBox(height: 10),
+
+                const Center(
+                  child: Text('Create events',
+                  style: TextStyle(
+                    fontSize: 18,
+
+                  ),
+                  ),
+                ),
+                const SizedBox(height: 6),
+
+                Container(
+                  margin: const EdgeInsets.symmetric(vertical: 10.0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8.0),
+                    border: Border.all(color: appGreen), // Adding border
+                  ),
+                  child: EventMakerButton(context),
+                ),
+
+                const SizedBox(height: 20),
+              ],
+            ),
           ),
         ),
       ),
@@ -283,15 +294,26 @@ class _CustomCalendarState extends State<CustomCalendar> {
                 child: ListView(
                   children: [
                     _tableCalendar,
-                    Row(
-                      children: [
-                        Expanded(
-                          child: AppointmentMakerButton(),
+                    const SizedBox(height: 10),
+                    const Center(
+                      child: Text('Request appointment',
+                        style: TextStyle(
+                          fontSize: 18,
+
                         ),
-                        // Expanded(
-                        //   child: EventMakerButton(),
-                        // ),
-                      ],
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    Expanded(
+                      child: Container(
+                        margin: const EdgeInsets.symmetric(vertical: 10.0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(14.0),
+                          border: Border.all(color: appGreen),
+                        ),
+                        child: AppointmentMakerButton(),
+                      ),
+
                     ),
                   ],
                 ),
@@ -300,6 +322,30 @@ class _CustomCalendarState extends State<CustomCalendar> {
           ),
         ),
       ),
+      );
+}
+Widget AppointmentMakerButton(){
+    return TextButton(onPressed: () {
+      Navigator.push(context, MaterialPageRoute(
+        builder: (context) => AddAppointment(
+            firstDate: DateTime.utc(currentYear,1,1),
+            lastDate: DateTime(currentYear+1,1,1,0),
+            selectedDate:_selectedDay, type: 'members' ),
+      )
+      );
+    }, child: const Row(
+      children: [
+        Icon(
+          Icons.calendar_month
+        ),
+        Text("  Appointment",
+          style: TextStyle(
+              color: appBlack
+          ),
+        )
+      ],
+      mainAxisAlignment: MainAxisAlignment.center,
+     ),
     );
   }
 
