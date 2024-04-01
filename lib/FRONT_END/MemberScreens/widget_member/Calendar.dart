@@ -26,21 +26,26 @@ class _CustomCalendarState extends State<CustomCalendar> {
   TapAuth tapAuth = TapAuth();
   late Future _pendingDate;
   late Future _disabledDate;
+  late Future _approvedDate;
   List<DateTime> disabledDays = [];
   List<DateTime> pendingDays = [];
+  List<DateTime> approvedDate = [];
 
   @override
   void initState() {
     _pendingDate = storage.getPendingDate(tapAuth.auth.currentUser!.uid);
     _disabledDate = storage.getDisableDay();
+    _approvedDate = storage.getApprovedDate(tapAuth.auth.currentUser!.uid, widget.type);
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     _tableCalendar = TableCalendar(
       focusedDay: _focusedDay,
-      firstDay: DateTime.utc(DateTime.now().year, DateTime.now().month, DateTime.now().day),
-      lastDay: DateTime.utc(DateTime.now().year+1, 2, 1),
+      firstDay: DateTime.utc(
+          DateTime.now().year, DateTime.now().month, DateTime.now().day),
+      lastDay: DateTime.utc(DateTime.now().year + 1, 2, 1),
       selectedDayPredicate: (day) {
         return isSameDay(_selectedDay, day);
       },
@@ -57,79 +62,107 @@ class _CustomCalendarState extends State<CustomCalendar> {
         });
       },
       calendarStyle: const CalendarStyle(
-         // selectedDecoration: if(widget.type ),
-          weekendTextStyle: TextStyle(
-              color: Colors.red),
+          weekendTextStyle: TextStyle(color: Colors.red),
           outsideDaysVisible: false,
-          weekNumberTextStyle:TextStyle(
-              color: Colors.blue)
-      ),
+          weekNumberTextStyle: TextStyle(color: Colors.blue)),
       onDayLongPressed: (selectedDay, focusedDay) {
-        if(widget.type =="admins") {
+        if (widget.type == "admins") {
           var setDisableDays = <String, dynamic>{
             "date": Timestamp.fromDate(_selectedDay),
             "userID": tapAuth.getCurrentUserUID(),
-            "name" : tapAuth.auth.currentUser!.displayName
+            "name": tapAuth.auth.currentUser!.displayName
           };
           storage.setDisableDay(setDisableDays, tapAuth.auth.currentUser!.uid);
-          print("test");
         }
       },
+      onDisabledDayLongPressed: (day) {
+        if (widget.type == "admins") {
+          for (var disableDay in disabledDays) {
+            if (day.month == disableDay.month &&
+                day.day == disableDay.day &&
+                day.year == disableDay.year) {
+              storage.unsetDisableDay(day.day, day.month, day.year);
+              break; // Stops the loop for no more unecesarry checks
+            }
+          }
+        }
+      },
+      onCalendarCreated: (pageController) {},
       enabledDayPredicate: (day) {
-       for(int i = 0; i < disabledDays.length;i++){
-         if(disabledDays[i].month == day.month &&
-             disabledDays[i].day == day.day &&
-             disabledDays[i].year == day.year) {
-           return false;
-         }
+        for (int i = 0; i < disabledDays.length; i++) {
+          if (disabledDays[i].month == day.month &&
+              disabledDays[i].day == day.day &&
+              disabledDays[i].year == day.year) {
+            return false;
+          }
         }
         return true;
       },
       calendarBuilders: CalendarBuilders(
         disabledBuilder: (context, day, focusedDay) {
-          return  Container(
+          return Container(
             decoration: const BoxDecoration(color: Colors.black26),
             child: Center(
               child: Text(
                 "${day.day}",
-                style: const TextStyle(
-                    color: Colors.black),
+                style: const TextStyle(color: Colors.black),
               ),
             ),
           );
         },
-        defaultBuilder:(context, day, focusedDay) {
-          if(widget.type == "members"){
-            for(int i = 0;i < pendingDays.length;i++){
-              if(pendingDays[i].month == day.month && pendingDays[i].day == day.day && pendingDays[i].year == day.year){
-                return  Container(
-                  decoration: BoxDecoration(color: Colors.yellow.shade200,border: Border.all(color: Colors.black26,strokeAlign: BorderSide.strokeAlignInside)),
+        defaultBuilder: (context, day, focusedDay) {
+            for (int i = 0; i < pendingDays.length; i++) {
+              if (pendingDays[i].month == day.month &&
+                  pendingDays[i].day == day.day &&
+                  pendingDays[i].year == day.year) {
+                return Container(
+                  decoration: BoxDecoration(
+                      color: Colors.yellow.shade200,
+                      border: Border.all(
+                          color: Colors.black26,
+                          strokeAlign: BorderSide.strokeAlignInside)),
                   child: Center(
                     child: Text(
                       "${day.day}",
-                      style: const TextStyle(
-                          color: Colors.black),
+                      style: const TextStyle(color: Colors.black),
                     ),
                   ),
                 );
               }
             }
-          }
-          else{
-          }
+            for(int i = 0;i < approvedDate.length;i++){
+              if(approvedDate[i].month == day.month &&
+                  approvedDate[i].day == day.day &&
+                  approvedDate[i].year == day.year) {
+               return Container(
+                  decoration: BoxDecoration(
+                      color: Colors.lightGreen.shade200,
+                      border: Border.all(
+                          color: Colors.black26,
+                          strokeAlign: BorderSide.strokeAlignInside)),
+                  child: Center(
+                    child: Text(
+                      "${day.day}",
+                      style: const TextStyle(color: Colors.black),
+                    ),
+                  ),
+                );
+              }
+            }
         },
 
         dowBuilder: (context, day) {
           final red = DateFormat.E().format(day);
           final blue = DateFormat.E().format(day);
-          if(day.weekday == DateTime.sunday || day.weekday == DateTime.saturday){
+          if (day.weekday == DateTime.sunday ||
+              day.weekday == DateTime.saturday) {
             return Center(
-              child: Text(red,
+              child: Text(
+                red,
                 style: const TextStyle(color: Colors.red),
               ),
             );
-          }
-          else{
+          } else {
             return Center(
               child: Text(
                 blue,
@@ -137,29 +170,34 @@ class _CustomCalendarState extends State<CustomCalendar> {
               ),
             );
           }
-        },),
+        },
+      ),
     );
     return Scaffold(
-        body: FutureBuilder(future: Future.wait([_pendingDate,_disabledDate]), builder: (context, snapshot) {
-          if(snapshot.connectionState == ConnectionState.waiting && !snapshot.hasData){
-            return Center(
-              child: CircularProgressIndicator(
-                color: Colors.green.shade200,
-              ),);
-          }
-          else if(snapshot.connectionState == ConnectionState.done && snapshot.hasData && widget.type == "admins"){
-            return admin(context);
-          }
-          else {
-            pendingDays = snapshot.data![0];
-            disabledDays = snapshot.data![1];
-            return member(context);
-          }
-
-
-        },)
-    );
-
+        body: FutureBuilder(
+      future: Future.wait([_pendingDate, _disabledDate,_approvedDate]),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done && snapshot.hasData && widget.type == "members") {
+          disabledDays = snapshot.data![1];
+          pendingDays = snapshot.data![0];
+          approvedDate = snapshot.data![2];
+          return member(context);
+        }
+        else if (snapshot.connectionState == ConnectionState.done && snapshot.hasData && widget.type == "admins") {
+          disabledDays = snapshot.data![1];
+          approvedDate = snapshot.data![2];
+          return admin(context);
+        }
+        else {
+          return
+            Center(
+            child: CircularProgressIndicator(
+              color: Colors.green.shade200,
+            ),
+          );
+        }
+      },
+    ));
   }
 
   Widget admin(BuildContext context) {
@@ -221,21 +259,18 @@ class _CustomCalendarState extends State<CustomCalendar> {
             ),
           ),
         ),
-        );
+      ),
+    );
   }
 
-Widget member(BuildContext context){
-  return Scaffold(
-    appBar: AppBar(
-      automaticallyImplyLeading: true
-    ),
-
+  Widget member(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(automaticallyImplyLeading: true),
       body: Expanded(
         child: Padding(
           padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-
             children: [
               const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -259,7 +294,6 @@ Widget member(BuildContext context){
                 child: ListView(
                   children: [
                     _tableCalendar,
-
                     const SizedBox(height: 10),
                     const Center(
                       child: Text('Request appointment',
@@ -313,7 +347,28 @@ Widget AppointmentMakerButton(){
       mainAxisAlignment: MainAxisAlignment.center,
      ),
     );
-}
+  }
+
+  Widget AppointmentMakerButton() {
+    return TextButton(
+      onPressed: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => AddAppointment(
+                  firstDate: DateTime.utc(currentYear, 1, 1),
+                  lastDate: DateTime(currentYear + 1, 1, 1, 0),
+                  selectedDate: _selectedDay,
+                  type: 'members'),
+            ));
+      },
+      child: const Row(
+        children: [Icon(Icons.event_note_outlined), Text("  Appointment")],
+        mainAxisAlignment: MainAxisAlignment.center,
+      ),
+    );
+  }
+
   Widget EventMakerButton(BuildContext context) {
     final DateTime currentDate = DateTime.now();
     final DateTime firstDate = DateTime(currentDate.year - 1);
@@ -326,9 +381,10 @@ Widget AppointmentMakerButton(){
           context,
           MaterialPageRoute(
             builder: (context) => AddAppointment(
-                firstDate: DateTime.utc(currentYear,1,1),
-                lastDate: DateTime(currentYear+1,1,1,0),
-                selectedDate:_selectedDay, type: 'admins',// Provide a church event value
+              firstDate: DateTime.utc(currentYear, 1, 1),
+              lastDate: DateTime(currentYear + 1, 1, 1, 0),
+              selectedDate: _selectedDay,
+              type: 'admins', // Provide a church event value
             ),
           ),
         );
@@ -347,6 +403,4 @@ Widget AppointmentMakerButton(){
       ),
     );
   }
-
-
-}
+}//

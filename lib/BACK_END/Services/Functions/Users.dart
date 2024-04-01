@@ -39,6 +39,8 @@ class UserStorage {
     }
   }
 
+
+
   Future<void> createMemberEvent(String uniqueID, Map<String, dynamic> dateTime,
       String type) async {
     try {
@@ -63,6 +65,42 @@ class UserStorage {
     }
   }
 
+  Future<List<DateTime>> getApprovedDate(String uid, String type) async {
+    List<DateTime> documents = [];
+    try{
+      if(type == "members") {
+        await db.collection("users")
+            .doc("members")
+            .collection(uid)
+            .doc("Event")
+            .collection("Approved Appointment")
+            .get()
+            .then((value) {
+          for (var element in value.docs) {
+            Timestamp t = element.data()["date"];
+            DateTime dats = t.toDate();
+            documents.add(dats);
+          }
+        });
+      }
+      else{
+        await db.collectionGroup("Church Event")
+            .get()
+            .then((value) {
+          for (var element in value.docs) {
+            Timestamp t = element.data()["date"];
+            DateTime dats = t.toDate();
+            documents.add(dats);
+          }
+        });
+      }
+
+    }
+    catch(e){
+
+    }
+    return documents;
+  }
 
  Future<List<DateTime>> getPendingDate(String uid) async {
     List<DateTime> documents = [];
@@ -95,11 +133,31 @@ class UserStorage {
         log(e.toString());
       }
   }
+Future<void> unsetDisableDay(int day,int month, int year) async{
+    db.collectionGroup("Disabled Days")
+        .get()
+        .then((value) {
+          for(var element in value.docs){
+            var a = element.data()['date'];
+            Timestamp timestamp = a;
+            DateTime dateTime = timestamp.toDate();
+            if(dateTime.day == day && dateTime.month == month && dateTime.year == year){
+                db.runTransaction((Transaction transaction) async{
+                     transaction.delete(element.reference);
+                },);
+                // Remove Break due to duplicate disabled dates
+            }
+            else{
+              continue;
+            }
+          }
+        },);
+}
 
   Future<List<DateTime>> getDisableDay() async{
       List<DateTime> documents = [];
       try{
-        db.collectionGroup("Disabled Days")
+      await db.collectionGroup("Disabled Days")
             .get()
             .then((value) {
               for(var element in value.docs){
