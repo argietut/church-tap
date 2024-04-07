@@ -53,8 +53,10 @@ class _NotificationTabState extends State<NotificationTab> {
                       stream: _notificationStream,
                       builder: (context, snapshot) {
                         if(snapshot.connectionState == ConnectionState.waiting){
-                          return CircularProgressIndicator(
-                            color: Colors.green.shade200,);
+                          return Center(
+                            child: CircularProgressIndicator(
+                              color: Colors.green.shade200,),
+                          );
                         }
                         else if(snapshot.hasError){
                           return Center(
