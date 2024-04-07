@@ -225,6 +225,7 @@ Future<void> unsetDisableDay(int day,int month, int year) async{
           .doc(appointmentId)
           .update({'status': 'Approved'});
 
+      await setNotification(userID, appointmentId);
       // Move appointment to 'Approved Appointment' collection
       await db
           .collection("users")
@@ -244,7 +245,6 @@ Future<void> unsetDisableDay(int day,int month, int year) async{
           .collection("Pending Appointment")
           .doc(appointmentId)
           .delete();
-
       // Send notification
       await storeNotification(
           'Appointment Approved',
@@ -274,6 +274,7 @@ Future<void> unsetDisableDay(int day,int month, int year) async{
           .collection("Pending Appointment")
           .doc(appointmentId)
           .update({'status': 'Denied'});
+      await setNotification(userID, appointmentId);
 
       // Move appointment to 'Denied Appointment' collection
       await db
@@ -317,6 +318,33 @@ Future<void> unsetDisableDay(int day,int month, int year) async{
         .collectionGroup("Church Event")
         .snapshots();
   }
+Future<void> setNotification(String uid,String appointmentId) async {
+    DocumentSnapshot documentSnapshot = await db
+        .collection("users")
+        .doc("members")
+        .collection(uid)
+        .doc("Event")
+        .collection("Pending Appointment")
+        .doc(appointmentId)
+        .get();
 
+    await db.
+    collection("users")
+        .doc('members')
+        .collection(uid)
+        .doc('Event')
+        .collection('Notification')
+        .doc(appointmentId)
+        .set(documentSnapshot.data() as Map<String, dynamic>);
+}
+Stream<QuerySnapshot> getNotification(String uid){
+    return db
+        .collection('users')
+        .doc('members')
+        .collection(uid)
+        .doc('Event')
+        .collection('Notification')
+        .snapshots();
+}
 
 }

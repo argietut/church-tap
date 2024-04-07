@@ -4,6 +4,7 @@ import 'package:bethel_app_final/FRONT_END/MemberScreens/notifications.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/profile_page.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/widget_member/Calendar.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/eventPage.dart';
+import 'package:bethel_app_final/FRONT_END/MemberScreens/widget_member/NotificationTab.dart';
 import 'package:bethel_app_final/FRONT_END/constant/color.dart';
 import 'package:flutter/material.dart';
 
@@ -19,7 +20,7 @@ class _HomePageState extends State<HomePage> {
   final List<StatefulWidget> _children = [
     const MemberHomePage(),
      const EventPage(),
-    const Notifications(userID: ''),
+    const NotificationTab(),
     const Profile(),
   ];
 
