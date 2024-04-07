@@ -259,8 +259,7 @@ class _CustomCalendarState extends State<CustomCalendar> {
             ),
           ),
         ),
-      ),
-    );
+      );
   }
 
   Widget member(BuildContext context) {
@@ -346,26 +345,6 @@ Widget AppointmentMakerButton(){
       ],
       mainAxisAlignment: MainAxisAlignment.center,
      ),
-    );
-  }
-
-  Widget AppointmentMakerButton() {
-    return TextButton(
-      onPressed: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => AddAppointment(
-                  firstDate: DateTime.utc(currentYear, 1, 1),
-                  lastDate: DateTime(currentYear + 1, 1, 1, 0),
-                  selectedDate: _selectedDay,
-                  type: 'members'),
-            ));
-      },
-      child: const Row(
-        children: [Icon(Icons.event_note_outlined), Text("  Appointment")],
-        mainAxisAlignment: MainAxisAlignment.center,
-      ),
     );
   }
 
