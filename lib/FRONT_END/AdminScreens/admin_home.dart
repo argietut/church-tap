@@ -143,7 +143,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                 'Members approved appointments',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: 16,
+                  fontSize: 18,
                 ),
               ),
             ),
@@ -189,7 +189,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                 'Church events',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: 16,
+                  fontSize: 18,
                 ),
               ),
             ),

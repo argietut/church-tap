@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:developer';
-import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserStorage {
@@ -8,21 +7,6 @@ class UserStorage {
   final FirebaseFirestore db = FirebaseFirestore.instance;
 
 
-  Future<void> storeNotification(String title, String body) async {
-    try {
-      int notificationId = DateTime.now().millisecondsSinceEpoch & 0xFFFFFFFF;
-      await AwesomeNotifications().createNotification(
-        content: NotificationContent(
-          id: notificationId,
-          channelKey: 'channelKey',
-          title: title,
-          body: body,
-        ),
-      );
-    } catch (e) {
-      log("Error storing notification: $e");
-    }
-  }
 
 
   Future<void> createUser(String uniqueID,
@@ -245,10 +229,7 @@ Future<void> unsetDisableDay(int day,int month, int year) async{
           .collection("Pending Appointment")
           .doc(appointmentId)
           .delete();
-      // Send notification
-      await storeNotification(
-          'Appointment Approved',
-          'Your appointment has been approved.');
+
     } catch (e) {
       log("Error approving appointment: $e");
     }
@@ -296,10 +277,6 @@ Future<void> unsetDisableDay(int day,int month, int year) async{
           .doc(appointmentId)
           .delete();
 
-      // Send notification
-      await storeNotification(
-          'Appointment Denied',
-          'Your appointment has been denied.');
     } catch (e) {
       log("Error denying appointment: $e");
     }
@@ -327,7 +304,6 @@ Future<void> setNotification(String uid,String appointmentId) async {
         .collection("Pending Appointment")
         .doc(appointmentId)
         .get();
-
     await db.
     collection("users")
         .doc('members')
@@ -346,5 +322,6 @@ Stream<QuerySnapshot> getNotification(String uid){
         .collection('Notification')
         .snapshots();
 }
+
 
 }
