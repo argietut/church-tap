@@ -23,6 +23,8 @@ class UserStorage {
     }
   }
 
+
+
   Future<void> createMemberEvent(String uniqueID, Map<String, dynamic> dateTime,
       String type) async {
     try {
@@ -47,6 +49,42 @@ class UserStorage {
     }
   }
 
+  Future<List<DateTime>> getApprovedDate(String uid, String type) async {
+    List<DateTime> documents = [];
+    try{
+      if(type == "members") {
+        await db.collection("users")
+            .doc("members")
+            .collection(uid)
+            .doc("Event")
+            .collection("Approved Appointment")
+            .get()
+            .then((value) {
+          for (var element in value.docs) {
+            Timestamp t = element.data()["date"];
+            DateTime dats = t.toDate();
+            documents.add(dats);
+          }
+        });
+      }
+      else{
+        await db.collectionGroup("Church Event")
+            .get()
+            .then((value) {
+          for (var element in value.docs) {
+            Timestamp t = element.data()["date"];
+            DateTime dats = t.toDate();
+            documents.add(dats);
+          }
+        });
+      }
+
+    }
+    catch(e){
+
+    }
+    return documents;
+  }
 
  Future<List<DateTime>> getPendingDate(String uid) async {
     List<DateTime> documents = [];
@@ -79,11 +117,31 @@ class UserStorage {
         log(e.toString());
       }
   }
+Future<void> unsetDisableDay(int day,int month, int year) async{
+    db.collectionGroup("Disabled Days")
+        .get()
+        .then((value) {
+          for(var element in value.docs){
+            var a = element.data()['date'];
+            Timestamp timestamp = a;
+            DateTime dateTime = timestamp.toDate();
+            if(dateTime.day == day && dateTime.month == month && dateTime.year == year){
+                db.runTransaction((Transaction transaction) async{
+                     transaction.delete(element.reference);
+                },);
+                // Remove Break due to duplicate disabled dates
+            }
+            else{
+              continue;
+            }
+          }
+        },);
+}
 
   Future<List<DateTime>> getDisableDay() async{
       List<DateTime> documents = [];
       try{
-        db.collectionGroup("Disabled Days")
+      await db.collectionGroup("Disabled Days")
             .get()
             .then((value) {
               for(var element in value.docs){
@@ -151,6 +209,7 @@ class UserStorage {
           .doc(appointmentId)
           .update({'status': 'Approved'});
 
+      await setNotification(userID, appointmentId);
       // Move appointment to 'Approved Appointment' collection
       await db
           .collection("users")
@@ -170,7 +229,6 @@ class UserStorage {
           .collection("Pending Appointment")
           .doc(appointmentId)
           .delete();
-
 
     } catch (e) {
       log("Error approving appointment: $e");
@@ -197,6 +255,7 @@ class UserStorage {
           .collection("Pending Appointment")
           .doc(appointmentId)
           .update({'status': 'Denied'});
+      await setNotification(userID, appointmentId);
 
       // Move appointment to 'Denied Appointment' collection
       await db
@@ -236,24 +295,33 @@ class UserStorage {
         .collectionGroup("Church Event")
         .snapshots();
   }
-
-  Stream<QuerySnapshot> fetchUpcomingEvents() {
-    // Assuming you have a 'events' collection in Firestore where you store events
-    // You might need to adjust the query according to your Firestore structure
+Future<void> setNotification(String uid,String appointmentId) async {
+    DocumentSnapshot documentSnapshot = await db
+        .collection("users")
+        .doc("members")
+        .collection(uid)
+        .doc("Event")
+        .collection("Pending Appointment")
+        .doc(appointmentId)
+        .get();
+    await db.
+    collection("users")
+        .doc('members')
+        .collection(uid)
+        .doc('Event')
+        .collection('Notification')
+        .doc(appointmentId)
+        .set(documentSnapshot.data() as Map<String, dynamic>);
+}
+Stream<QuerySnapshot> getNotification(String uid){
     return db
-        .collection('events')
-        .where('date', isGreaterThan: DateTime.now())
+        .collection('users')
+        .doc('members')
+        .collection(uid)
+        .doc('Event')
+        .collection('Notification')
         .snapshots();
-  }
+}
 
-  // Define the method to fetch completed events
-  Stream<QuerySnapshot> fetchCompletedEvents() {
-    // Assuming you have a 'events' collection in Firestore where you store events
-    // You might need to adjust the query according to your Firestore structure
-    return db
-        .collection('events')
-        .where('date', isLessThanOrEqualTo: DateTime.now())
-        .snapshots();
-  }
 
 }
