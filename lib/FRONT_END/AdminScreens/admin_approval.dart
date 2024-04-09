@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:bethel_app_final/BACK_END/Services/Functions/Users.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/widget_member/sort_icon.dart';
+import 'package:bethel_app_final/FRONT_END/authentications/auth_classes/error_indicator.dart';
 import 'package:bethel_app_final/FRONT_END/constant/color.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -36,19 +37,54 @@ class _AdminApprovalState extends State<AdminApproval> {
     }
   }
 
-  Future<void> approvedAppointment(String userID, String appointmentId) async {
+  Future<void> _performApprovedAppointment(String appointmentId, String userID) async {
     try {
+      // Call the method to approve the appointment
       await userStorage.approvedAppointment(userID, appointmentId);
+      // Add any additional logic here
     } catch (e) {
-      log("Error approving appointment: $e");
+      log("Error performing approved appointment: $e");
+      throw Exception("Error performing approved appointment.");
     }
   }
 
-  Future<void> denyAppointment(String userID, String appointmentId) async {
+  Future<void> _performDenyAppointment(String appointmentId, String userID) async {
     try {
+      // Call the method to deny the appointment
       await userStorage.denyAppointment(userID, appointmentId);
+      // Add any additional logic here
+    } catch (e) {
+      log("Error performing denied appointment: $e");
+      throw Exception("Error performing denied appointment.");
+    }
+  }
+
+
+  Future<void> approvedAppointment(String appointmentId, String userID) async {
+    try {
+      await DialogHelper.showLoadingDialog(context, "Approving appointment...");
+      await _performApprovedAppointment(userID, appointmentId);
+      DialogHelper.showSnackBar(context, "Appointment successfully approved.");
+      await Future.delayed(const Duration(seconds: 1));
+    } catch (e) {
+      log("Error approving appointment: $e");
+      DialogHelper.showSnackBar(context, "Error approving appointment.");
+    } finally {
+      await DialogHelper.dismissLoadingDialog(context);
+    }
+  }
+
+  Future<void> denyAppointment(String appointmentId, String userID) async {
+    try {
+      await DialogHelper.showLoadingDialog(context, "Denying appointment...");
+      await _performDenyAppointment(userID, appointmentId);
+      DialogHelper.showSnackBar(context, "Appointment successfully denied.");
+      await Future.delayed(const Duration(seconds: 1));
     } catch (e) {
       log("Error denying appointment: $e");
+      DialogHelper.showSnackBar(context, "Error denying appointment.");
+    } finally {
+      await DialogHelper.dismissLoadingDialog(context);
     }
   }
 
@@ -153,7 +189,7 @@ class _AdminApprovalState extends State<AdminApproval> {
                           'Pending Requests',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontSize: 16,
+                            fontSize: 18,
                           ),
                         ),
                       ),

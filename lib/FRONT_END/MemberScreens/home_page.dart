@@ -17,9 +17,9 @@ class MemberHomePage extends StatefulWidget {
 }
 
 class _MemberHomePageState extends State<MemberHomePage> {
-  bool _isSearching = false;
   final UserStorage userStorage = UserStorage();
   String _selectedEventType = 'Upcoming Events';
+  bool _isSearching = false;
   bool sortByMonth = false;
   bool sortByDay = false;
   int clickCount = 0;
@@ -58,7 +58,6 @@ class _MemberHomePageState extends State<MemberHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
         automaticallyImplyLeading: false,
         toolbarHeight: 120,
         flexibleSpace: Stack(
@@ -72,7 +71,6 @@ class _MemberHomePageState extends State<MemberHomePage> {
                 children: [
                   IconButton(
                     onPressed: () {
-
                       setState(() {
                         clickCount++;
                         if (clickCount % 2 == 1) {
@@ -121,20 +119,36 @@ class _MemberHomePageState extends State<MemberHomePage> {
           ],
         ),
       ),
-
       body: Padding(
         padding: const EdgeInsets.only(top: 10, left: 20, right: 20),
+
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: 4),
-            const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Text(
-                'Church event',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: DropdownButtonHideUnderline(
+                child: DropdownButton<String>(
+                  value: _selectedEventType,
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      _selectedEventType = newValue!;
+                    });
+                  },
+                  items: <String>['Upcoming Events', 'Completed Events']
+                      .map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(
+                        value,
+                        style: const TextStyle(
+                          color: appBlack,
+                          fontSize: 14,
+                        ),
+                      ),
+                    );
+                  }).toList(),
                 ),
               ),
             ),
@@ -142,13 +156,6 @@ class _MemberHomePageState extends State<MemberHomePage> {
             Expanded(
               child: Column(
                 children: [
-                  if (_isSearching)
-                    BackdropFilter(
-                      filter: ImageFilter.blur(sigmaX: 8.0, sigmaY: 8.0),
-                      child: const Center(
-                        child: MapPage(),
-                      ),
-                    ),
                   Expanded(
                     child: StreamBuilder<QuerySnapshot>(
                       stream: userStorage.fetchCreateMemberEvent(),
@@ -172,6 +179,17 @@ class _MemberHomePageState extends State<MemberHomePage> {
                           );
                         } else {
                           List<DocumentSnapshot> events = snapshot.data!.docs;
+                          if (_selectedEventType == 'Upcoming Events') {
+                            events = events.where((event) {
+                              DateTime eventDate = (event['date'] as Timestamp).toDate();
+                              return eventDate.isAfter(DateTime.now());
+                            }).toList();
+                          } else {
+                            events = events.where((event) {
+                              DateTime eventDate = (event['date'] as Timestamp).toDate();
+                              return eventDate.isBefore(DateTime.now());
+                            }).toList();
+                          }
                           if (sortByMonth) {
                             events = sortEventsByMonth(events);
                           } else if (sortByDay) {
@@ -237,3 +255,4 @@ class _MemberHomePageState extends State<MemberHomePage> {
     );
   }
 }
+

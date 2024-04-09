@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:developer';
-import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserStorage {
@@ -8,21 +7,6 @@ class UserStorage {
   final FirebaseFirestore db = FirebaseFirestore.instance;
 
 
-  Future<void> storeNotification(String title, String body) async {
-    try {
-      int notificationId = DateTime.now().millisecondsSinceEpoch & 0xFFFFFFFF;
-      await AwesomeNotifications().createNotification(
-        content: NotificationContent(
-          id: notificationId,
-          channelKey: 'channelKey',
-          title: title,
-          body: body,
-        ),
-      );
-    } catch (e) {
-      log("Error storing notification: $e");
-    }
-  }
 
 
   Future<void> createUser(String uniqueID,
@@ -187,10 +171,7 @@ class UserStorage {
           .doc(appointmentId)
           .delete();
 
-      // Send notification
-      await storeNotification(
-          'Appointment Approved',
-          'Your appointment has been approved.');
+
     } catch (e) {
       log("Error approving appointment: $e");
     }
@@ -237,10 +218,6 @@ class UserStorage {
           .doc(appointmentId)
           .delete();
 
-      // Send notification
-      await storeNotification(
-          'Appointment Denied',
-          'Your appointment has been denied.');
     } catch (e) {
       log("Error denying appointment: $e");
     }
@@ -260,5 +237,23 @@ class UserStorage {
         .snapshots();
   }
 
+  Stream<QuerySnapshot> fetchUpcomingEvents() {
+    // Assuming you have a 'events' collection in Firestore where you store events
+    // You might need to adjust the query according to your Firestore structure
+    return db
+        .collection('events')
+        .where('date', isGreaterThan: DateTime.now())
+        .snapshots();
+  }
+
+  // Define the method to fetch completed events
+  Stream<QuerySnapshot> fetchCompletedEvents() {
+    // Assuming you have a 'events' collection in Firestore where you store events
+    // You might need to adjust the query according to your Firestore structure
+    return db
+        .collection('events')
+        .where('date', isLessThanOrEqualTo: DateTime.now())
+        .snapshots();
+  }
 
 }

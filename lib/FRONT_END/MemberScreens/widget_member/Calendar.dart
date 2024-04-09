@@ -189,21 +189,33 @@ class _CustomCalendarState extends State<CustomCalendar> {
                   color: appGreen,
                 ),
                 const SizedBox(height: 10),
+                const Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Disable dates',
+                    style: TextStyle(
+                     fontSize: 18
+                    ),
+                    ),
+                  ],
+                ),
                 Expanded(
                   child: ListView(
                     children: [_tableCalendar],
-
                   ),
                 ),
                 const SizedBox(height: 10),
 
-                const Center(
-                  child: Text('Create events',
-                  style: TextStyle(
-                    fontSize: 18,
+                const Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Create events',
+                    style: TextStyle(
+                      fontSize: 18,
 
-                  ),
-                  ),
+                    ),
+                    ),
+                  ],
                 ),
                 const SizedBox(height: 6),
 
