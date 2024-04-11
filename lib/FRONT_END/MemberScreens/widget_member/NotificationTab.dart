@@ -26,11 +26,12 @@ class _NotificationTabState extends State<NotificationTab> {
         padding: const EdgeInsets.only(top: 40, left: 20, right: 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [Row(
+          children: [
+            Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               IconButton(onPressed: () {},
-                  icon: const Icon(Icons.sort)
+                  icon: const Icon(Icons.mark_chat_read_outlined)
               ),
               const Text("Notifications",
               style:TextStyle(
@@ -41,9 +42,11 @@ class _NotificationTabState extends State<NotificationTab> {
               const SizedBox(width: 50),
             ],
           ),
+            const SizedBox(height: 15),
             const Divider(
               color: Colors.green,
             ),
+        const SizedBox(height: 5),
         Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -109,13 +112,13 @@ class _NotificationTabState extends State<NotificationTab> {
                             child: ListTile(
                               //Should Wrap in Inkwel to support bold to unbold text but no time and fucking lazy to do it
                               title: Row(children: [
-                                Text("Your "),
+                                const Text("Your "),
                                 Text('${notif['appointmenttype']}',
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       fontWeight: FontWeight.bold),),
-                                Text(" at "),
+                                const Text(" at "),
                                 Text(formattedDate,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       fontWeight: FontWeight.bold),),
 
                               ],
@@ -123,9 +126,9 @@ class _NotificationTabState extends State<NotificationTab> {
                            subtitle: Column(
                              crossAxisAlignment: CrossAxisAlignment.start,
                              children: [
-                               Row(children: [Text("Status: "),
+                               Row(children: [const Text("Status: "),
                                  Text(notif['status'],
-                                 style: TextStyle(
+                                 style: const TextStyle(
                                      fontWeight: FontWeight.bold),)
                                ],
                                ),

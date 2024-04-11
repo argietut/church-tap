@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class DialogHelper {
   static Future<void> showLoadingDialog(BuildContext context, String message) async {
-    return showDialog<void>(
+    showDialog<void>(
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
@@ -17,9 +17,13 @@ class DialogHelper {
         );
       },
     );
+
+    // Delay for 1 second before dismissing the dialog
+    await Future.delayed(Duration(seconds: 1));
+    dismissLoadingDialog(context);
   }
 
-  static Future<void> dismissLoadingDialog(BuildContext context) async {
+  static void dismissLoadingDialog(BuildContext context) {
     Navigator.of(context).pop();
   }
 

@@ -58,10 +58,11 @@ class _CustomCalendarState extends State<CustomCalendar> {
                   ),
                 )
               else
+
                 const Text(
                   "Calendar",
                   style: TextStyle(
-                    fontSize: 32,
+                    fontSize: 28,
                     fontWeight: FontWeight.bold,
                   ),
                 ),

@@ -64,18 +64,26 @@ class _MemberRegisterPageState extends State<MemberRegisterPage> {
         return;
       }
 
-      // Password validation logic
       if (password.length < 8) {
         showSnackbar('Password must be at least 8 characters long. Please try again!',
             backgroundColor: Colors.red);
         return;
       }
 
-      if (!RegExp(r'^(?=.*[a-zA-Z])(?=.*\d)[A-Za-z\d]+$').hasMatch(password)) {
-        showSnackbar('Password must contain both letters and numbers. Please try again!',
+      RegExp passwordRegex = RegExp(r'^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$');
+
+      if (!passwordRegex.hasMatch(password)) {
+        showSnackbar('Password must contain both letters and numbers and at least one symbol. Please try again!',
             backgroundColor: Colors.red);
         return;
       }
+
+
+      // if (!RegExp(r'^(?=.*[a-zA-Z])(?=.*\d)[A-Za-z\d]+$').hasMatch(password)) {
+      //   showSnackbar('Password must contain both letters and numbers. Please try again!',
+      //       backgroundColor: Colors.red);
+      //   return;
+      // }
 
       if (password != confirmPassword) {
         showSnackbar('Passwords don\'t match. Please try again!',
@@ -95,7 +103,7 @@ class _MemberRegisterPageState extends State<MemberRegisterPage> {
             children: [
               Icon(
                 Icons.check_circle,
-                color: appGreen, // Adjust color as needed
+                color: appGreen,
               ),
               SizedBox(width: 16.0),
               Expanded(
@@ -129,12 +137,10 @@ class _MemberRegisterPageState extends State<MemberRegisterPage> {
 
       await Future.delayed(const Duration(seconds: 1));
 
-      // Navigate to the member login page directly after registration
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => const MemberLoginPage()),
       );
     } catch (e) {
-      // Show a visually enhanced Snackbar with error message
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           elevation: 0,
@@ -159,8 +165,6 @@ class _MemberRegisterPageState extends State<MemberRegisterPage> {
       );
     }
   }
-
-
 
   @override
   Widget build(BuildContext context) {
