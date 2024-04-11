@@ -23,7 +23,7 @@ class _MemberLoginPageState extends State<MemberLoginPage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   TapAuth tapAuth = TapAuth();
-  bool _obscurePassword = true; // To toggle password visibility
+  bool _obscurePassword = true;
   bool _loading = false;
 
   void showSnackbar(String message, {Color? backgroundColor}) {
@@ -39,7 +39,7 @@ class _MemberLoginPageState extends State<MemberLoginPage> {
   void signUserIn() async {
     try {
       setState(() {
-        _loading = true; // Start circular loading
+        _loading = true;
       });
 
       String email = emailController.text.trim();
@@ -58,20 +58,7 @@ class _MemberLoginPageState extends State<MemberLoginPage> {
           showSnackbar('Your account is not verified yet. Please check your email and verify your account.',
               backgroundColor: Colors.red);
         } else {
-          // showDialog(
-          //   context: context,
-          //   barrierDismissible: true,
-          //   builder: (BuildContext context) {
-          //     return const AlertDialog(
-          //       content: SizedBox(
-          //         height: 50,
-          //         child: Center(
-          //           child: CircularProgressIndicator(),
-          //         ),
-          //       ),
-          //     );
-          //   },
-          // );
+
           await Future.delayed(const Duration(seconds: 1));
 
           // Navigate to HomePage and await until navigation completes
@@ -146,12 +133,11 @@ class _MemberLoginPageState extends State<MemberLoginPage> {
                     controller: passwordController,
                     hintText: 'Password',
                     obscureText: _obscurePassword,
-                    suffixIcon: GestureDetector(
+                      suffixIcon: GestureDetector(
                       onTap: () {
                         setState(() {
                           _obscurePassword = !_obscurePassword;
                         });
-                        Navigator.pop(context, true);
                       },
                       child: Icon(
                         _obscurePassword ? Icons.visibility_off : Icons.visibility,

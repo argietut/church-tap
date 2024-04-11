@@ -54,6 +54,12 @@ class _MemberHomePageState extends State<MemberHomePage> {
     return events;
   }
 
+  bool isEventCompleted(DocumentSnapshot event) {
+    Timestamp timeStamp = event["date"];
+    DateTime eventDate = timeStamp.toDate();
+    return eventDate.isBefore(DateTime.now());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -152,7 +158,18 @@ class _MemberHomePageState extends State<MemberHomePage> {
                 ),
               ),
             ),
-            const SizedBox(height: 6),
+
+            const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text(
+                'Church events',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                ),
+              ),
+            ),
+
             Expanded(
               child: Column(
                 children: [
@@ -166,14 +183,13 @@ class _MemberHomePageState extends State<MemberHomePage> {
                           );
                         } else if (snapshot.hasError) {
                           return Text('Error: ${snapshot.error}');
-                        } else if (snapshot.data == null ||
-                            snapshot.data!.docs.isEmpty) {
+                        } else if (snapshot.data == null || snapshot.data!.docs.isEmpty) {
                           return const Center(
                             child: Text(
                               'No church event available yet!',
                               style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.grey
+                                fontSize: 16,
+                                color: Colors.grey,
                               ),
                             ),
                           );
@@ -182,7 +198,8 @@ class _MemberHomePageState extends State<MemberHomePage> {
                           if (_selectedEventType == 'Upcoming Events') {
                             events = events.where((event) {
                               DateTime eventDate = (event['date'] as Timestamp).toDate();
-                              return eventDate.isAfter(DateTime.now());
+                              DateTime currentDate = DateTime.now();
+                              return eventDate.isAtSameMomentAs(currentDate) || eventDate.isAfter(currentDate);
                             }).toList();
                           } else {
                             events = events.where((event) {
@@ -190,58 +207,70 @@ class _MemberHomePageState extends State<MemberHomePage> {
                               return eventDate.isBefore(DateTime.now());
                             }).toList();
                           }
+
                           if (sortByMonth) {
                             events = sortEventsByMonth(events);
                           } else if (sortByDay) {
                             events = sortEventsByDay(events);
                           }
-                          return ListView.builder(
-                            itemCount: events.length,
-                            itemBuilder: (context, index) {
-                              final event = events[index];
-                              Timestamp timeStamp = event["date"];
-                              DateTime dateTime = timeStamp.toDate();
-                              List<String> months = [
-                                "January",
-                                "February",
-                                "March",
-                                "April",
-                                "May",
-                                "June",
-                                "July",
-                                "August",
-                                "September",
-                                "October",
-                                "November",
-                                "December"
-                              ];
-                              String formattedDate =
-                                  "${months[dateTime.month - 1]} ${dateTime.day}, ${dateTime.year}";
-                              return Card(
-                                color: Colors.green.shade200,
-                                elevation: 2,
-                                margin: const EdgeInsets.symmetric(
-                                    vertical: 8,
-                                    horizontal: 4
+                          if (events.isEmpty) {
+                            return const Center(
+                              child: Text(
+                                'No events posted yet',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.grey,
                                 ),
-                                child: ListTile(
-                                  title: Text(
-                                    'Event type: ${event['appointmenttype'] ?? ''}',
-                                    style: const TextStyle(
-
+                              ),
+                            );
+                          } else {
+                            return ListView.builder(
+                              itemCount: events.length,
+                              itemBuilder: (context, index) {
+                                final event = events[index];
+                                Timestamp timeStamp = event["date"];
+                                DateTime dateTime = timeStamp.toDate();
+                                List<String> months = [
+                                  "January",
+                                  "February",
+                                  "March",
+                                  "April",
+                                  "May",
+                                  "June",
+                                  "July",
+                                  "August",
+                                  "September",
+                                  "October",
+                                  "November",
+                                  "December"
+                                ];
+                                String formattedDate =
+                                    "${months[dateTime.month - 1]} ${dateTime.day}, ${dateTime.year}";
+                                return Card(
+                                  color: isEventCompleted(event) ? Colors.grey.shade300 : Colors.green.shade200,
+                                  elevation: 2,
+                                  margin: const EdgeInsets.symmetric(
+                                    vertical: 8,
+                                    horizontal: 4,
+                                  ),
+                                  child: ListTile(
+                                    title: Text(
+                                      'Event type: ${event['appointmenttype'] ?? ''}',
+                                      style: const TextStyle(),
+                                    ),
+                                    subtitle: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text('Description: ${event['description'] ?? ''}'),
+                                        Text('Date: $formattedDate'),
+                                      ],
                                     ),
                                   ),
-                                  subtitle: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text('Description: ${event['description'] ?? ''}'),
-                                      Text('Date: $formattedDate'),
-                                    ],
-                                  ),
-                                ),
-                              );
-                            },
-                          );
+                                );
+
+                              },
+                            );
+                          }
                         }
                       },
                     ),
@@ -249,6 +278,7 @@ class _MemberHomePageState extends State<MemberHomePage> {
                 ],
               ),
             ),
+
           ],
         ),
       ),

@@ -51,7 +51,7 @@ class _NotificationsState extends State<Notifications> {
       await UserStorage().approvedAppointment(widget.userID, appointmentId);
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error approving appointment')),
+        const SnackBar(content: Text('Error approving appointment')),
       );
       log("Error approving appointment: $e");
     }
@@ -62,7 +62,7 @@ class _NotificationsState extends State<Notifications> {
       await UserStorage().denyAppointment(widget.userID, appointmentId);
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error denying appointment')),
+        const SnackBar(content: Text('Error denying appointment')),
       );
       log("Error denying appointment: $e");
     }
@@ -81,7 +81,9 @@ class _NotificationsState extends State<Notifications> {
               children: [
                 IconButton(
                   onPressed: () {},
-                  icon: const Icon(Icons.read_more_outlined),
+                  icon: const Icon(
+                      Icons.mark_chat_read
+                  ),
                 ),
                 const Text(
                   "Notification",
@@ -97,6 +99,7 @@ class _NotificationsState extends State<Notifications> {
             const Divider(
               color: Colors.green,
             ),
+            const SizedBox(height: 5),
             Expanded(
               child: ListView.builder(
                 itemCount: appointments.length,
@@ -108,20 +111,20 @@ class _NotificationsState extends State<Notifications> {
                     child: ListTile(
                       title: Text(
                         appointments[index].title,
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                        style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                       subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             'Status: ${appointments[index].status}',
-                            style: TextStyle(color: Colors.grey),
+                            style: const TextStyle(color: Colors.grey),
                           ),
                           if (appointments[index].status == 'Approved' ||
                               appointments[index].status == 'Denied')
                             Text(
                               appointments[index].notification ?? '',
-                              style: TextStyle(color: Colors.red),
+                              style: const TextStyle(color: Colors.red),
                             ),
                         ],
                       ),
@@ -133,14 +136,14 @@ class _NotificationsState extends State<Notifications> {
                             onPressed: () {
                               approveAppointment(appointments[index].id);
                             },
-                            icon: Icon(Icons.check),
+                            icon: const Icon(Icons.check),
                             color: Colors.green,
                           ),
                           IconButton(
                             onPressed: () {
                               denyAppointment(appointments[index].id);
                             },
-                            icon: Icon(Icons.close),
+                            icon: const Icon(Icons.close),
                             color: Colors.red,
                           ),
                         ],

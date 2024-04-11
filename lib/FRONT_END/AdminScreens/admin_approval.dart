@@ -65,12 +65,12 @@ class _AdminApprovalState extends State<AdminApproval> {
       await DialogHelper.showLoadingDialog(context, "Approving appointment...");
       await _performApprovedAppointment(userID, appointmentId);
       DialogHelper.showSnackBar(context, "Appointment successfully approved.");
-      await Future.delayed(const Duration(seconds: 1));
     } catch (e) {
       log("Error approving appointment: $e");
       DialogHelper.showSnackBar(context, "Error approving appointment.");
     } finally {
-      await DialogHelper.dismissLoadingDialog(context);
+      Future.delayed(const Duration(seconds: 1)).then((_) {
+      });
     }
   }
 
@@ -79,14 +79,16 @@ class _AdminApprovalState extends State<AdminApproval> {
       await DialogHelper.showLoadingDialog(context, "Denying appointment...");
       await _performDenyAppointment(userID, appointmentId);
       DialogHelper.showSnackBar(context, "Appointment successfully denied.");
-      await Future.delayed(const Duration(seconds: 1));
     } catch (e) {
       log("Error denying appointment: $e");
       DialogHelper.showSnackBar(context, "Error denying appointment.");
     } finally {
-      await DialogHelper.dismissLoadingDialog(context);
+      Future.delayed(const Duration(seconds: 1)).then((_) {
+      });
     }
   }
+
+
 
   // Method to sort appointments by month
   List<DocumentSnapshot> sortAppointmentsByMonth(QuerySnapshot snapshot) {
@@ -277,7 +279,7 @@ class _AdminApprovalState extends State<AdminApproval> {
                                                   const Text("Confirm Approval"),
                                                   content: const Text(
                                                       "Are you sure you want to approve this request?"),
-                                                  actions: <Widget>[
+                                                  actions: [
                                                     TextButton(
                                                       onPressed: () {
                                                         Navigator.of(context)
@@ -328,7 +330,7 @@ class _AdminApprovalState extends State<AdminApproval> {
                                                   const Text("Confirm Deny"),
                                                   content: const Text(
                                                       "Are you sure you want to deny this request?"),
-                                                  actions: <Widget>[
+                                                  actions: [
                                                     TextButton(
                                                       onPressed: () {
                                                         Navigator.of(context)
