@@ -1,10 +1,9 @@
 import 'dart:async';
-
+import 'package:image_picker/image_picker.dart';
+import 'package:flutter/material.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/screen_pages/profile_screen_pages/changepassword.dart';
 import 'package:bethel_app_final/FRONT_END/constant/color.dart';
-import 'package:flutter/material.dart';
 import 'package:bethel_app_final/BACK_END/Services/Functions/Authentication.dart';
-import 'package:image_picker/image_picker.dart';
 
 class MyProfile extends StatefulWidget {
   const MyProfile({Key? key}) : super(key: key);
@@ -16,6 +15,7 @@ class MyProfile extends StatefulWidget {
 class _MyProfileState extends State<MyProfile> {
   XFile? _image;
   TapAuth tapAuth = TapAuth();
+
   GlobalKey<RefreshIndicatorState> _refreshIndicatorKey = GlobalKey();
 
   @override
@@ -150,6 +150,7 @@ class _MyProfileState extends State<MyProfile> {
                         ),
                       ),
                     ),
+                    const SizedBox(height: 20),
                   ],
                 ),
               ],

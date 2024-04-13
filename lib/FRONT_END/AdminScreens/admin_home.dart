@@ -69,6 +69,13 @@ class _AdminHomePageState extends State<AdminHomePage> {
     return events;
   }
 
+  bool isEventCompleted(DocumentSnapshot event) {
+    Timestamp timeStamp = event["date"];
+    DateTime eventDate = timeStamp.toDate();
+    return eventDate.isBefore(DateTime.now().subtract(Duration(days: 1)));
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -120,7 +127,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                       _selectedEventType = newValue!;
                     });
                   },
-                  items: <String>['Upcoming Events', 'Completed Events']
+                  items: <String>['Upcoming Events', 'Ongoing Events', 'Completed Events']
                       .map<DropdownMenuItem<String>>((String value) {
                     return DropdownMenuItem<String>(
                       value: value,
@@ -160,7 +167,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                   if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
                     return Center(
                       child: Text(
-                        'No ${_selectedEventType.toLowerCase()}',
+                        'No ${_selectedEventType.toLowerCase()} yet...',
                         style: const TextStyle(
                           fontSize: 18,
                         ),
@@ -168,6 +175,26 @@ class _AdminHomePageState extends State<AdminHomePage> {
                     );
                   }
                   List<DocumentSnapshot> events = snapshot.data!.docs;
+                  if (_selectedEventType == 'Upcoming Events') {
+                    events = events.where((event) {
+                      DateTime eventDate = (event['date'] as Timestamp).toDate();
+                      return eventDate.isAfter(DateTime.now());
+                    }).toList();
+                  } else if (_selectedEventType == 'Ongoing Events') {
+                    events = events.where((event) {
+                      DateTime eventDate = (event['date'] as Timestamp).toDate();
+                      DateTime currentDate = DateTime.now();
+                      return eventDate.year == currentDate.year &&
+                          eventDate.month == currentDate.month &&
+                          eventDate.day == currentDate.day;
+                    }).toList();
+                  } else {
+                    events = events.where((event) {
+                      DateTime eventDate = (event['date'] as Timestamp).toDate();
+                      return isEventCompleted(event);
+                    }).toList();
+                  }
+
                   if (sortByMonth) {
                     events = _sortEventsByMonth(events);
                   } else if (sortByDay) {
@@ -204,16 +231,36 @@ class _AdminHomePageState extends State<AdminHomePage> {
                     return Center(child: Text('Error: ${snapshot.error}'));
                   }
                   if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-                    return const Center(
+                    return Center(
                       child: Text(
-                        'No church events available.',
-                        style: TextStyle(
+                        'No ${_selectedEventType.toLowerCase()} yet...',
+                        style: const TextStyle(
                           fontSize: 18,
                         ),
                       ),
                     );
                   }
                   List<DocumentSnapshot> events = snapshot.data!.docs;
+                  if (_selectedEventType == 'Upcoming Events') {
+                    events = events.where((event) {
+                      DateTime eventDate = (event['date'] as Timestamp).toDate();
+                      return eventDate.isAfter(DateTime.now());
+                    }).toList();
+                  } else if (_selectedEventType == 'Ongoing Events') {
+                    events = events.where((event) {
+                      DateTime eventDate = (event['date'] as Timestamp).toDate();
+                      DateTime currentDate = DateTime.now();
+                      return eventDate.year == currentDate.year &&
+                          eventDate.month == currentDate.month &&
+                          eventDate.day == currentDate.day;
+                    }).toList();
+                  } else {
+                    events = events.where((event) {
+                      DateTime eventDate = (event['date'] as Timestamp).toDate();
+                      return isEventCompleted(event);
+                    }).toList();
+                  }
+
                   if (sortByMonth) {
                     events = _sortEventsByMonth(events);
                   } else if (sortByDay) {
