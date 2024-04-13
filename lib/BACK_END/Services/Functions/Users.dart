@@ -7,8 +7,6 @@ class UserStorage {
   final FirebaseFirestore db = FirebaseFirestore.instance;
 
 
-
-
   Future<void> createUser(String uniqueID,
       Map<String, String> userInformation,String type) async {
     try {
@@ -22,7 +20,6 @@ class UserStorage {
       log("Error code STORAGE: $e");
     }
   }
-
 
 
   Future<void> createMemberEvent(String uniqueID, Map<String, dynamic> dateTime,
@@ -295,6 +292,7 @@ Future<void> unsetDisableDay(int day,int month, int year) async{
         .collectionGroup("Church Event")
         .snapshots();
   }
+
 Future<void> setNotification(String uid,String appointmentId) async {
     DocumentSnapshot documentSnapshot = await db
         .collection("users")

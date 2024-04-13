@@ -1,6 +1,5 @@
 import 'dart:ui';
 import 'package:bethel_app_final/BACK_END/Services/Functions/Users.dart';
-import 'package:bethel_app_final/FRONT_END/MemberScreens/map_components/map_page.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/screen_pages/home_screen_pages/mapstoragescreen.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/screen_pages/home_screen_pages/search_button_details.dart';
 import 'package:bethel_app_final/FRONT_END/constant/color.dart';
@@ -36,6 +35,12 @@ class _MemberHomePageState extends State<MemberHomePage> {
     return "${months[dateTime.month - 1]} ${dateTime.day}, ${dateTime.year}";
   }
 
+  bool isEventCompleted(DocumentSnapshot event) {
+    Timestamp timeStamp = event["date"];
+    DateTime eventDate = timeStamp.toDate();
+    return eventDate.isBefore(DateTime.now().subtract(Duration(days: 1)));
+  }
+
   List<DocumentSnapshot> sortEventsByMonth(List<DocumentSnapshot> events) {
     events.sort((a, b) {
       DateTime dateA = (a.data() as Map<String, dynamic>)["date"].toDate();
@@ -52,12 +57,6 @@ class _MemberHomePageState extends State<MemberHomePage> {
       return dateA.day.compareTo(dateB.day);
     });
     return events;
-  }
-
-  bool isEventCompleted(DocumentSnapshot event) {
-    Timestamp timeStamp = event["date"];
-    DateTime eventDate = timeStamp.toDate();
-    return eventDate.isBefore(DateTime.now());
   }
 
   @override
@@ -142,7 +141,7 @@ class _MemberHomePageState extends State<MemberHomePage> {
                       _selectedEventType = newValue!;
                     });
                   },
-                  items: <String>['Upcoming Events', 'Completed Events']
+                  items: <String>['Upcoming Events', 'Ongoing Events', 'Completed Events']
                       .map<DropdownMenuItem<String>>((String value) {
                     return DropdownMenuItem<String>(
                       value: value,
@@ -195,24 +194,37 @@ class _MemberHomePageState extends State<MemberHomePage> {
                           );
                         } else {
                           List<DocumentSnapshot> events = snapshot.data!.docs;
+
+                          // Filter events based on the selected event type
                           if (_selectedEventType == 'Upcoming Events') {
                             events = events.where((event) {
                               DateTime eventDate = (event['date'] as Timestamp).toDate();
+                              return eventDate.isAfter(DateTime.now());
+                            }).toList();
+                          } else if (_selectedEventType == 'Ongoing Events') {
+                            events = events.where((event) {
+                              DateTime eventDate = (event['date'] as Timestamp).toDate();
                               DateTime currentDate = DateTime.now();
-                              return eventDate.isAtSameMomentAs(currentDate) || eventDate.isAfter(currentDate);
+                              return eventDate.year == currentDate.year &&
+                                  eventDate.month == currentDate.month &&
+                                  eventDate.day == currentDate.day;
                             }).toList();
                           } else {
                             events = events.where((event) {
                               DateTime eventDate = (event['date'] as Timestamp).toDate();
-                              return eventDate.isBefore(DateTime.now());
+                              return isEventCompleted(event);
                             }).toList();
                           }
+
+
+
 
                           if (sortByMonth) {
                             events = sortEventsByMonth(events);
                           } else if (sortByDay) {
                             events = sortEventsByDay(events);
                           }
+
                           if (events.isEmpty) {
                             return const Center(
                               child: Text(
@@ -246,8 +258,19 @@ class _MemberHomePageState extends State<MemberHomePage> {
                                 ];
                                 String formattedDate =
                                     "${months[dateTime.month - 1]} ${dateTime.day}, ${dateTime.year}";
+
+
+                                bool isCompleted = dateTime.isBefore(DateTime.now());
+                                bool isUpcoming = dateTime.isAfter(DateTime.now());
+                                bool isOngoing = !isCompleted && !isUpcoming;
+
+                                Color ongoingEventColor = Colors.green;
+
                                 return Card(
-                                  color: isEventCompleted(event) ? Colors.grey.shade300 : Colors.green.shade200,
+                                  color: isCompleted
+                                      ? Colors.green.shade200
+                                      : (isUpcoming ? Colors.green.shade200
+                                      : ongoingEventColor),
                                   elevation: 2,
                                   margin: const EdgeInsets.symmetric(
                                     vertical: 8,
@@ -267,7 +290,6 @@ class _MemberHomePageState extends State<MemberHomePage> {
                                     ),
                                   ),
                                 );
-
                               },
                             );
                           }
@@ -285,4 +307,3 @@ class _MemberHomePageState extends State<MemberHomePage> {
     );
   }
 }
-
