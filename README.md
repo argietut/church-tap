@@ -1,5 +1,4 @@
-<h3 align="center">A passionate frontend developer from India</h3>
 
-<h3 align="left">Connect with me:</h3>
-<p align="left">
-</p>
+# ChurchTap
+
+A Mobile Application created in Flutter. It is used for Event Reservation for UCCP Church
