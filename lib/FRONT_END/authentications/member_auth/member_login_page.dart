@@ -1,4 +1,5 @@
 import 'package:bethel_app_final/BACK_END/Services/Functions/Authentication.dart';
+import 'package:bethel_app_final/FRONT_END/AdminScreens/admin_home.dart';
 import 'package:flutter/material.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/widget_member/navigation_bar.dart';
 import 'package:bethel_app_final/FRONT_END/authentications/auth_classes/my_button.dart';
@@ -61,9 +62,8 @@ class _MemberLoginPageState extends State<MemberLoginPage> {
 
           await Future.delayed(const Duration(seconds: 1));
 
-          // Navigate to HomePage and await until navigation completes
           await Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => const HomePage()),
+            MaterialPageRoute(builder: (context) => const AdminHomePage()),
           );
 
           // Stop the loading once navigation is completed

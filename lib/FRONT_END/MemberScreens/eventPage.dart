@@ -1,9 +1,8 @@
 import 'dart:developer';
-
 import 'package:bethel_app_final/BACK_END/Services/Functions/Authentication.dart';
 import 'package:bethel_app_final/BACK_END/Services/Functions/Users.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/screen_pages/event_screen_pages/event_source_directory/edit_event.dart';
-import 'package:bethel_app_final/FRONT_END/MemberScreens/widget_member/sort_icon.dart';
+import 'package:bethel_app_final/FRONT_END/MemberScreens/screen_pages/event_screen_pages/history.dart';
 import 'package:bethel_app_final/FRONT_END/constant/color.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +24,6 @@ class _EventPageState extends State<EventPage> {
   late Stream<QuerySnapshot> _approvedAppointmentsStream;
   late Stream<QuerySnapshot> _pendingAppointmentsStream;
   Map<String, bool> showOptionsMap = {};
-  SortingButton sortingButton = SortingButton();
   bool sortByMonth = false;
   bool sortByDay = false;
   int clickCount = 0;
@@ -72,7 +70,6 @@ class _EventPageState extends State<EventPage> {
     return currentUser?.uid ?? '';
   }
 
-  // Method to sort appointments by month
   List<DocumentSnapshot> sortAppointmentsByMonth(
       QuerySnapshot snapshot) {
     List<DocumentSnapshot> appointments = snapshot.docs;
@@ -88,7 +85,7 @@ class _EventPageState extends State<EventPage> {
     return appointments;
   }
 
-  // Method to sort appointments by day
+
   List<DocumentSnapshot> sortAppointmentsByDay(
       List<DocumentSnapshot> appointments) {
     appointments.sort((a, b) {
@@ -101,6 +98,10 @@ class _EventPageState extends State<EventPage> {
     return appointments;
   }
 
+  // Check if appointment is completed (occurred before current date)
+  bool isAppointmentCompleted(DateTime eventDate) {
+    return eventDate.isBefore(DateTime.now().subtract(Duration(days: 1)));
+  }
   @override
   Widget build(BuildContext context) {
     if (_pendingAppointmentsStream == null ||
@@ -142,7 +143,19 @@ class _EventPageState extends State<EventPage> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                const SizedBox(width: 50),
+                IconButton(
+                  onPressed: () {
+                   Navigator.push(context,
+                     MaterialPageRoute(
+                         builder: (context) =>
+                         const HistoryPage()
+                     ),
+                   );
+                  },
+                  icon: const Icon(Icons.history),
+                ),
+
+
               ],
             ),
             const SizedBox(height: 15),
@@ -199,6 +212,12 @@ class _EventPageState extends State<EventPage> {
                           sortedAppointments =
                               sortAppointmentsByDay(snapshot.data!.docs);
                         }
+                        sortedAppointments = sortedAppointments
+                            .where((document) =>
+                        !isAppointmentCompleted((document
+                            .data() as Map<String, dynamic>)["date"].toDate()))
+                            .toList();
+
                         return ListView.builder(
                           itemCount: sortedAppointments.length,
                           itemBuilder: (context, index) {

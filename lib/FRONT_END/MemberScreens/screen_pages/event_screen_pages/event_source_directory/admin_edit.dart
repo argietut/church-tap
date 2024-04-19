@@ -5,20 +5,20 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 
-class EditEvent extends StatefulWidget {
+class AdminEditEvent extends StatefulWidget {
   final DateTime firstDate;
   final DateTime lastDate;
   final String documentId; // Change this line
-  const EditEvent({Key? key,
+  const AdminEditEvent({Key? key,
     required this.firstDate,
     required this.lastDate,
     required this.documentId}) : super(key: key); // Change this line
 
   @override
-  State<EditEvent> createState() => _EditEventState();
+  State<AdminEditEvent> createState() => _EditEventState();
 }
 
-class _EditEventState extends State<EditEvent> {
+class _EditEventState extends State<AdminEditEvent> {
   late DateTime _selectedDate;
   final _descController = TextEditingController();
   String _selectedEventType = '';
@@ -107,9 +107,9 @@ class _EditEventState extends State<EditEvent> {
           style: ElevatedButton.styleFrom(
               backgroundColor: appGreen2),
           child: const Text("Save",
-          style: TextStyle(
-            color: appBlack
-          ),),
+            style: TextStyle(
+                color: appBlack
+            ),),
         ),
         const SizedBox(height: 10),
         ElevatedButton(
@@ -119,9 +119,9 @@ class _EditEventState extends State<EditEvent> {
           style: ElevatedButton.styleFrom(
               backgroundColor: Colors.red),
           child: const Text("Cancel",
-          style: TextStyle(
-            color: appBlack
-          ),),
+            style: TextStyle(
+                color: appBlack
+            ),),
         ),
       ],
     );
@@ -134,7 +134,7 @@ class _EditEventState extends State<EditEvent> {
         'Conference',
         'Seminar',
         'Workshop',
-        'Webinar'
+        'Webinar',
         'Infant Dedication',
         'Birthday Service',
         'Birthday Manyanita',

@@ -1,10 +1,9 @@
 
 import 'package:bethel_app_final/FRONT_END/MemberScreens/home_page.dart';
-import 'package:bethel_app_final/FRONT_END/MemberScreens/notifications.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/profile_page.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/widget_member/Calendar.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/eventPage.dart';
-import 'package:bethel_app_final/FRONT_END/MemberScreens/widget_member/NotificationTab.dart';
+import 'package:bethel_app_final/FRONT_END/MemberScreens/NotificationTab.dart';
 import 'package:bethel_app_final/FRONT_END/constant/color.dart';
 import 'package:flutter/material.dart';
 

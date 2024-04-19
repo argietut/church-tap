@@ -1,5 +1,7 @@
+import 'package:bethel_app_final/FRONT_END/MemberScreens/profile_page.dart';
 import 'package:bethel_app_final/FRONT_END/authentications/auth_classes/my_button1.dart';
 import 'package:bethel_app_final/FRONT_END/authentications/auth_classes/my_textfield.dart';
+import 'package:bethel_app_final/FRONT_END/constant/color.dart';
 import 'package:flutter/material.dart';
 
 class AdminRegisterPage extends StatefulWidget {
@@ -12,11 +14,15 @@ class AdminRegisterPage extends StatefulWidget {
 }
 
 class _AdminRegisterPageState extends State<AdminRegisterPage> {
-  //editing text
+
+  final adminkey = TextEditingController();
   final usernameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
+
+  bool _obscurePassword = true;
+  bool _obscurePassword1 = true;
 
   //sign up method
   void signUserUp() async {
@@ -127,6 +133,12 @@ class _AdminRegisterPageState extends State<AdminRegisterPage> {
                 ),
                 const SizedBox(height: 15),
                 MyTextField(
+                  controller: adminkey,
+                  hintText: 'Admin key',
+                  obscureText: false,
+                ),
+                const SizedBox(height: 10),
+                MyTextField(
                   controller: usernameController,
                   hintText: 'Username',
                   obscureText: false,
@@ -141,13 +153,35 @@ class _AdminRegisterPageState extends State<AdminRegisterPage> {
                 MyTextField(
                   controller: passwordController,
                   hintText: 'Password',
-                  obscureText: true,
+                  obscureText: _obscurePassword,
+                  suffixIcon: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _obscurePassword = !_obscurePassword;
+                      });
+                    },
+                    child: Icon(
+                      _obscurePassword ? Icons.visibility_off : Icons.visibility,
+                      color: Colors.grey,
+                    ),
+                  ),
                 ),
                 const SizedBox(height: 10),
                 MyTextField(
                   controller: confirmPasswordController,
                   hintText: 'Confirm Password',
-                  obscureText: true,
+                  obscureText: _obscurePassword1,
+                  suffixIcon: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _obscurePassword1 = !_obscurePassword1;
+                      });
+                    },
+                    child: Icon(
+                      _obscurePassword1 ? Icons.visibility_off : Icons.visibility,
+                      color: Colors.grey,
+                    ),
+                  ),
                 ),
                 const SizedBox(height: 10),
                 MyButton1(

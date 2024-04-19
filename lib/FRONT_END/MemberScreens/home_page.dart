@@ -259,18 +259,11 @@ class _MemberHomePageState extends State<MemberHomePage> {
                                 String formattedDate =
                                     "${months[dateTime.month - 1]} ${dateTime.day}, ${dateTime.year}";
 
-
-                                bool isCompleted = dateTime.isBefore(DateTime.now());
-                                bool isUpcoming = dateTime.isAfter(DateTime.now());
-                                bool isOngoing = !isCompleted && !isUpcoming;
-
-                                Color ongoingEventColor = Colors.green;
+                                bool completed = isEventCompleted(event); // Check if event is completed
+                                Color cardColor = completed ? Colors.grey.shade200 : Colors.green.shade200; // Set color based on completion
 
                                 return Card(
-                                  color: isCompleted
-                                      ? Colors.green.shade200
-                                      : (isUpcoming ? Colors.green.shade200
-                                      : ongoingEventColor),
+                                  color: cardColor,
                                   elevation: 2,
                                   margin: const EdgeInsets.symmetric(
                                     vertical: 8,
