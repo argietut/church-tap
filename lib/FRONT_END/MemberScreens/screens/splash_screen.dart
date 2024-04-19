@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:bethel_app_final/FRONT_END/MemberScreens/screens/user_identity_option/option_page.dart';
 import 'package:bethel_app_final/FRONT_END/authentications/option_to_loginform/option_what_account_to_use.dart';
 import 'package:bethel_app_final/FRONT_END/constant/color.dart';
 import 'package:flutter/material.dart';
@@ -38,7 +37,7 @@ class _SplashScreenState extends State<SplashScreen>
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
             builder: (context) =>
-                const OptionPage(), // aha mo navigate ig human sa loading...
+                const OptionToPlatformToLogin(), // aha mo navigate ig human sa loading...
           ),
         );
       },

@@ -1,10 +1,8 @@
 import 'dart:developer';
 import 'package:bethel_app_final/BACK_END/Services/Functions/Users.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/profile_page.dart';
-import 'package:bethel_app_final/FRONT_END/MemberScreens/widget_member/navigation_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+
 
 class TapAuth {
   late String _uid;
@@ -118,87 +116,87 @@ Future<void> sendUserVerifcationEmail() async{
     return tapAuth.auth.currentUser;
   }
 }
-
-class AuthServiceGoogle {
-  Future<void> signInWithGoogle(BuildContext context) async {
-    try {
-      final GoogleSignInAccount? gUser = await GoogleSignIn().signIn();
-      if (gUser == null) {
-        print("Google sign-in canceled or failed");
-        return;
-      }
-
-      final GoogleSignInAuthentication gAuth = await gUser.authentication;
-      final credential = GoogleAuthProvider.credential(
-        accessToken: gAuth.accessToken,
-        idToken: gAuth.idToken,
-      );
-      final userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
-
-      if (userCredential.user != null) {
-        if (userCredential.user!.emailVerified) {
-          // Save user data using UserStorage
-          final UserStorage userStorage = UserStorage();
-          await userStorage.createUser(
-            userCredential.user!.uid,
-            {
-              "name": userCredential.user!.displayName ?? "",
-              "email": userCredential.user!.email ?? "",
-              "Unique ID": userCredential.user!.uid,
-            },
-            'members',
-          );
-          // Initialize TapAuth and set user details
-          final TapAuth tapAuth = TapAuth();
-          tapAuth.setRegisterAllDetails();
-
-          // Navigate to the homepage
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const HomePage(),
-            ),
-          );
-        } else {
-          // Show Snackbar for unverified account
-          showSnackbar(
-            context,
-            title: 'Account Not Verified',
-            messages: [
-              'Your account is not verified yet. Please check your email and verify your account.',
-            ],
-            backgroundColor: Colors.red,
-          );
-        }
-      }
-    } catch (e) {
-      print("Error signing in with Google: $e");
-      // Handle error
-    }
-  }
-
-  void showSnackbar(BuildContext context, {required String title, required List<String> messages, Color? backgroundColor}) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        backgroundColor: backgroundColor ?? Colors.blue, // Default color if not provided
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              title,
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 16.0,
-              ),
-            ),
-            const SizedBox(height: 4.0),
-            ...messages.map((message) => Text(message)),
-          ],
-        ),
-      ),
-    );
-  }
-
-}
+//
+// class AuthServiceGoogle {
+//   Future<void> signInWithGoogle(BuildContext context) async {
+//     try {
+//       final GoogleSignInAccount? gUser = await GoogleSignIn().signIn();
+//       if (gUser == null) {
+//         print("Google sign-in canceled or failed");
+//         return;
+//       }
+//
+//       final GoogleSignInAuthentication gAuth = await gUser.authentication;
+//       final credential = GoogleAuthProvider.credential(
+//         accessToken: gAuth.accessToken,
+//         idToken: gAuth.idToken,
+//       );
+//       final userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
+//
+//       if (userCredential.user != null) {
+//         if (userCredential.user!.emailVerified) {
+//           // Save user data using UserStorage
+//           final UserStorage userStorage = UserStorage();
+//           await userStorage.createUser(
+//             userCredential.user!.uid,
+//             {
+//               "name": userCredential.user!.displayName ?? "",
+//               "email": userCredential.user!.email ?? "",
+//               "Unique ID": userCredential.user!.uid,
+//             },
+//             'members',
+//           );
+//           // Initialize TapAuth and set user details
+//           final TapAuth tapAuth = TapAuth();
+//           tapAuth.setRegisterAllDetails();
+//
+//           // Navigate to the homepage
+//           Navigator.pushReplacement(
+//             context,
+//             MaterialPageRoute(
+//               builder: (context) => const HomePage(),
+//             ),
+//           );
+//         } else {
+//           // Show Snackbar for unverified account
+//           showSnackbar(
+//             context,
+//             title: 'Account Not Verified',
+//             messages: [
+//               'Your account is not verified yet. Please check your email and verify your account.',
+//             ],
+//             backgroundColor: Colors.red,
+//           );
+//         }
+//       }
+//     } catch (e) {
+//       print("Error signing in with Google: $e");
+//       // Handle error
+//     }
+//   }
+//
+//   void showSnackbar(BuildContext context, {required String title, required List<String> messages, Color? backgroundColor}) {
+//     ScaffoldMessenger.of(context).showSnackBar(
+//       SnackBar(
+//         backgroundColor: backgroundColor ?? Colors.blue, // Default color if not provided
+//         content: Column(
+//           mainAxisSize: MainAxisSize.min,
+//           crossAxisAlignment: CrossAxisAlignment.start,
+//           children: [
+//             Text(
+//               title,
+//               style: const TextStyle(
+//                 fontWeight: FontWeight.bold,
+//                 fontSize: 16.0,
+//               ),
+//             ),
+//             const SizedBox(height: 4.0),
+//             ...messages.map((message) => Text(message)),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+//
+// }
 
