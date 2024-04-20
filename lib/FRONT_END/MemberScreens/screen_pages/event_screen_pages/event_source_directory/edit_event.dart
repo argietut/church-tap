@@ -1,3 +1,7 @@
+import 'dart:developer';
+
+import 'package:bethel_app_final/BACK_END/Services/Functions/Authentication.dart';
+import 'package:bethel_app_final/BACK_END/Services/Functions/Users.dart';
 import 'package:bethel_app_final/FRONT_END/constant/color.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
@@ -19,21 +23,27 @@ class EditEvent extends StatefulWidget {
 }
 
 class _EditEventState extends State<EditEvent> {
+  late Future _getDocument;
+  late Future _getSelectedEventType;
+  late Future _geteventTypeCount;
+  int count = 0;
   late DateTime _selectedDate;
   final _descController = TextEditingController();
   String _selectedEventType = '';
   late List<String> _eventTypes;
-
+  UserStorage storage = UserStorage();
+  TapAuth auth = TapAuth();
   @override
   void initState() {
+
     super.initState();
-    _selectedDate = widget.firstDate;
-    _descController.text = ''; // You may want to clear the text controller initially
     _fetchEventTypes().then((types) {
       setState(() {
         _eventTypes = types;
       });
     });
+    _getDocument = fetchdocument();
+    _selectedDate = widget.firstDate;
   }
 
   @override
@@ -44,15 +54,16 @@ class _EditEventState extends State<EditEvent> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: FutureBuilder<List<String>>(
-          future: _fetchEventTypes(),
+        child: FutureBuilder(
+          future: _getDocument,
           builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
+            if (snapshot.connectionState == ConnectionState.waiting && !snapshot.hasData) {
               return const Center(child: CircularProgressIndicator());
             } else if (snapshot.hasError) {
               return Center(child: Text('Error: ${snapshot.error}'));
             } else {
-              _eventTypes = snapshot.data ?? [];
+                fetchCount(snapshot.data['appointmenttype']);
+              _descController.text = snapshot.data['description'];
               return _buildForm();
             }
           },
@@ -61,7 +72,70 @@ class _EditEventState extends State<EditEvent> {
 
     );
   }
+  Future<DocumentSnapshot> fetchdocument() async{
+    return await storage.db.collection('users')
+        .doc('members')
+        .collection(auth.auth.currentUser!.uid)
+        .doc('Event')
+        .collection('Pending Appointment')
+        .doc(widget.documentId)
+        .get();
+  }
 
+  Future<String> fetchdisc() async{
+    String localdesc = '';
+    await storage.db.collection('users')
+        .doc('members')
+        .collection(auth.auth.currentUser!.uid)
+        .doc('Event')
+        .collection('Pending Appointment')
+        .doc(widget.documentId)
+        .get().then((value) {
+      localdesc = value.data()?['description'];
+    },);
+    return localdesc;
+  }
+
+  Future<void>fetchCount(String type)async{
+      switch(type){
+        case "Meeting": {
+          setState(() {
+            count = 0;
+          });
+        }
+        case "Conference": {
+          count = 1;
+        }
+        case "Seminar": {
+          count = 2;
+        }
+        case "Workshop": {
+          count = 3;
+        }
+        case "Webinar": {
+          count = 4;
+        }
+        case "Infant Dedication": {
+          count = 5;
+        }
+        case "Birthday Service": {
+          count = 6;
+        }
+        case "Birthday Manyanita": {
+          count = 7;
+        }
+        case "Membership Certificate": {
+          count = 8;
+        }
+        case "Baptismal Certificate": {
+          count = 9;
+        }
+        default:{
+          count = -1;
+        }
+      }
+  }
+  
   Widget _buildForm() {
     return ListView(
       padding: const EdgeInsets.all(16.0),
@@ -77,11 +151,7 @@ class _EditEventState extends State<EditEvent> {
           },
         ),
         DropdownButtonFormField<String>(
-          value: _selectedEventType.isNotEmpty && _eventTypes.contains(_selectedEventType)
-              ? _selectedEventType
-              : _eventTypes.isNotEmpty
-              ? _eventTypes[0] // Use the first item as the initial value
-              : '', // If _eventTypes is empty, set an empty string as the initial value
+          value: _eventTypes[count],
           onChanged: (String? newValue) {
             setState(() {
               _selectedEventType = newValue ?? '';
@@ -134,12 +204,12 @@ class _EditEventState extends State<EditEvent> {
         'Conference',
         'Seminar',
         'Workshop',
-        'Webinar'
-        'Infant Dedication',
+        'Webinar',
+        "Infant Dedication",
         'Birthday Service',
         'Birthday Manyanita',
         'Membership Certificate',
-        'Baptismal Certificate',
+        'Baptismal Certificate'
 
       ];
       return eventTypes;
