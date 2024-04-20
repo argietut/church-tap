@@ -321,5 +321,18 @@ Stream<QuerySnapshot> getNotification(String uid){
         .snapshots();
 }
 
-
+Future<bool> checkAdmin(String uid) async {
+    bool a = false;
+    var test=db.collection('users')
+        .doc('admins').get();
+    test.then((value) {
+      if(uid == value.id){
+        a = true;
+      }
+      else{
+        a = false;
+      }
+    },);
+    return a;
+}
 }
