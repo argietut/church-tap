@@ -22,7 +22,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
   final UserStorage userStorage = UserStorage();
   late Stream<QuerySnapshot> _approvedAppointmentsStream;
   late Stream<QuerySnapshot> _churchEventsStream;
-  String _selectedEventType = 'Upcoming Events';
+  String _selectedEventType = 'Upcoming';
   bool sortByMonth = false;
   bool sortByDay = false;
   int clickCount = 0;
@@ -153,7 +153,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                       _selectedEventType = newValue!;
                     });
                   },
-                  items: <String>['Upcoming Events', 'Ongoing Events', 'Completed Events']
+                  items: <String>['Upcoming', 'Ongoing', 'Completed']
                       .map<DropdownMenuItem<String>>((String value) {
                     return DropdownMenuItem<String>(
                       value: value,
@@ -201,12 +201,12 @@ class _AdminHomePageState extends State<AdminHomePage> {
                     );
                   }
                   List<DocumentSnapshot> events = snapshot.data!.docs;
-                  if (_selectedEventType == 'Upcoming Events') {
+                  if (_selectedEventType == 'Upcoming') {
                     events = events.where((event) {
                       DateTime eventDate = (event['date'] as Timestamp).toDate();
                       return eventDate.isAfter(DateTime.now());
                     }).toList();
-                  } else if (_selectedEventType == 'Ongoing Events') {
+                  } else if (_selectedEventType == 'Ongoing') {
                     events = events.where((event) {
                       DateTime eventDate = (event['date'] as Timestamp).toDate();
                       DateTime currentDate = DateTime.now();
@@ -267,12 +267,12 @@ class _AdminHomePageState extends State<AdminHomePage> {
                     );
                   }
                   List<DocumentSnapshot> events = snapshot.data!.docs;
-                  if (_selectedEventType == 'Upcoming Events') {
+                  if (_selectedEventType == 'Upcoming') {
                     events = events.where((event) {
                       DateTime eventDate = (event['date'] as Timestamp).toDate();
                       return eventDate.isAfter(DateTime.now());
                     }).toList();
-                  } else if (_selectedEventType == 'Ongoing Events') {
+                  } else if (_selectedEventType == 'Ongoing') {
                     events = events.where((event) {
                       DateTime eventDate = (event['date'] as Timestamp).toDate();
                       DateTime currentDate = DateTime.now();
@@ -375,7 +375,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
           mainAxisSize: MainAxisSize.min,
           children: [
             IconButton(
-              icon: const Icon(Icons.info),
+              icon: const Icon(Icons.info_outline),
               onPressed: () {
                 setState(() {
                   showOptionsMap[id] =
