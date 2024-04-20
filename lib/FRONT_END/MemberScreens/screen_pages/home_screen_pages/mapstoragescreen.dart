@@ -23,7 +23,6 @@ class _MapStorageScreenState extends State<MapStorageScreen> {
           sigmaY: 8.0,
         ),
         child: Container(
-          // color: appWhite.withOpacity(0.5),
           padding: const EdgeInsets.only(top: 40, left: 20, right: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

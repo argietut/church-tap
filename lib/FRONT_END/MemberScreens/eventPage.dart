@@ -170,7 +170,7 @@ class _EventPageState extends State<EventPage> {
                   const Padding(
                     padding: EdgeInsets.all(8.0),
                     child: Text(
-                      'Approved Request',
+                      'Approved requests',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 18,
@@ -313,7 +313,7 @@ class _EventPageState extends State<EventPage> {
                       const Padding(
                         padding: EdgeInsets.all(8.0),
                         child: Text(
-                          'Pending Request',
+                          'Pending requests',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 18,
@@ -371,7 +371,7 @@ class _EventPageState extends State<EventPage> {
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 IconButton(
-                                  icon: const Icon(Icons.info),
+                                  icon: const Icon(Icons.info_outline),
                                   onPressed: () {
                                     setState(() {
                                       showOptionsMap[id] =

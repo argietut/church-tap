@@ -186,7 +186,7 @@ class _AdminApprovalState extends State<AdminApproval> {
                       const Padding(
                         padding: EdgeInsets.all(8.0),
                         child: Text(
-                          'Pending Requests',
+                          'Pending requests',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 18,
@@ -245,7 +245,7 @@ class _AdminApprovalState extends State<AdminApproval> {
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 IconButton(
-                                  icon: const Icon(Icons.info),
+                                  icon: const Icon(Icons.info_outline),
                                   onPressed: () {
                                     setState(() {
                                       showOptionsMap[id] =

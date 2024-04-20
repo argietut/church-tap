@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'package:bethel_app_final/BACK_END/Services/Functions/Authentication.dart';
 import 'package:bethel_app_final/BACK_END/Services/Functions/Users.dart';
 import 'package:bethel_app_final/FRONT_END/constant/color.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -15,6 +16,7 @@ class HistoryPage extends StatefulWidget {
 class _HistoryPageState extends State<HistoryPage> {
   final TapAuth tapAuth = TapAuth();
   late Stream<QuerySnapshot> _approvedAppointmentsStream;
+  Map<String, bool> showOptionsMap = {};
 
   void initState(){
     super.initState();
@@ -37,6 +39,27 @@ class _HistoryPageState extends State<HistoryPage> {
   bool isAppointmentCompleted(DateTime eventDate) {
     return eventDate.isBefore(DateTime.now().subtract(Duration(days: 1)));
   }
+
+  String getCurrentUserId() {
+    final currentUser = FirebaseAuth.instance.currentUser;
+    return currentUser?.uid ?? '';
+  }
+
+  Future<void> deleteApprovedAppointment(String uid, String documentId) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc("members")
+          .collection(uid)
+          .doc("Event")
+          .collection("Approved Appointment")
+          .doc(documentId)
+          .delete();
+    } catch (e) {
+      print('Error deleting document: $e');
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -92,6 +115,7 @@ class _HistoryPageState extends State<HistoryPage> {
                       ),
                     );
                   }
+
                   List<DocumentSnapshot> sortedAppointments =
                       snapshot.data!.docs;
 
@@ -118,6 +142,7 @@ class _HistoryPageState extends State<HistoryPage> {
                         "November",
                         "December"
                       ];
+
                       String formattedDate =
                           "${months[dateTime.month - 1]} ${dateTime.day}, ${dateTime.year}";
 
@@ -145,6 +170,83 @@ class _HistoryPageState extends State<HistoryPage> {
                               Text(
                                 'Date: $formattedDate',
                               ),
+                            ],
+                          ),
+                          trailing: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              IconButton(
+                                icon: const Icon(Icons.more_vert_outlined),
+                                onPressed: () {
+                                  setState(() {
+                                    showOptionsMap[id] =
+                                    !(showOptionsMap[id] ?? false);
+                                  });
+                                },
+                              ),
+                              if (showOptionsMap[id] ?? false)
+                                Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey.shade200,
+                                    borderRadius:
+                                    BorderRadius.circular(8.0),
+                                  ),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      const SizedBox(width: 8.0),
+                                      IconButton(
+                                        icon: const Icon(Icons.delete,
+                                            color: Colors.red, size: 24.0),
+                                        onPressed: () {
+                                          showDialog(
+                                            context: context,
+                                            builder:
+                                                (BuildContext context) {
+                                              return AlertDialog(
+                                                title: const Text(
+                                                    "Confirm Delete"),
+                                                content: const Text(
+                                                    "Are you sure you want to delete this request?"),
+                                                actions: <Widget>[
+                                                  TextButton(
+                                                    onPressed: () {
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                    },
+                                                    child: const Text(
+                                                        "Cancel"),
+                                                  ),
+                                                  TextButton(
+                                                    onPressed: () {
+                                                      final uid =
+                                                      getCurrentUserId();
+                                                      if (uid.isNotEmpty) {
+                                                        deleteApprovedAppointment(
+                                                            uid,
+                                                            document.id);
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                      } else {
+                                                        print(
+                                                            'User is not logged in.');
+                                                      }
+                                                    },
+                                                    child: const Text(
+                                                      "Delete",
+                                                      style: TextStyle(
+                                                          color: appRed),
+                                                    ),
+                                                  ),
+                                                ],
+                                              );
+                                            },
+                                          );
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ),
                             ],
                           ),
                         ),
