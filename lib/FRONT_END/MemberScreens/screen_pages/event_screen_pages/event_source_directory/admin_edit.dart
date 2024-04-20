@@ -1,7 +1,3 @@
-import 'dart:developer';
-
-import 'package:bethel_app_final/BACK_END/Services/Functions/Authentication.dart';
-import 'package:bethel_app_final/BACK_END/Services/Functions/Users.dart';
 import 'package:bethel_app_final/FRONT_END/constant/color.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
@@ -9,41 +5,35 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 
-class EditEvent extends StatefulWidget {
+class AdminEditEvent extends StatefulWidget {
   final DateTime firstDate;
   final DateTime lastDate;
   final String documentId; // Change this line
-  const EditEvent({Key? key,
+  const AdminEditEvent({Key? key,
     required this.firstDate,
     required this.lastDate,
     required this.documentId}) : super(key: key); // Change this line
 
   @override
-  State<EditEvent> createState() => _EditEventState();
+  State<AdminEditEvent> createState() => _EditEventState();
 }
 
-class _EditEventState extends State<EditEvent> {
-  late Future _getDocument;
-  late Future _getSelectedEventType;
-  late Future _geteventTypeCount;
-  int count = 0;
+class _EditEventState extends State<AdminEditEvent> {
   late DateTime _selectedDate;
   final _descController = TextEditingController();
   String _selectedEventType = '';
   late List<String> _eventTypes;
-  UserStorage storage = UserStorage();
-  TapAuth auth = TapAuth();
+
   @override
   void initState() {
-
     super.initState();
+    _selectedDate = widget.firstDate;
+    _descController.text = ''; // You may want to clear the text controller initially
     _fetchEventTypes().then((types) {
       setState(() {
         _eventTypes = types;
       });
     });
-    _getDocument = fetchdocument();
-    _selectedDate = widget.firstDate;
   }
 
   @override
@@ -54,16 +44,15 @@ class _EditEventState extends State<EditEvent> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: FutureBuilder(
-          future: _getDocument,
+        child: FutureBuilder<List<String>>(
+          future: _fetchEventTypes(),
           builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting && !snapshot.hasData) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());
             } else if (snapshot.hasError) {
               return Center(child: Text('Error: ${snapshot.error}'));
             } else {
-                fetchCount(snapshot.data['appointmenttype']);
-              _descController.text = snapshot.data['description'];
+              _eventTypes = snapshot.data ?? [];
               return _buildForm();
             }
           },
@@ -72,70 +61,7 @@ class _EditEventState extends State<EditEvent> {
 
     );
   }
-  Future<DocumentSnapshot> fetchdocument() async{
-    return await storage.db.collection('users')
-        .doc('members')
-        .collection(auth.auth.currentUser!.uid)
-        .doc('Event')
-        .collection('Pending Appointment')
-        .doc(widget.documentId)
-        .get();
-  }
 
-  Future<String> fetchdisc() async{
-    String localdesc = '';
-    await storage.db.collection('users')
-        .doc('members')
-        .collection(auth.auth.currentUser!.uid)
-        .doc('Event')
-        .collection('Pending Appointment')
-        .doc(widget.documentId)
-        .get().then((value) {
-      localdesc = value.data()?['description'];
-    },);
-    return localdesc;
-  }
-
-  Future<void>fetchCount(String type)async{
-      switch(type){
-        case "Meeting": {
-          setState(() {
-            count = 0;
-          });
-        }
-        case "Conference": {
-          count = 1;
-        }
-        case "Seminar": {
-          count = 2;
-        }
-        case "Workshop": {
-          count = 3;
-        }
-        case "Webinar": {
-          count = 4;
-        }
-        case "Infant Dedication": {
-          count = 5;
-        }
-        case "Birthday Service": {
-          count = 6;
-        }
-        case "Birthday Manyanita": {
-          count = 7;
-        }
-        case "Membership Certificate": {
-          count = 8;
-        }
-        case "Baptismal Certificate": {
-          count = 9;
-        }
-        default:{
-          count = -1;
-        }
-      }
-  }
-  
   Widget _buildForm() {
     return ListView(
       padding: const EdgeInsets.all(16.0),
@@ -151,7 +77,11 @@ class _EditEventState extends State<EditEvent> {
           },
         ),
         DropdownButtonFormField<String>(
-          value: _eventTypes[count],
+          value: _selectedEventType.isNotEmpty && _eventTypes.contains(_selectedEventType)
+              ? _selectedEventType
+              : _eventTypes.isNotEmpty
+              ? _eventTypes[0] // Use the first item as the initial value
+              : '', // If _eventTypes is empty, set an empty string as the initial value
           onChanged: (String? newValue) {
             setState(() {
               _selectedEventType = newValue ?? '';
@@ -177,9 +107,9 @@ class _EditEventState extends State<EditEvent> {
           style: ElevatedButton.styleFrom(
               backgroundColor: appGreen2),
           child: const Text("Save",
-          style: TextStyle(
-            color: appBlack
-          ),),
+            style: TextStyle(
+                color: appBlack
+            ),),
         ),
         const SizedBox(height: 10),
         ElevatedButton(
@@ -189,9 +119,9 @@ class _EditEventState extends State<EditEvent> {
           style: ElevatedButton.styleFrom(
               backgroundColor: Colors.red),
           child: const Text("Cancel",
-          style: TextStyle(
-            color: appBlack
-          ),),
+            style: TextStyle(
+                color: appBlack
+            ),),
         ),
       ],
     );
@@ -205,11 +135,11 @@ class _EditEventState extends State<EditEvent> {
         'Seminar',
         'Workshop',
         'Webinar',
-        "Infant Dedication",
+        'Infant Dedication',
         'Birthday Service',
         'Birthday Manyanita',
         'Membership Certificate',
-        'Baptismal Certificate'
+        'Baptismal Certificate',
 
       ];
       return eventTypes;

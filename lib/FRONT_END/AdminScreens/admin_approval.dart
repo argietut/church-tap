@@ -1,6 +1,5 @@
 import 'dart:developer';
 import 'package:bethel_app_final/BACK_END/Services/Functions/Users.dart';
-import 'package:bethel_app_final/FRONT_END/MemberScreens/widget_member/sort_icon.dart';
 import 'package:bethel_app_final/FRONT_END/authentications/auth_classes/error_indicator.dart';
 import 'package:bethel_app_final/FRONT_END/constant/color.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +15,6 @@ class AdminApproval extends StatefulWidget {
 class _AdminApprovalState extends State<AdminApproval> {
   late Stream<QuerySnapshot> _pendingAppointmentsStream;
   Map<String, bool> showOptionsMap = {};
-  SortingButton sortingButton = SortingButton();
   final UserStorage userStorage = UserStorage();
   bool sortByMonth = false;
   bool sortByDay = false;
@@ -188,7 +186,7 @@ class _AdminApprovalState extends State<AdminApproval> {
                       const Padding(
                         padding: EdgeInsets.all(8.0),
                         child: Text(
-                          'Pending Requests',
+                          'Pending requests',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 18,
@@ -247,7 +245,7 @@ class _AdminApprovalState extends State<AdminApproval> {
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 IconButton(
-                                  icon: const Icon(Icons.info),
+                                  icon: const Icon(Icons.info_outline),
                                   onPressed: () {
                                     setState(() {
                                       showOptionsMap[id] =

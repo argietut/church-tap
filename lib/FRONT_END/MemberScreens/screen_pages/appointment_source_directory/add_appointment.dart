@@ -139,7 +139,19 @@ class _AddAppointmentState extends State<AddAppointment> {
   Future<List<String>> _fetchAppointmentTypes() async {
     try {
       // Simulate fetching event types from Firestore
-      List<String> appointmentTypes = ['Meeting', 'Conference', 'Seminar', 'Workshop', 'Webinar'];
+      List<String> appointmentTypes = [
+        'Meeting',
+        'Conference',
+        'Seminar',
+        'Workshop',
+        'Webinar',
+        'Infant Dedication',
+        'Birthday Service',
+        'Birthday Manyanita',
+        'Membership Certificate',
+        'Baptismal Certificate',
+
+      ];
       return appointmentTypes;
     } catch (e) {
       print('Error fetching appointment types: $e');

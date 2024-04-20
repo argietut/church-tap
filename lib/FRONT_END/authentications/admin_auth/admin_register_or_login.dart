@@ -1,6 +1,6 @@
 
-import 'package:bethel_app_final/FRONT_END/authentications/admin_auth/admin%20login_page.dart';
 import 'package:bethel_app_final/FRONT_END/authentications/admin_auth/admin_register_page.dart';
+import 'package:bethel_app_final/FRONT_END/authentications/member_auth/member_login_page.dart';
 import 'package:flutter/material.dart';
 
 class AdminLoginOrRegister extends StatefulWidget {
@@ -23,7 +23,7 @@ class _AdminLoginOrRegisterState extends State<AdminLoginOrRegister> {
   @override
   Widget build(BuildContext context) {
     if(showLoginPage){
-      return AdminLogin(
+      return MemberLoginPage(
           onTap: togglePages
       );
     }else {

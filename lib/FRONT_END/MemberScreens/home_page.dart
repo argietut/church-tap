@@ -17,7 +17,7 @@ class MemberHomePage extends StatefulWidget {
 
 class _MemberHomePageState extends State<MemberHomePage> {
   final UserStorage userStorage = UserStorage();
-  String _selectedEventType = 'Upcoming Events';
+  String _selectedEventType = 'Upcoming';
   bool _isSearching = false;
   bool sortByMonth = false;
   bool sortByDay = false;
@@ -141,7 +141,7 @@ class _MemberHomePageState extends State<MemberHomePage> {
                       _selectedEventType = newValue!;
                     });
                   },
-                  items: <String>['Upcoming Events', 'Ongoing Events', 'Completed Events']
+                  items: <String>['Upcoming', 'Ongoing', 'Completed']
                       .map<DropdownMenuItem<String>>((String value) {
                     return DropdownMenuItem<String>(
                       value: value,
@@ -196,12 +196,12 @@ class _MemberHomePageState extends State<MemberHomePage> {
                           List<DocumentSnapshot> events = snapshot.data!.docs;
 
                           // Filter events based on the selected event type
-                          if (_selectedEventType == 'Upcoming Events') {
+                          if (_selectedEventType == 'Upcoming') {
                             events = events.where((event) {
                               DateTime eventDate = (event['date'] as Timestamp).toDate();
                               return eventDate.isAfter(DateTime.now());
                             }).toList();
-                          } else if (_selectedEventType == 'Ongoing Events') {
+                          } else if (_selectedEventType == 'Ongoing') {
                             events = events.where((event) {
                               DateTime eventDate = (event['date'] as Timestamp).toDate();
                               DateTime currentDate = DateTime.now();
@@ -259,18 +259,11 @@ class _MemberHomePageState extends State<MemberHomePage> {
                                 String formattedDate =
                                     "${months[dateTime.month - 1]} ${dateTime.day}, ${dateTime.year}";
 
-
-                                bool isCompleted = dateTime.isBefore(DateTime.now());
-                                bool isUpcoming = dateTime.isAfter(DateTime.now());
-                                bool isOngoing = !isCompleted && !isUpcoming;
-
-                                Color ongoingEventColor = Colors.green;
+                                bool completed = isEventCompleted(event); // Check if event is completed
+                                Color cardColor = completed ? Colors.grey.shade200 : Colors.green.shade200; // Set color based on completion
 
                                 return Card(
-                                  color: isCompleted
-                                      ? Colors.green.shade200
-                                      : (isUpcoming ? Colors.green.shade200
-                                      : ongoingEventColor),
+                                  color: cardColor,
                                   elevation: 2,
                                   margin: const EdgeInsets.symmetric(
                                     vertical: 8,
