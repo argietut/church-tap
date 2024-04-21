@@ -265,22 +265,22 @@ class _ProfileState extends State<Profile> {
                         },
                         child: const Text(
                           'No',
-                          style: TextStyle(
-                              color: appBlack
-                          ),
+                          style: TextStyle(color: appBlack),
                         ),
                       ),
                       TextButton(
                         onPressed: () async {
-                          // Sign out of Firebase Authentication
-                          await FirebaseAuth.instance.signOut();
-                          Get.back();
+                          Navigator.of(context).pop();
+                          try {
+                            await FirebaseAuth.instance.signOut();
+                            Get.back();
+                          } catch (e) {
+                            print("Error signing out: $e");
+                          }
                         },
                         child: const Text(
                           'Yes',
-                          style: TextStyle(
-                              color: appRed
-                          ),
+                          style: TextStyle(color: appRed),
                         ),
                       ),
                     ],
@@ -306,13 +306,12 @@ class _ProfileState extends State<Profile> {
                   ),
                   Icon(
                     Icons.exit_to_app,
-                    color: Colors.redAccent, // Consider using the same color as the text for consistency
+                    color: Colors.redAccent,
                   ),
                 ],
               ),
             ),
           ),
-
 
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 30),

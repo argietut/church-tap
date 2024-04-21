@@ -143,7 +143,6 @@ class _NotificationTabState extends State<NotificationTab> {
                                     Row(
                                       children: [
                                         Expanded(
-
                                             child: const Text(
                                                 "Your "
                                             )
