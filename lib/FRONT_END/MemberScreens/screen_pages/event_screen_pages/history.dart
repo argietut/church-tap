@@ -159,7 +159,7 @@ class _HistoryPageState extends State<HistoryPage> {
                         ),
                         child: ListTile(
                           title: Text(
-                            'Appointment type: ${data['appointmenttype'] ?? ''}',
+                            'Appointment: ${data['appointmenttype'] ?? ''}',
                           ),
                           subtitle: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
