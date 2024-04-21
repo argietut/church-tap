@@ -8,7 +8,7 @@ class UserStorage {
 
 
   Future<void> createUser(String uniqueID,
-      Map<String, String> userInformation,String type) async {
+      Map<String, String> userInformation, String type) async {
     try {
       db.collection("users")
           .doc(type)
@@ -25,7 +25,7 @@ class UserStorage {
   Future<void> createMemberEvent(String uniqueID, Map<String, dynamic> dateTime,
       String type) async {
     try {
-      if (type == "members"){
+      if (type == "members") {
         db.collection("users")
             .doc("members")
             .collection(uniqueID)
@@ -48,8 +48,8 @@ class UserStorage {
 
   Future<List<DateTime>> getApprovedDate(String uid, String type) async {
     List<DateTime> documents = [];
-    try{
-      if(type == "members") {
+    try {
+      if (type == "members") {
         await db.collection("users")
             .doc("members")
             .collection(uid)
@@ -64,7 +64,7 @@ class UserStorage {
           }
         });
       }
-      else{
+      else {
         await db.collectionGroup("Church Event")
             .get()
             .then((value) {
@@ -75,80 +75,80 @@ class UserStorage {
           }
         });
       }
-
     }
-    catch(e){
+    catch (e) {
 
     }
     return documents;
   }
 
- Future<List<DateTime>> getPendingDate(String uid) async {
+  Future<List<DateTime>> getPendingDate(String uid) async {
     List<DateTime> documents = [];
-     await db.collection("users")
-       .doc("members")
-       .collection(uid)
-       .doc("Event")
-       .collection("Pending Appointment")
+    await db.collection("users")
+        .doc("members")
+        .collection(uid)
+        .doc("Event")
+        .collection("Pending Appointment")
         .get()
-       .then((value) {
-          for (var element in value.docs) {
-            Timestamp t = element.data()["date"];
-            DateTime dats = t.toDate();
-            documents.add(dats);
-          }
-        });
+        .then((value) {
+      for (var element in value.docs) {
+        Timestamp t = element.data()["date"];
+        DateTime dats = t.toDate();
+        documents.add(dats);
+      }
+    });
     return documents;
   }
 
-  Future<void> setDisableDay(Map<String,dynamic> dateTime,String uid) async{
-      try{
-        db.collection("users")
-            .doc("admins")
-            .collection(uid)
-            .doc("Event")
-            .collection("Disabled Days")
-            .doc()
-            .set(dateTime);
-      }catch(e){
-        log(e.toString());
-      }
+  Future<void> setDisableDay(Map<String, dynamic> dateTime, String uid) async {
+    try {
+      db.collection("users")
+          .doc("admins")
+          .collection(uid)
+          .doc("Event")
+          .collection("Disabled Days")
+          .doc()
+          .set(dateTime);
+    } catch (e) {
+      log(e.toString());
+    }
   }
-Future<void> unsetDisableDay(int day,int month, int year) async{
+
+  Future<void> unsetDisableDay(int day, int month, int year) async {
     db.collectionGroup("Disabled Days")
         .get()
         .then((value) {
-          for(var element in value.docs){
-            var a = element.data()['date'];
-            Timestamp timestamp = a;
-            DateTime dateTime = timestamp.toDate();
-            if(dateTime.day == day && dateTime.month == month && dateTime.year == year){
-                db.runTransaction((Transaction transaction) async{
-                     transaction.delete(element.reference);
-                },);
-                // Remove Break due to duplicate disabled dates
-            }
-            else{
-              continue;
-            }
-          }
-        },);
-}
-
-  Future<List<DateTime>> getDisableDay() async{
-      List<DateTime> documents = [];
-      try{
-      await db.collectionGroup("Disabled Days")
-            .get()
-            .then((value) {
-              for(var element in value.docs){
-                Timestamp t = element.data()["date"];
-                DateTime dats = t.toDate();
-                documents.add(dats);
-              }
-            },);
-      }catch(e){
+      for (var element in value.docs) {
+        var a = element.data()['date'];
+        Timestamp timestamp = a;
+        DateTime dateTime = timestamp.toDate();
+        if (dateTime.day == day && dateTime.month == month &&
+            dateTime.year == year) {
+          db.runTransaction((Transaction transaction) async {
+            transaction.delete(element.reference);
+          },);
+          // Remove Break due to duplicate disabled dates
+        }
+        else {
+          continue;
+        }
       }
+    },);
+  }
+
+  Future<List<DateTime>> getDisableDay() async {
+    List<DateTime> documents = [];
+    try {
+      await db.collectionGroup("Disabled Days")
+          .get()
+          .then((value) {
+        for (var element in value.docs) {
+          Timestamp t = element.data()["date"];
+          DateTime dats = t.toDate();
+          documents.add(dats);
+        }
+      },);
+    } catch (e) {}
     return documents;
   }
 
@@ -226,7 +226,6 @@ Future<void> unsetDisableDay(int day,int month, int year) async{
           .collection("Pending Appointment")
           .doc(appointmentId)
           .delete();
-
     } catch (e) {
       log("Error approving appointment: $e");
     }
@@ -273,7 +272,6 @@ Future<void> unsetDisableDay(int day,int month, int year) async{
           .collection("Pending Appointment")
           .doc(appointmentId)
           .delete();
-
     } catch (e) {
       log("Error denying appointment: $e");
     }
@@ -287,13 +285,13 @@ Future<void> unsetDisableDay(int day,int month, int year) async{
   }
 
 
-  Stream<QuerySnapshot> fetchCreateMemberEvent(){
+  Stream<QuerySnapshot> fetchCreateMemberEvent() {
     return db
         .collectionGroup("Church Event")
         .snapshots();
   }
 
-Future<void> setNotification(String uid,String appointmentId) async {
+  Future<void> setNotification(String uid, String appointmentId) async {
     DocumentSnapshot documentSnapshot = await db
         .collection("users")
         .doc("members")
@@ -310,8 +308,9 @@ Future<void> setNotification(String uid,String appointmentId) async {
         .collection('Notification')
         .doc(appointmentId)
         .set(documentSnapshot.data() as Map<String, dynamic>);
-}
-Stream<QuerySnapshot> getNotification(String uid){
+  }
+
+  Stream<QuerySnapshot> getNotification(String uid) {
     return db
         .collection('users')
         .doc('members')
@@ -319,20 +318,37 @@ Stream<QuerySnapshot> getNotification(String uid){
         .doc('Event')
         .collection('Notification')
         .snapshots();
-}
+  }
 
-Future<bool> checkAdmin(String uid) async {
+  Future<bool> checkAdmin(String uid) async {
     bool a = false;
-    var test=db.collection('users')
+    var test = db.collection('users')
         .doc('admins').get();
     test.then((value) {
-      if(uid == value.id){
+      if (uid == value.id) {
         a = true;
       }
-      else{
+      else {
         a = false;
       }
     },);
     return a;
-}
+  }
+
+  Future<bool> checkAdmins(String uid) async {
+    bool check = false;
+    await db.collection('users').doc('admins').collection(uid).get().then((
+        value) {
+      print(uid);
+      print(value);
+      print(value.size);
+      if (value.size > 0) {
+        check = true;
+      }
+      else {
+        check = false;
+      }
+    },);
+    return check;
+  }
 }

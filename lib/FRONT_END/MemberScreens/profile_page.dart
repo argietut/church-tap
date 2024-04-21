@@ -5,6 +5,7 @@ import 'package:bethel_app_final/FRONT_END/MemberScreens/screens/terms_page.dart
 import 'package:bethel_app_final/FRONT_END/constant/color.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 
@@ -272,17 +273,8 @@ class _ProfileState extends State<Profile> {
                       TextButton(
                         onPressed: () async {
                           // Sign out of Firebase Authentication
-
                           await FirebaseAuth.instance.signOut();
-
-
-                          // Check if the user signed in with Google
-                          final googleSignIn = GoogleSignIn();
-                          if (await googleSignIn.isSignedIn()) {
-                            await googleSignIn.signOut(); // Sign out of Google Sign-In
-                          }
-
-                          Navigator.of(context).pop();
+                          Get.back();
                         },
                         child: const Text(
                           'Yes',

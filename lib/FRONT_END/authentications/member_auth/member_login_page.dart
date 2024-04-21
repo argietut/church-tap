@@ -1,5 +1,8 @@
 import 'package:bethel_app_final/BACK_END/Services/Functions/Authentication.dart';
+import 'package:bethel_app_final/BACK_END/Services/Functions/Users.dart';
 import 'package:bethel_app_final/FRONT_END/AdminScreens/admin_home.dart';
+import 'package:bethel_app_final/FRONT_END/AdminScreens/widget_admin/admin_navigation_bar.dart';
+import 'package:bethel_app_final/FRONT_END/MemberScreens/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/widget_member/navigation_bar.dart';
 import 'package:bethel_app_final/FRONT_END/authentications/auth_classes/my_button.dart';
@@ -24,6 +27,7 @@ class _MemberLoginPageState extends State<MemberLoginPage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   TapAuth tapAuth = TapAuth();
+  UserStorage storage = UserStorage();
   bool _obscurePassword = true;
   bool _loading = false;
 
@@ -59,12 +63,17 @@ class _MemberLoginPageState extends State<MemberLoginPage> {
           showSnackbar('Your account is not verified yet. Please check your email and verify your account.',
               backgroundColor: Colors.red);
         } else {
+          bool security = await storage.checkAdmins(tapAuth.auth.currentUser!.uid);
+          print(security);
+          if(security  == true) {
+            await Future.delayed(const Duration(milliseconds: 100));
+            await Get.to(const AdminNavigationPage());
+          }
+         else{
+            await Future.delayed(const Duration(milliseconds: 100));
+            await Get.to(const HomePage());
+          }
 
-          await Future.delayed(const Duration(seconds: 1));
-
-          await Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => const AdminHomePage()),
-          );
 
           // Stop the loading once navigation is completed
           setState(() {
