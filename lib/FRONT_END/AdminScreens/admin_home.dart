@@ -319,7 +319,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
       margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
       child: ListTile(
         title: Text(
-          'Appointment type: ${data['appointmenttype'] ?? ''}',
+          'Appointment: ${data['appointmenttype'] ?? ''}',
         ),
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -357,7 +357,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
       margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
       child: ListTile(
         title: Text(
-          'Event type: ${data['appointmenttype'] ?? ''}',
+          'Event: ${data['appointmenttype'] ?? ''}',
         ),
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

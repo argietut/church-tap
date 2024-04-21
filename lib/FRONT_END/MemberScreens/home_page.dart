@@ -271,7 +271,7 @@ class _MemberHomePageState extends State<MemberHomePage> {
                                   ),
                                   child: ListTile(
                                     title: Text(
-                                      'Event type: ${event['appointmenttype'] ?? ''}',
+                                      'Event: ${event['appointmenttype'] ?? ''}',
                                       style: const TextStyle(),
                                     ),
                                     subtitle: Column(
