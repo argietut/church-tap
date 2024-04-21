@@ -13,10 +13,12 @@ class EditEvent extends StatefulWidget {
   final DateTime firstDate;
   final DateTime lastDate;
   final String documentId; // Change this line
+  final bool isAdmin;
   const EditEvent({Key? key,
     required this.firstDate,
     required this.lastDate,
-    required this.documentId}) : super(key: key); // Change this line
+    required this.documentId,
+    required this.isAdmin}) : super(key: key); // Change this line
 
   @override
   State<EditEvent> createState() => _EditEventState();
@@ -74,7 +76,7 @@ class _EditEventState extends State<EditEvent> {
   }
   Future<DocumentSnapshot> fetchdocument() async{
     return await storage.db.collection('users')
-        .doc('members')
+        .doc('admins')
         .collection(auth.auth.currentUser!.uid)
         .doc('Event')
         .collection('Pending Appointment')

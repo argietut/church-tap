@@ -1,6 +1,7 @@
 import 'package:bethel_app_final/FRONT_END/MemberScreens/screens/terms_page.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/screens/user_identity_option/contact_us.dart';
 import 'package:bethel_app_final/FRONT_END/authentications/member_auth/member_auth_page.dart';
+import 'package:bethel_app_final/FRONT_END/authentications/member_auth/member_login_page.dart';
 import 'package:bethel_app_final/FRONT_END/authentications/member_auth/member_register_page.dart';
 import 'package:bethel_app_final/FRONT_END/constant/color.dart';
 import 'package:flutter/material.dart';
@@ -113,7 +114,7 @@ class OptionToPlatformToLogin extends StatelessWidget {
                   const SizedBox(width: 6),
                   GestureDetector(
                     onTap: () {
-                      Get.to(() => const MemberAuthPage(),
+                      Get.to(() => const MemberLoginPage(),
                           transition: Transition.fadeIn,
                           duration: const Duration(milliseconds: 500));
                     },

@@ -1,3 +1,5 @@
+import 'package:bethel_app_final/BACK_END/Services/Functions/Authentication.dart';
+import 'package:bethel_app_final/BACK_END/Services/Functions/Users.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/profile_page.dart';
 import 'package:bethel_app_final/FRONT_END/authentications/auth_classes/my_button1.dart';
 import 'package:bethel_app_final/FRONT_END/authentications/auth_classes/my_textfield.dart';
@@ -14,7 +16,7 @@ class AdminRegisterPage extends StatefulWidget {
 }
 
 class _AdminRegisterPageState extends State<AdminRegisterPage> {
-
+  TapAuth tapAuth = TapAuth();
   final adminkey = TextEditingController();
   final usernameController = TextEditingController();
   final emailController = TextEditingController();
@@ -96,6 +98,32 @@ class _AdminRegisterPageState extends State<AdminRegisterPage> {
         );
         return;
       }
+      await tapAuth.createUserAuth(username, email, password, "admins");
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          elevation: 2,
+          behavior: SnackBarBehavior.fixed,
+          backgroundColor: Colors.transparent,
+          content: Row(
+            children: [
+              Icon(
+                Icons.check_circle,
+                color: appGreen,
+              ),
+              SizedBox(width: 16.0),
+              Expanded(
+                child: Text(
+                  'Registration successful! Please check your email to verify your account.',
+                  style: TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.bold,
+                      color: appBlack),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
     } catch (e) {
       print(e.toString());
       // Handle exceptions if necessary

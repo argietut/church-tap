@@ -1,4 +1,3 @@
-import 'dart:html';
 
 import 'package:bethel_app_final/BACK_END/Services/Functions/Users.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/screen_pages/event_screen_pages/event_source_directory/edit_event.dart';
@@ -404,7 +403,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                                 EditEvent(
                                   documentId: document.id,
                                   firstDate: DateTime.now(),
-                                  lastDate: DateTime.now(),
+                                  lastDate: DateTime.now(), isAdmin: true,
                                 ),
                           ),
                         );

@@ -400,7 +400,7 @@ class _EventPageState extends State<EventPage> {
                                                     EditEvent(
                                                       documentId: document.id,
                                                       firstDate: DateTime.now(),
-                                                      lastDate: DateTime.now(),
+                                                      lastDate: DateTime.now(), isAdmin: false,
                                                     ),
                                               ),
                                             );
