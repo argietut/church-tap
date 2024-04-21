@@ -3,7 +3,9 @@ import 'package:bethel_app_final/BACK_END/Services/Functions/Users.dart';
 import 'package:bethel_app_final/FRONT_END/constant/color.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class NotificationTab extends StatefulWidget {
   const NotificationTab({Key? key});
@@ -136,19 +138,31 @@ class _NotificationTabState extends State<NotificationTab> {
                               margin: const EdgeInsets.symmetric(
                                   vertical: 8, horizontal: 4),
                               child: ListTile(
-                                title: Row(
+                                title: Column(
                                   children: [
-                                    const Text("Your "),
-                                    Text(
-                                      '${notif['appointmenttype']}',
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    const Text(" at "),
-                                    Text(
-                                      formattedDate,
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold),
+                                    Row(
+                                      children: [
+                                        Expanded(
+
+                                            child: const Text(
+                                                "Your "
+                                            )
+                                        ),
+                                        Expanded(
+                                          child: Text(
+                                            '${notif['appointmenttype']}',
+                                            style: const
+                                            TextStyle(
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                        const Text(" at "),
+                                        Text(
+                                          formattedDate,
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ],
                                     ),
                                   ],
                                 ),

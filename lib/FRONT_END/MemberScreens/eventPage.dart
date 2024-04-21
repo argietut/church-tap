@@ -251,7 +251,7 @@ class _EventPageState extends State<EventPage> {
                                   vertical: 8, horizontal: 4),
                               child: ListTile(
                                 title: Text(
-                                  'Appointment type: ${data['appointmenttype'] ?? ''}',
+                                  'Appointment: ${data['appointmenttype'] ?? ''}',
                                 ),
                                 subtitle: Column(
                                   crossAxisAlignment:
@@ -353,7 +353,7 @@ class _EventPageState extends State<EventPage> {
                           ),
                           child: ListTile(
                             title: Text(
-                              'Appointment type: ${data['appointmenttype'] ?? ''}',
+                              'Appointment: ${data['appointmenttype'] ?? ''}',
                             ),
                             subtitle: Column(
                               crossAxisAlignment:

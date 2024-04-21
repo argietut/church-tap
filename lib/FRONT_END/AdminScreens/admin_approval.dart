@@ -222,7 +222,7 @@ class _AdminApprovalState extends State<AdminApproval> {
                               vertical: 8, horizontal: 4),
                           child: ListTile(
                             title: Text(
-                              'Appointment type: ${data['appointmenttype'] ?? ''}',
+                              'Appointment: ${data['appointmenttype'] ?? ''}',
                             ),
                             subtitle: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
