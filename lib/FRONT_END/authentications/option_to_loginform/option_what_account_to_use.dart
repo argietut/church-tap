@@ -1,5 +1,6 @@
 import 'package:bethel_app_final/FRONT_END/MemberScreens/screens/terms_page.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/screens/user_identity_option/contact_us.dart';
+import 'package:bethel_app_final/FRONT_END/authentications/auth_classes/squaretile.dart';
 import 'package:bethel_app_final/FRONT_END/authentications/member_auth/member_auth_page.dart';
 import 'package:bethel_app_final/FRONT_END/authentications/member_auth/member_login_page.dart';
 import 'package:bethel_app_final/FRONT_END/authentications/member_auth/member_register_page.dart';
@@ -52,14 +53,15 @@ class OptionToPlatformToLogin extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Container(
-                      margin: EdgeInsets.symmetric(horizontal: 80),
-                      padding: const EdgeInsets.all(6),
+                      margin: EdgeInsets.symmetric(horizontal: 60),
+                      padding: const EdgeInsets.symmetric(vertical: 0),
+                      height: 42, // Adjusted height
                       decoration: BoxDecoration(
                         border: Border.all(
-                          color: appBlue,
+                          color: Colors.blueAccent,
                         ),
                         borderRadius: BorderRadius.circular(20),
-                        color: appBlue,
+                        color: Colors.blueAccent,
                       ),
                       child: TextButton(
                         onPressed: () async {
@@ -73,21 +75,20 @@ class OptionToPlatformToLogin extends StatelessWidget {
                           );
                         },
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          padding: const EdgeInsets.symmetric(horizontal: 0),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(
-                                Icons.email,
-                                color: appWhite,
-                                size: 18,
+                              SquareTile( // Replaced Icon with SquareTile
+                                imagePath: 'assets/images/email_icon.png',
+                                onTap: onTap,
                               ),
                               SizedBox(width: 10),
                               Text(
                                 'SIGN UP WITH E-MAIL',
                                 style: TextStyle(
                                   color: appWhite,
-                                  fontSize: 12,
+                                  fontSize: 14,
                                 ),
                               ),
                             ],
@@ -173,4 +174,3 @@ class OptionToPlatformToLogin extends StatelessWidget {
     );
   }
 }
-

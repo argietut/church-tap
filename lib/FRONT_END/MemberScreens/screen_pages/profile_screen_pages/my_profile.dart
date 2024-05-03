@@ -19,13 +19,6 @@ class _MyProfileState extends State<MyProfile> {
   GlobalKey<RefreshIndicatorState> _refreshIndicatorKey = GlobalKey();
 
   @override
-  void initState() {
-    print("HELLOWASHFKASJFASDGADSFGAFDH");
-    print(tapAuth.auth.currentUser?.photoURL);
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
@@ -170,11 +163,8 @@ class _MyProfileState extends State<MyProfile> {
       setState(() {
         _image = image;
       });
-      // Update profile picture
       tapAuth.auth.currentUser?.updatePhotoURL(image.path);
-      // Add loading delay
       await Future.delayed(Duration(seconds: 1));
-      // Refresh the page after updating the picture
       _refreshIndicatorKey.currentState?.show();
     }
   }

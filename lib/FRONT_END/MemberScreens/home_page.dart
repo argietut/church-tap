@@ -228,7 +228,7 @@ class _MemberHomePageState extends State<MemberHomePage> {
                           if (events.isEmpty) {
                             return const Center(
                               child: Text(
-                                'No events posted yet',
+                                'No events posted yet...',
                                 style: TextStyle(
                                   fontSize: 16,
                                   color: Colors.grey,

@@ -37,7 +37,7 @@ class _HistoryPageState extends State<HistoryPage> {
   }
 
   bool isAppointmentCompleted(DateTime eventDate) {
-    return eventDate.isBefore(DateTime.now().subtract(Duration(days: 1)));
+    return eventDate.isBefore(DateTime.now().subtract(const Duration(days: 1)));
   }
 
   String getCurrentUserId() {
@@ -70,7 +70,7 @@ class _HistoryPageState extends State<HistoryPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
+            const Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 SizedBox(width: 50),
@@ -84,11 +84,11 @@ class _HistoryPageState extends State<HistoryPage> {
                 SizedBox(width: 50),
               ],
             ),
-            SizedBox(height: 15),
-            Divider(
+            const SizedBox(height: 15),
+            const Divider(
               color: Colors.green,
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Expanded(
               child: StreamBuilder<QuerySnapshot>(
                 stream: _approvedAppointmentsStream,
@@ -108,9 +108,10 @@ class _HistoryPageState extends State<HistoryPage> {
                       snapshot.data!.docs.isEmpty) {
                     return const Center(
                       child: Text(
-                        'No completed appointment.',
+                        'No completed appointment...',
                         style: TextStyle(
                           fontSize: 18,
+                          color: appGrey
                         ),
                       ),
                     );
@@ -120,7 +121,7 @@ class _HistoryPageState extends State<HistoryPage> {
                       snapshot.data!.docs;
 
                   return ListView.builder(
-                    itemCount: sortedAppointments.length, // Update itemCount to the length of sortedAppointments
+                    itemCount: sortedAppointments.length,
                     itemBuilder: (context, index) {
                       final document = sortedAppointments[index];
                       final id = document.id;
@@ -147,7 +148,7 @@ class _HistoryPageState extends State<HistoryPage> {
                           "${months[dateTime.month - 1]} ${dateTime.day}, ${dateTime.year}";
 
                       if (!isAppointmentCompleted(dateTime)) {
-                        return SizedBox();
+                        return const SizedBox();
                       }
 
                       return Card(
@@ -197,7 +198,9 @@ class _HistoryPageState extends State<HistoryPage> {
                                       const SizedBox(width: 8.0),
                                       IconButton(
                                         icon: const Icon(Icons.delete,
-                                            color: Colors.red, size: 24.0),
+                                            color: Colors.red,
+                                            size: 24.0
+                                        ),
                                         onPressed: () {
                                           showDialog(
                                             context: context,
@@ -253,7 +256,6 @@ class _HistoryPageState extends State<HistoryPage> {
                       );
                     },
                   );
-
                 },
               ),
             ),

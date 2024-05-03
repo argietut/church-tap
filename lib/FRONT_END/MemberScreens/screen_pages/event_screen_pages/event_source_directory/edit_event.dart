@@ -79,7 +79,7 @@ class _EditEventState extends State<EditEvent> {
         .doc('admins')
         .collection(auth.auth.currentUser!.uid)
         .doc('Event')
-        .collection('Pending Appointment')
+        .collection('Church Event')
         .doc(widget.documentId)
         .get();
   }
@@ -207,7 +207,7 @@ class _EditEventState extends State<EditEvent> {
         'Seminar',
         'Workshop',
         'Webinar',
-        "Infant Dedication",
+        'Infant Dedication',
         'Birthday Service',
         'Birthday Manyanita',
         'Membership Certificate',
@@ -254,6 +254,7 @@ class _EditEventState extends State<EditEvent> {
       print('Error updating pending request: $e');
     }
   }
+
 
   void _showSuccessDialogEventEdit() {
     showDialog(
