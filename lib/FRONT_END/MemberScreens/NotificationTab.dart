@@ -99,9 +99,10 @@ class _NotificationTabState extends State<NotificationTab> {
                             snapshot.data!.docs.isEmpty) {
                           return const Center(
                             child: Text(
-                              'No notifications.',
+                              'No notifications...',
                               style: TextStyle(
                                 fontSize: 18,
+                                color: appGrey
                               ),
                             ),
                           );
