@@ -58,10 +58,10 @@ class OptionToPlatformToLogin extends StatelessWidget {
                       height: 42, // Adjusted height
                       decoration: BoxDecoration(
                         border: Border.all(
-                          color: Colors.blueAccent,
+                          color: Colors.black45,
                         ),
                         borderRadius: BorderRadius.circular(20),
-                        color: Colors.blueAccent,
+                        color: Colors.white,
                       ),
                       child: TextButton(
                         onPressed: () async {
@@ -79,7 +79,7 @@ class OptionToPlatformToLogin extends StatelessWidget {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              SquareTile( // Replaced Icon with SquareTile
+                              SquareTile(
                                 imagePath: 'assets/images/email_icon.png',
                                 onTap: onTap,
                               ),
@@ -87,7 +87,8 @@ class OptionToPlatformToLogin extends StatelessWidget {
                               Text(
                                 'SIGN UP WITH E-MAIL',
                                 style: TextStyle(
-                                  color: appWhite,
+                                  color: appBlack,
+                                  fontWeight: FontWeight.bold,
                                   fontSize: 14,
                                 ),
                               ),

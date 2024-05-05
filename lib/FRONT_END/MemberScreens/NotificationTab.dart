@@ -17,11 +17,15 @@ class NotificationTab extends StatefulWidget {
 class _NotificationTabState extends State<NotificationTab> {
   late Stream<QuerySnapshot> _notificationStream;
   Map<String, bool> showOptionsMap = {};
+  Set<String> clickedNotificationIds = {};
+  int _notificationCount = 0;
 
   @override
   void initState() {
-    _notificationStream =
-        UserStorage().getNotification(TapAuth().auth.currentUser!.uid);
+    _notificationStream = UserStorage()
+        .getNotification(TapAuth()
+        .auth.currentUser!
+        .uid);
     super.initState();
   }
 
@@ -45,6 +49,21 @@ class _NotificationTabState extends State<NotificationTab> {
     return currentUser?.uid ?? '';
   }
 
+  void _updateNotificationCount({bool decrement = false}) {
+    final currentUser = FirebaseAuth.instance.currentUser;
+    final uid = currentUser?.uid ?? '';
+    if (uid.isNotEmpty) {
+      if (decrement) {
+        setState(() {
+          _notificationStream = UserStorage().getNotification(uid);
+          _notificationCount--;
+          if (_notificationCount < 0) {
+            _notificationCount = 0;
+          }
+        });
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -84,8 +103,7 @@ class _NotificationTabState extends State<NotificationTab> {
                     child: StreamBuilder(
                       stream: _notificationStream,
                       builder: (context, snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
                           return Center(
                             child: CircularProgressIndicator(
                               color: Colors.green.shade200,
@@ -95,27 +113,24 @@ class _NotificationTabState extends State<NotificationTab> {
                           return Center(
                             child: Text('Error: ${snapshot.error}'),
                           );
-                        } else if (!snapshot.hasData ||
-                            snapshot.data!.docs.isEmpty) {
+                        } else if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
                           return const Center(
                             child: Text(
                               'No notifications...',
                               style: TextStyle(
                                 fontSize: 18,
-                                color: appGrey
+                                color: appGrey,
                               ),
                             ),
                           );
                         }
-                        List<DocumentSnapshot> notifications =
-                            snapshot.data!.docs;
+                        List<DocumentSnapshot> notifications = snapshot.data!.docs;
                         return ListView.builder(
                           itemCount: notifications.length,
                           itemBuilder: (context, index) {
                             final document = notifications[index];
                             final id = document.id;
-                            Map<String, dynamic> notif =
-                            document.data() as Map<String, dynamic>;
+                            Map<String, dynamic> notif = document.data() as Map<String, dynamic>;
                             Timestamp timeStamp = notif["date"];
                             DateTime dateTime = timeStamp.toDate();
                             List<String> months = [
@@ -134,130 +149,124 @@ class _NotificationTabState extends State<NotificationTab> {
                             ];
                             String formattedDate =
                                 "${months[dateTime.month - 1]} ${dateTime.day}, ${dateTime.year}";
-                            return Card(
-                              elevation: 2,
-                              margin: const EdgeInsets.symmetric(
-                                  vertical: 8, horizontal: 4),
-                              child: ListTile(
-                                title: Column(
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Expanded(
-                                            child: const Text(
-                                                "Your "
-                                            )
-                                        ),
-                                        Expanded(
-                                          child: Text(
-                                            '${notif['appointmenttype']}',
-                                            style: const
-                                            TextStyle(
-                                                fontWeight: FontWeight.bold),
+                            bool isBold = clickedNotificationIds.contains(id);
+                            return GestureDetector(
+                              onTap: isBold
+                                  ? null // Disable GestureDetector if notification is already clicked
+                                  : () {
+                                setState(() {
+                                  clickedNotificationIds.add(id);
+                                  // Decrement notification count
+                                  _updateNotificationCount(decrement: true);
+                                });
+                              },
+                              child: Card(
+                                elevation: 2,
+                                margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+                                child: ListTile(
+                                  title: Column(
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            child: Text(
+                                              'Your ${notif['appointmenttype']}',
+                                              style: TextStyle(
+                                                fontWeight: isBold ? FontWeight.normal : FontWeight.bold,
+                                              ),
+                                            ),
+                                          ),
+                                          const Text(" at "),
+                                          Text(
+                                            formattedDate,
+                                            style: TextStyle(
+                                              fontWeight: isBold ? FontWeight.normal : FontWeight.bold,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  subtitle: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          const Text("Status: "),
+                                          Text(
+                                            notif['status'],
+                                            style: TextStyle(
+                                              fontWeight: isBold ? FontWeight.normal : FontWeight.bold,
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                      Text('Description: ${notif['description'] ?? ''}')
+                                    ],
+                                  ),
+                                  trailing: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      IconButton(
+                                        icon: const Icon(Icons.more_vert_outlined),
+                                        onPressed: () {
+                                          setState(() {
+                                            showOptionsMap[id] = !(showOptionsMap[id] ?? false);
+                                          });
+                                        },
+                                      ),
+                                      if (showOptionsMap[id] ?? false)
+                                        Container(
+                                          decoration: BoxDecoration(
+                                            color: Colors.grey.shade200,
+                                            borderRadius: BorderRadius.circular(8.0),
+                                          ),
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              const SizedBox(width: 8.0),
+                                              IconButton(
+                                                icon: const Icon(Icons.delete, color: Colors.red, size: 24.0),
+                                                onPressed: () {
+                                                  showDialog(
+                                                    context: context,
+                                                    builder: (BuildContext context) {
+                                                      return AlertDialog(
+                                                        title: const Text("Confirm Delete"),
+                                                        content: const Text("Are you sure you want to delete this request?"),
+                                                        actions: <Widget>[
+                                                          TextButton(
+                                                            onPressed: () {
+                                                              Navigator.of(context).pop();
+                                                            },
+                                                            child: const Text("Cancel"),
+                                                          ),
+                                                          TextButton(
+                                                            onPressed: () {
+                                                              final uid = getCurrentUserId();
+                                                              if (uid.isNotEmpty) {
+                                                                deleteNotifications(uid, document.id);
+                                                                Navigator.of(context).pop();
+                                                              } else {
+                                                                print('User is not logged in.');
+                                                              }
+                                                            },
+                                                            child: const Text(
+                                                              "Delete",
+                                                              style: TextStyle(color: appRed),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      );
+                                                    },
+                                                  );
+                                                },
+                                              ),
+                                            ],
                                           ),
                                         ),
-                                        const Text(" at "),
-                                        Text(
-                                          formattedDate,
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                subtitle: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        const Text("Status: "),
-                                        Text(
-                                          notif['status'],
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.bold),
-                                        )
-                                      ],
-                                    ),
-                                    Text('Description: ${notif['description'] ?? ''}')
-                                  ],
-                                ),
-                                trailing: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    IconButton(
-                                      icon: const Icon(Icons.more_vert_outlined),
-                                      onPressed: () {
-                                        setState(() {
-                                          showOptionsMap[id] =
-                                          !(showOptionsMap[id] ?? false);
-                                        });
-                                      },
-                                    ),
-                                    if (showOptionsMap[id] ?? false)
-                                      Container(
-                                        decoration: BoxDecoration(
-                                          color: Colors.grey.shade200,
-                                          borderRadius:
-                                          BorderRadius.circular(8.0),
-                                        ),
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            const SizedBox(width: 8.0),
-                                            IconButton(
-                                              icon: const Icon(Icons.delete,
-                                                  color: Colors.red, size: 24.0),
-                                              onPressed: () {
-                                                showDialog(
-                                                  context: context,
-                                                  builder:
-                                                      (BuildContext context) {
-                                                    return AlertDialog(
-                                                      title: const Text(
-                                                          "Confirm Delete"),
-                                                      content: const Text(
-                                                          "Are you sure you want to delete this request?"),
-                                                      actions: <Widget>[
-                                                        TextButton(
-                                                          onPressed: () {
-                                                            Navigator.of(context)
-                                                                .pop();
-                                                          },
-                                                          child: const Text(
-                                                              "Cancel"),
-                                                        ),
-                                                        TextButton(
-                                                          onPressed: () {
-                                                            final uid =
-                                                            getCurrentUserId();
-                                                            if (uid.isNotEmpty) {
-                                                              deleteNotifications(
-                                                                  uid,
-                                                                  document.id);
-                                                              Navigator.of(context)
-                                                                  .pop();
-                                                            } else {
-                                                              print(
-                                                                  'User is not logged in.');
-                                                            }
-                                                          },
-                                                          child: const Text(
-                                                            "Delete",
-                                                            style: TextStyle(
-                                                                color: appRed),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    );
-                                                  },
-                                                );
-                                              },
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ),
                             );
