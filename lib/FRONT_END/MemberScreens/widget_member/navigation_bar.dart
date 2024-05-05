@@ -1,4 +1,5 @@
-
+import 'package:bethel_app_final/BACK_END/Services/Functions/Authentication.dart';
+import 'package:bethel_app_final/BACK_END/Services/Functions/Users.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/home_page.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/profile_page.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/widget_member/Calendar.dart';
@@ -16,12 +17,31 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _currentTab = 0;
+  int _notificationCount = 0; // Variable to store notification count
+
   final List<StatefulWidget> _children = [
     const MemberHomePage(),
-     const EventPage(),
-    const NotificationTab(),
+    const EventPage(),
+    const NotificationTab(), // Add NotificationTab instance here
     const Profile(),
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialize notification count
+    _updateNotificationCount();
+  }
+
+  // Method to update notification count
+  void _updateNotificationCount() {
+    // Subscribe to notification stream and count unread notifications
+    UserStorage().getNotification(TapAuth().auth.currentUser!.uid).listen((snapshot) {
+      setState(() {
+        _notificationCount = snapshot.docs.length;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,8 +69,8 @@ class _HomePageState extends State<HomePage> {
             });
           },
           currentIndex: _currentTab,
-          items: const [
-            BottomNavigationBarItem(
+          items: [
+            const BottomNavigationBarItem(
               icon: Icon(
                 Icons.home,
                 size: 20,
@@ -59,12 +79,12 @@ class _HomePageState extends State<HomePage> {
               activeIcon: Text(
                 "",
                 style: TextStyle(
-                    fontSize: 8,
-                    color: appWhite
+                  fontSize: 8,
+                  color: appWhite,
                 ),
               ),
             ),
-            BottomNavigationBarItem(
+            const BottomNavigationBarItem(
               icon: Icon(
                 Icons.event_available,
                 size: 20,
@@ -73,22 +93,53 @@ class _HomePageState extends State<HomePage> {
               activeIcon: Text(
                 "",
                 style: TextStyle(
-                    fontSize: 8,
-                color: appWhite),
+                  fontSize: 8,
+                  color: appWhite,
+                ),
               ),
             ),
             BottomNavigationBarItem(
-              icon: Icon(
-                Icons.notifications,
-                size: 20,
+              icon: Stack( // Use Stack to overlay the badge on the icon
+                children: [
+                  const Icon(
+                    Icons.notifications,
+                    size: 20,
+                  ),
+                  if (_notificationCount > 0) // Display badge if there are unread notifications
+                    Positioned(
+                      right: 0,
+                      child: Container(
+                        padding: const EdgeInsets.all(2),
+                        decoration: BoxDecoration(
+                          color: Colors.red,
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                        constraints: const BoxConstraints(
+                          minWidth: 16,
+                          minHeight: 16,
+                        ),
+                        child: Text(
+                          '$_notificationCount',
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 10,
+                          ),
+                        ),
+                      ),
+                    ),
+                ],
               ),
               label: 'Notifications',
-              activeIcon: Text(
+              activeIcon: const Text(
                 "",
-                style: TextStyle(fontSize: 8),
+                style: TextStyle(
+                  fontSize: 8,
+                  color: appWhite,
+                ),
               ),
             ),
-            BottomNavigationBarItem(
+            const BottomNavigationBarItem(
               icon: Icon(
                 Icons.person,
                 size: 20,
@@ -96,7 +147,10 @@ class _HomePageState extends State<HomePage> {
               label: 'Profile',
               activeIcon: Text(
                 "",
-                style: TextStyle(fontSize: 8),
+                style: TextStyle(
+                  fontSize: 8,
+                  color: appWhite,
+                ),
               ),
             ),
           ],
@@ -129,5 +183,3 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-
-      
