@@ -104,21 +104,20 @@ class _HistoryPageState extends State<HistoryPage> {
                         child: Text('Error: ${snapshot.error}')
                     );
                   }
-                  if (!snapshot.hasData ||
-                      snapshot.data!.docs.isEmpty) {
+                  if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
                     return const Center(
                       child: Text(
-                        'No completed appointment...',
+                        'No history appointment...',
                         style: TextStyle(
                           fontSize: 18,
-                          color: appGrey
+                          color: appGrey,
                         ),
                       ),
                     );
                   }
 
-                  List<DocumentSnapshot> sortedAppointments =
-                      snapshot.data!.docs;
+                  List<DocumentSnapshot> sortedAppointments = snapshot.data!.docs;
+
 
                   return ListView.builder(
                     itemCount: sortedAppointments.length,

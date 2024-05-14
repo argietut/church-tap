@@ -99,13 +99,13 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             BottomNavigationBarItem(
-              icon: Stack( // Use Stack to overlay the badge on the icon
+              icon: Stack(
                 children: [
                   const Icon(
                     Icons.notifications,
                     size: 20,
                   ),
-                  if (_notificationCount > 0) // Display badge if there are unread notifications
+                  if (_notificationCount > 0)
                     Positioned(
                       right: 0,
                       child: Container(

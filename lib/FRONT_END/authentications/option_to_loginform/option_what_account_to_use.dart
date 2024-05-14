@@ -1,7 +1,5 @@
 import 'package:bethel_app_final/FRONT_END/MemberScreens/screens/terms_page.dart';
-import 'package:bethel_app_final/FRONT_END/MemberScreens/screens/user_identity_option/contact_us.dart';
 import 'package:bethel_app_final/FRONT_END/authentications/auth_classes/squaretile.dart';
-import 'package:bethel_app_final/FRONT_END/authentications/member_auth/member_auth_page.dart';
 import 'package:bethel_app_final/FRONT_END/authentications/member_auth/member_login_page.dart';
 import 'package:bethel_app_final/FRONT_END/authentications/member_auth/member_register_page.dart';
 import 'package:bethel_app_final/FRONT_END/constant/color.dart';
@@ -53,15 +51,15 @@ class OptionToPlatformToLogin extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Container(
-                      margin: EdgeInsets.symmetric(horizontal: 60),
+                      margin: const EdgeInsets.symmetric(horizontal:45),
                       padding: const EdgeInsets.symmetric(vertical: 0),
                       height: 42, // Adjusted height
                       decoration: BoxDecoration(
                         border: Border.all(
-                          color: Colors.black45,
+                          color: Colors.blueAccent,
                         ),
                         borderRadius: BorderRadius.circular(20),
-                        color: Colors.white,
+                        color: Colors.blueAccent,
                       ),
                       child: TextButton(
                         onPressed: () async {
@@ -83,12 +81,11 @@ class OptionToPlatformToLogin extends StatelessWidget {
                                 imagePath: 'assets/images/email_icon.png',
                                 onTap: onTap,
                               ),
-                              SizedBox(width: 10),
-                              Text(
+                              const SizedBox(width: 10),
+                              const Text(
                                 'SIGN UP WITH E-MAIL',
                                 style: TextStyle(
-                                  color: appBlack,
-                                  fontWeight: FontWeight.bold,
+                                  color: appWhite,
                                   fontSize: 14,
                                 ),
                               ),

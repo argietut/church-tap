@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:bethel_app_final/BACK_END/Services/Functions/Authentication.dart';
 import 'package:bethel_app_final/BACK_END/Services/Functions/Users.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/screen_pages/appointment_source_directory/add_appointment.dart';
+import 'package:bethel_app_final/FRONT_END/authentications/auth_classes/squaretile.dart';
 import 'package:bethel_app_final/FRONT_END/constant/color.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/animation.dart';
@@ -82,7 +83,7 @@ class _CustomCalendarState extends State<CustomCalendar> {
                     );
                   }
                   if (snapshot.hasError) {
-                    return Center(
+                    return const Center(
                       child: Text("SOMETHING HAPPENED X_X"),
                     );
                   } else {
@@ -248,6 +249,13 @@ class _CustomCalendarState extends State<CustomCalendar> {
 
   Widget AppointmentMakerButton() {
     return TextButton(
+      style: TextButton.styleFrom(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+        backgroundColor:appGreen2,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+      ),
       onPressed: () {
         Navigator.push(
             context,
@@ -257,17 +265,24 @@ class _CustomCalendarState extends State<CustomCalendar> {
                   lastDate: DateTime(currentYear + 1, 1, 1, 0),
                   selectedDate: _selectedDay,
                   type: 'members'),
-            ));
+            ),
+        );
       },
       child: const Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.calendar_month),
+          SquareTile(
+            imagePath: 'assets/images/calendar.png',
+            onTap: null,
+          ),
+          SizedBox(width: 10),
           Text(
             "  Appointment",
-            style: TextStyle(color: appBlack),
+            style: TextStyle(color: appWhite,
+            fontSize: 14),
           )
         ],
-        mainAxisAlignment: MainAxisAlignment.center,
+
       ),
     );
   }
@@ -279,6 +294,13 @@ class _CustomCalendarState extends State<CustomCalendar> {
     final DateTime selectedDate = currentDate;
 
     return TextButton(
+      style: TextButton.styleFrom(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        backgroundColor: appGreen3,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
+      ),
       onPressed: () {
         Navigator.push(
           context,
@@ -293,16 +315,21 @@ class _CustomCalendarState extends State<CustomCalendar> {
         );
       },
       child: const Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.calendar_month_outlined),
+          SquareTile(
+            imagePath: 'assets/images/calendar.png',
+            onTap: null,
+          ),
+          SizedBox(width: 10),
           Text(
             "  Events",
             style: TextStyle(
               color: Colors.black,
+                fontSize: 14
             ),
           ),
         ],
-        mainAxisAlignment: MainAxisAlignment.center,
       ),
     );
   }
