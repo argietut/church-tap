@@ -65,6 +65,22 @@ class _NotificationTabState extends State<NotificationTab> {
     }
   }
 
+  void _autoClickBoldCards() {
+    setState(() {
+      _notificationStream.listen((snapshot) {
+        for (final document in snapshot.docs) {
+          final id = document.id;
+          if (!clickedNotificationIds.contains(id)) {
+            clickedNotificationIds.add(id);
+          }
+        }
+        _notificationCount = 0; // Reset notification count
+      });
+    });
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -77,7 +93,9 @@ class _NotificationTabState extends State<NotificationTab> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    _autoClickBoldCards();
+                  },
                   icon: const Icon(Icons.mark_chat_read_outlined),
                 ),
                 const Text(

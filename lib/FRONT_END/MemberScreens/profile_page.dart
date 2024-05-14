@@ -6,7 +6,6 @@ import 'package:bethel_app_final/FRONT_END/constant/color.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 
 
 void signUserOut() {
@@ -43,7 +42,7 @@ class _ProfileState extends State<Profile> {
               IconButton(
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(
-                      builder: (context) => MyProfile()),
+                      builder: (context) => const MyProfile()),
                   );
                 },
                 style: IconButton.styleFrom(
@@ -80,7 +79,7 @@ class _ProfileState extends State<Profile> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => MyProfile()),
+                MaterialPageRoute(builder: (context) => const MyProfile()),
               );
             },
             child: const Padding(
