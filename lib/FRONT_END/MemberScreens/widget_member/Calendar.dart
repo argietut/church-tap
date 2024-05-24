@@ -251,7 +251,7 @@ class _CustomCalendarState extends State<CustomCalendar> {
     return TextButton(
       style: TextButton.styleFrom(
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-        backgroundColor:appGreen2,
+        backgroundColor:appGreen5,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
         ),
@@ -271,14 +271,11 @@ class _CustomCalendarState extends State<CustomCalendar> {
       child: const Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SquareTile(
-            imagePath: 'assets/images/calendar.png',
-            onTap: null,
-          ),
+
           SizedBox(width: 10),
           Text(
             "  Appointment",
-            style: TextStyle(color: appWhite,
+            style: TextStyle(color: appBlack,
             fontSize: 14),
           )
         ],
@@ -296,7 +293,7 @@ class _CustomCalendarState extends State<CustomCalendar> {
     return TextButton(
       style: TextButton.styleFrom(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        backgroundColor: appGreen3,
+        backgroundColor: appGreen5,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
         ),
@@ -317,10 +314,7 @@ class _CustomCalendarState extends State<CustomCalendar> {
       child: const Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SquareTile(
-            imagePath: 'assets/images/calendar.png',
-            onTap: null,
-          ),
+
           SizedBox(width: 10),
           Text(
             "  Events",
