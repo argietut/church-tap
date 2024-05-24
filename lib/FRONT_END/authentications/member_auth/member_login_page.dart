@@ -59,6 +59,23 @@ class _MemberLoginPageState extends State<MemberLoginPage> {
       try {
         bool loginSuccessful = await tapAuth.loginUserAuth(email, password);
 
+        showDialog(
+          context: context,
+          barrierDismissible: true,
+          builder: (BuildContext context) {
+            return const AlertDialog(
+              content: SizedBox(
+                height: 50,
+                child: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              ),
+            );
+          },
+        );
+
+        await Future.delayed(const Duration(seconds: 1));
+
         if (!loginSuccessful) {
           showSnackbar('Your account is not verified yet. Please check your email and verify your account.',
               backgroundColor: Colors.red);
@@ -75,7 +92,8 @@ class _MemberLoginPageState extends State<MemberLoginPage> {
           }
 
 
-          // Stop the loading once navigation is completed
+
+
           setState(() {
             _loading = false;
           });
