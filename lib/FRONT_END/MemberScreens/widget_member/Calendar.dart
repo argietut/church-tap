@@ -272,11 +272,12 @@ class _CustomCalendarState extends State<CustomCalendar> {
         children: [
 
           SizedBox(width: 10),
-          Text(
+          Center(child:Text(
             "  Appointment",
             style: TextStyle(color: appBlack,
-            fontSize: 14),
-          )
+                fontSize: 14),
+          ),)
+
         ],
 
       ),
@@ -315,13 +316,14 @@ class _CustomCalendarState extends State<CustomCalendar> {
         children: [
 
           SizedBox(width: 10),
-          Text(
+          Center(child:Text(
             "  Events",
             style: TextStyle(
-              color: Colors.black,
+                color: Colors.black,
                 fontSize: 14
             ),
-          ),
+          ),)
+      ,
         ],
       ),
     );
