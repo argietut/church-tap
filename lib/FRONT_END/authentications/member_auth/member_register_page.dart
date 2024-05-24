@@ -58,7 +58,7 @@ class _MemberRegisterPageState extends State<MemberRegisterPage> {
         return;
       }
 
-      if (!email.endsWith("@gmail.com") && !email.endsWith("@yahoo.com")) {
+      if (!email.endsWith("@gmail.com")) {
         showSnackbar('Please enter a valid email address format. Please try again!',
             backgroundColor: Colors.red);
         return;
