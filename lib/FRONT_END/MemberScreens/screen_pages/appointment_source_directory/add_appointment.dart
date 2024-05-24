@@ -2,6 +2,7 @@ import 'package:bethel_app_final/BACK_END/Services/Functions/Authentication.dart
 import 'package:bethel_app_final/BACK_END/Services/Functions/Users.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:get/get.dart';
 
 
 class AddAppointment extends StatefulWidget {
@@ -75,19 +76,6 @@ class _AddAppointmentState extends State<AddAppointment> {
     return ListView(
       padding: const EdgeInsets.all(16.0),
       children: [
-      /*  InputDatePickerFormField(
-          errorInvalidText: "Date is not valid ",
-          errorFormatText: "Date is not in a Correct Format",
-          acceptEmptyDate: false,
-          firstDate: widget.firstDate,
-          lastDate: widget.lastDate,
-          initialDate: _selectedDate,
-          onDateSubmitted: (date) {
-            setState(() {
-              _selectedDate = date;
-            });
-          },
-        ),*/
         TextFormField( //USED THIS KAY PARA WALAY BROKEN DATES UG YEARS SA DATABASE
           enabled: false,
           readOnly: true,
@@ -202,6 +190,7 @@ class _AddAppointmentState extends State<AddAppointment> {
               onPressed: () {
                 Navigator.of(context).pop();
                 Navigator.pop(context, true);
+                Get.back();
               //  Navigator.pushReplacement(context, newRoute)
               },
               child: Text('OK'),
