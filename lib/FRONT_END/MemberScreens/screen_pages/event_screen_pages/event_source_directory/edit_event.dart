@@ -26,8 +26,6 @@ class EditEvent extends StatefulWidget {
 
 class _EditEventState extends State<EditEvent> {
   late Future _getDocument;
-  late Future _getSelectedEventType;
-  late Future _geteventTypeCount;
   int count = 0;
   late DateTime _selectedDate;
   final _descController = TextEditingController();
@@ -44,7 +42,7 @@ class _EditEventState extends State<EditEvent> {
         _eventTypes = types;
       });
     });
-    _getDocument = fetchdocument();
+    _getDocument = fetchdocument(widget.documentId);
     _selectedDate = widget.firstDate;
   }
 
@@ -74,14 +72,33 @@ class _EditEventState extends State<EditEvent> {
 
     );
   }
-  Future<DocumentSnapshot> fetchdocument() async{
-    return await storage.db.collection('users')
-        .doc('admins')
+  Future<Map<String,dynamic>> fetchdocument(String documentID) async{
+    var map = <String,dynamic>{};
+    if(widget.isAdmin == true){
+      await storage.db.collectionGroup("Church Event").get()
+          .then((value) {
+            for (var element in value.docs) {
+              if(element.id == widget.documentId){
+                map = element.data();
+              }
+            }
+          },);
+    }
+  else{
+    await storage.db.collection("users")
+        .doc("members")
         .collection(auth.auth.currentUser!.uid)
-        .doc('Event')
-        .collection('Church Event')
-        .doc(widget.documentId)
-        .get();
+        .doc("Event")
+        .collection("Pending Appointment")
+        .get().then((value) {
+         for(var element in value.docs) {
+           if(element.id == widget.documentId){
+             map = element.data();
+           }
+         }
+        },);
+    }
+  return map;
   }
 
   Future<String> fetchdisc() async{
@@ -101,9 +118,7 @@ class _EditEventState extends State<EditEvent> {
   Future<void>fetchCount(String type)async{
       switch(type){
         case "Meeting": {
-          setState(() {
             count = 0;
-          });
         }
         case "Conference": {
           count = 1;
@@ -133,7 +148,7 @@ class _EditEventState extends State<EditEvent> {
           count = 9;
         }
         default:{
-          count = -1;
+          count = 0;
         }
       }
   }
@@ -142,21 +157,28 @@ class _EditEventState extends State<EditEvent> {
     return ListView(
       padding: const EdgeInsets.all(16.0),
       children: [
-        InputDatePickerFormField(
-          firstDate: widget.firstDate,
-          lastDate: widget.lastDate,
-          initialDate: _selectedDate,
-          onDateSubmitted: (date) {
-            setState(() {
-              _selectedDate = date;
-            });
-          },
+        TextFormField( //USED THIS KAY PARA WALAY BROKEN DATES UG YEARS SA DATABASE
+          enabled: false,
+          readOnly: true,
+          decoration: const InputDecoration(
+              border: OutlineInputBorder(
+                  borderRadius: BorderRadius.only()
+              ),
+              enabled: false,
+              disabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                      color: Colors.black)
+              )
+          ),
+          style: TextStyle(
+              color: Colors.black),
+          initialValue: "${_selectedDate.month}"+"/${_selectedDate.day}/"+"${_selectedDate.year}",
         ),
         DropdownButtonFormField<String>(
-          value: _eventTypes[count],
+          value: _eventTypes[count] ,
           onChanged: (String? newValue) {
             setState(() {
-              _selectedEventType = newValue ?? '';
+              _selectedEventType = newValue ?? 'Meeting'; //WHY PUT A FUCKING NO VALUE HERE?
             });
           },
           items: _eventTypes.map((String value) {
@@ -235,14 +257,16 @@ class _EditEventState extends State<EditEvent> {
         return;
       }
 
-      final eventDocRef = FirebaseFirestore.instance
-          .collection("users")
-          .doc("members")
-          .collection(currentUser.uid)
-          .doc("Event")
-          .collection("Pending Appointment")
-          .doc(widget.documentId);
 
+       final eventDocRef = FirebaseFirestore.instance
+            .collection("users")
+            .doc("members")
+            .collection(currentUser.uid)
+            .doc("Event")
+            .collection("Pending Appointment")
+            .doc(widget.documentId);
+
+      
       await eventDocRef.update({
         "description": description,
         "date": Timestamp.fromDate(selectedDate),
@@ -276,5 +300,6 @@ class _EditEventState extends State<EditEvent> {
       },
     );
   }
+ // void
 }
 

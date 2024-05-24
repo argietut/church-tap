@@ -391,24 +391,6 @@ class _AdminHomePageState extends State<AdminHomePage> {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    IconButton(
-                      icon: const Icon(Icons.edit,
-                          color: appGreen,
-                          size: 24.0),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                EditEvent(
-                                  documentId: document.id,
-                                  firstDate: DateTime.now(),
-                                  lastDate: DateTime.now(), isAdmin: true,
-                                ),
-                          ),
-                        );
-                      },
-                    ),
                     const SizedBox(width: 8.0),
                     IconButton(
                       icon: const Icon(Icons.delete,

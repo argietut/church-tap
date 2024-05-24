@@ -208,6 +208,7 @@ class _AdminSettingsState extends State<AdminSettings> {
                       ),
                       TextButton(
                         onPressed: () async {
+                          // Sign out of Firebase Authentication
                           Navigator.of(context).pop();
                           try {
                             await FirebaseAuth.instance.signOut();
