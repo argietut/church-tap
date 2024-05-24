@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:bethel_app_final/BACK_END/Services/Functions/Authentication.dart';
 import 'package:bethel_app_final/BACK_END/Services/Functions/Users.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/screen_pages/appointment_source_directory/add_appointment.dart';
-import 'package:bethel_app_final/FRONT_END/authentications/auth_classes/squaretile.dart';
 import 'package:bethel_app_final/FRONT_END/constant/color.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/animation.dart';
@@ -251,7 +250,7 @@ class _CustomCalendarState extends State<CustomCalendar> {
     return TextButton(
       style: TextButton.styleFrom(
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-        backgroundColor:appGreen2,
+        backgroundColor:appGreen5,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
         ),
@@ -271,14 +270,11 @@ class _CustomCalendarState extends State<CustomCalendar> {
       child: const Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SquareTile(
-            imagePath: 'assets/images/calendar.png',
-            onTap: null,
-          ),
+
           SizedBox(width: 10),
           Text(
             "  Appointment",
-            style: TextStyle(color: appWhite,
+            style: TextStyle(color: appBlack,
             fontSize: 14),
           )
         ],
@@ -296,7 +292,7 @@ class _CustomCalendarState extends State<CustomCalendar> {
     return TextButton(
       style: TextButton.styleFrom(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        backgroundColor: appGreen3,
+        backgroundColor: appGreen5,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
         ),
@@ -317,10 +313,7 @@ class _CustomCalendarState extends State<CustomCalendar> {
       child: const Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SquareTile(
-            imagePath: 'assets/images/calendar.png',
-            onTap: null,
-          ),
+
           SizedBox(width: 10),
           Text(
             "  Events",

@@ -10,4 +10,5 @@ const appBlue = Color.fromARGB(255, 49, 88, 243);
 const appPink = Color.fromARGB(255, 248, 57, 244);
 const appGreen2 = Color.fromARGB(255, 50, 196, 116);
 const appGreen3 = Color.fromARGB(255, 72, 232, 144);
+const appGreen5 = Color.fromARGB(255, 167, 220, 190);
 

@@ -58,7 +58,7 @@ class _MemberRegisterPageState extends State<MemberRegisterPage> {
         return;
       }
 
-      if (!email.endsWith("@gmail.com")) {
+      if (!email.endsWith("@gmail.com") && !email.endsWith("@yahoo.com")) {
         showSnackbar('Please enter a valid email address format. Please try again!',
             backgroundColor: Colors.red);
         return;
@@ -69,14 +69,6 @@ class _MemberRegisterPageState extends State<MemberRegisterPage> {
             backgroundColor: Colors.red);
         return;
       }
-
-      // RegExp passwordRegex = RegExp(r'^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$');
-      //
-      // if (!passwordRegex.hasMatch(password)) {
-      //   showSnackbar('Password must contain both letters and numbers and at least one symbol. Please try again!',
-      //       backgroundColor: Colors.red);
-      //   return;
-      // }
 
 
       if (!RegExp(r'^(?=.*[a-zA-Z])(?=.*\d)[A-Za-z\d]+$').hasMatch(password)) {

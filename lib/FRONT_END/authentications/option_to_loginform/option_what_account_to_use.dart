@@ -1,5 +1,4 @@
 import 'package:bethel_app_final/FRONT_END/MemberScreens/screens/terms_page.dart';
-import 'package:bethel_app_final/FRONT_END/authentications/auth_classes/squaretile.dart';
 import 'package:bethel_app_final/FRONT_END/authentications/member_auth/member_login_page.dart';
 import 'package:bethel_app_final/FRONT_END/authentications/member_auth/member_register_page.dart';
 import 'package:bethel_app_final/FRONT_END/constant/color.dart';
@@ -72,17 +71,12 @@ class OptionToPlatformToLogin extends StatelessWidget {
                             duration: const Duration(milliseconds: 500),
                           );
                         },
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 0),
+                        child: const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 0),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              SquareTile(
-                                imagePath: 'assets/images/email_icon.png',
-                                onTap: onTap,
-                              ),
-                              const SizedBox(width: 10),
-                              const Text(
+                              Text(
                                 'SIGN UP WITH E-MAIL',
                                 style: TextStyle(
                                   color: appWhite,
