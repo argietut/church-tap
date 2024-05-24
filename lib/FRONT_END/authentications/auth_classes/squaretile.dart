@@ -1,4 +1,3 @@
-import 'package:bethel_app_final/FRONT_END/constant/color.dart';
 import 'package:flutter/material.dart';
 
 class SquareTile extends StatelessWidget {
@@ -6,25 +5,25 @@ class SquareTile extends StatelessWidget {
   final Function()? onTap;
 
   const SquareTile({
-    Key? key, // changed 'super.key' to 'Key? key'
+    Key? key,
     required this.imagePath,
     required this.onTap,
-  }) : super(key: key); // added super constructor
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.all(8), // Reduced padding
+        padding: const EdgeInsets.all(2),
         decoration: BoxDecoration(
-          border: Border.all(color: appBlue),
-          borderRadius: BorderRadius.circular(12), // Reduced border radius
-          color: appBlue,
+          border: Border.all(color: Colors.white),
+          borderRadius: BorderRadius.circular(12),
+          color: Colors.white,
         ),
         child: Image.asset(
           imagePath,
-          height: 32, // Increased height
+          height: 20, // Adjusted icon size
         ),
       ),
     );

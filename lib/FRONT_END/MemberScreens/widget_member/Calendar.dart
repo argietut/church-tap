@@ -82,7 +82,7 @@ class _CustomCalendarState extends State<CustomCalendar> {
                     );
                   }
                   if (snapshot.hasError) {
-                    return Center(
+                    return const Center(
                       child: Text("SOMETHING HAPPENED X_X"),
                     );
                   } else {
@@ -248,6 +248,13 @@ class _CustomCalendarState extends State<CustomCalendar> {
 
   Widget AppointmentMakerButton() {
     return TextButton(
+      style: TextButton.styleFrom(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+        backgroundColor:appGreen5,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+      ),
       onPressed: () {
         Navigator.push(
             context,
@@ -257,17 +264,21 @@ class _CustomCalendarState extends State<CustomCalendar> {
                   lastDate: DateTime(currentYear + 1, 1, 1, 0),
                   selectedDate: _selectedDay,
                   type: 'members'),
-            ));
+            ),
+        );
       },
       child: const Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.calendar_month),
+
+          SizedBox(width: 10),
           Text(
             "  Appointment",
-            style: TextStyle(color: appBlack),
+            style: TextStyle(color: appBlack,
+            fontSize: 14),
           )
         ],
-        mainAxisAlignment: MainAxisAlignment.center,
+
       ),
     );
   }
@@ -279,6 +290,13 @@ class _CustomCalendarState extends State<CustomCalendar> {
     final DateTime selectedDate = currentDate;
 
     return TextButton(
+      style: TextButton.styleFrom(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        backgroundColor: appGreen5,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
+      ),
       onPressed: () {
         Navigator.push(
           context,
@@ -293,16 +311,18 @@ class _CustomCalendarState extends State<CustomCalendar> {
         );
       },
       child: const Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.calendar_month_outlined),
+
+          SizedBox(width: 10),
           Text(
             "  Events",
             style: TextStyle(
               color: Colors.black,
+                fontSize: 14
             ),
           ),
         ],
-        mainAxisAlignment: MainAxisAlignment.center,
       ),
     );
   }

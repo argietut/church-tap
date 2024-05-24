@@ -201,7 +201,10 @@ class _AdminSettingsState extends State<AdminSettings> {
                         onPressed: () {
                           Navigator.of(context).pop();
                         },
-                        child: const Text('No'),
+                        child: const Text(
+                          'No',
+                          style: TextStyle(color: appBlack),
+                        ),
                       ),
                       TextButton(
                         onPressed: () async {
@@ -213,9 +216,11 @@ class _AdminSettingsState extends State<AdminSettings> {
                           } catch (e) {
                             print("Error signing out: $e");
                           }
-
                         },
-                        child: const Text('Yes'),
+                        child: const Text(
+                          'Yes',
+                          style: TextStyle(color: appRed),
+                        ),
                       ),
                     ],
                   );

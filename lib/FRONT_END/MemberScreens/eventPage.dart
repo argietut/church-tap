@@ -154,8 +154,6 @@ class _EventPageState extends State<EventPage> {
                   },
                   icon: const Icon(Icons.history),
                 ),
-
-
               ],
             ),
             const SizedBox(height: 15),
@@ -196,9 +194,10 @@ class _EventPageState extends State<EventPage> {
                             snapshot.data!.docs.isEmpty) {
                           return const Center(
                             child: Text(
-                              'No approved appointment.',
+                              'No approved appointment...',
                               style: TextStyle(
                                 fontSize: 18,
+                                color: appGrey
                               ),
                             ),
                           );
@@ -292,9 +291,10 @@ class _EventPageState extends State<EventPage> {
                       snapshot.data!.docs.isEmpty) {
                     return const Center(
                       child: Text(
-                        'No pending appointment.',
+                        'No pending appointment...',
                         style: TextStyle(
                           fontSize: 18,
+                          color: appGrey
                         ),
                       ),
                     );

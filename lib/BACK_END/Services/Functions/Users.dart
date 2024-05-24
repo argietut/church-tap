@@ -321,6 +321,25 @@ class UserStorage {
         .snapshots();
   }
 
+  // Future<void> UnreadNotification(String uid, String appointmentId) async {
+  //   DocumentSnapshot documentSnapshot = await db
+  //       .collection("users")
+  //       .doc("members")
+  //       .collection(uid)
+  //       .doc("Event")
+  //       .collection("Notification")
+  //       .doc(appointmentId)
+  //       .get();
+  //   await db.
+  //   collection("users")
+  //       .doc('members')
+  //       .collection(uid)
+  //       .doc('Event')
+  //       .collection('Unread')
+  //       .doc(appointmentId)
+  //       .set(documentSnapshot.data() as Map<String, dynamic>);
+  // }
+
   Future<bool> checkAdmin(String uid) async {
     bool a = false;
     var test = db.collection('users')

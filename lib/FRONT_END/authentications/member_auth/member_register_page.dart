@@ -70,14 +70,6 @@ class _MemberRegisterPageState extends State<MemberRegisterPage> {
         return;
       }
 
-      // RegExp passwordRegex = RegExp(r'^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$');
-      //
-      // if (!passwordRegex.hasMatch(password)) {
-      //   showSnackbar('Password must contain both letters and numbers and at least one symbol. Please try again!',
-      //       backgroundColor: Colors.red);
-      //   return;
-      // }
-
 
       if (!RegExp(r'^(?=.*[a-zA-Z])(?=.*\d)[A-Za-z\d]+$').hasMatch(password)) {
         showSnackbar('Password must contain both letters and numbers. Please try again!',
