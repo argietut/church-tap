@@ -1,3 +1,4 @@
+import 'package:bethel_app_final/BACK_END/Services/Functions/Users.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/screens/terms_page.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/screens/user_identity_option/contact_us.dart';
 import 'package:bethel_app_final/FRONT_END/authentications/member_auth/member_auth_page.dart';
@@ -14,6 +15,8 @@ class OptionToPlatformToLogin extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    UserStorage storage = UserStorage();
+    storage.deleteOldDates();
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,

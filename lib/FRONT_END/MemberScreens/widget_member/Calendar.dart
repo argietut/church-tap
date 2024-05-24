@@ -44,7 +44,7 @@ class _CustomCalendarState extends State<CustomCalendar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(automaticallyImplyLeading: true),
+        appBar: AppBar(automaticallyImplyLeading: false),
         body: Padding(
           padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
           child: Column(

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:get/get.dart';
 
 class UserStorage {
   //TODO write database for all users
@@ -339,9 +340,6 @@ class UserStorage {
     bool check = false;
     await db.collection('users').doc('admins').collection(uid).get().then((
         value) {
-      print(uid);
-      print(value);
-      print(value.size);
       if (value.size > 0) {
         check = true;
       }
@@ -350,5 +348,12 @@ class UserStorage {
       }
     },);
     return check;
+  }
+
+  Future<void> deleteOldDates() async{
+  //disabled Days
+   db.collectionGroup('Church Event').where('date',isLessThan: DateTime.now()).get().then((value) {
+     value.docs.clear();
+   },);
   }
 }

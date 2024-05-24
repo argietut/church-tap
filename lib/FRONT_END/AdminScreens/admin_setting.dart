@@ -4,6 +4,7 @@ import 'package:bethel_app_final/FRONT_END/authentications/admin_auth/admin_regi
 import 'package:bethel_app_final/FRONT_END/constant/color.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 
@@ -205,14 +206,14 @@ class _AdminSettingsState extends State<AdminSettings> {
                       TextButton(
                         onPressed: () async {
                           // Sign out of Firebase Authentication
-                          await FirebaseAuth.instance.signOut();
-
-                          // Check if the user signed in with Google
-                          final googleSignIn = GoogleSignIn();
-                          if (await googleSignIn.isSignedIn()) {
-                            await googleSignIn.signOut(); // Sign out of Google Sign-In
-                          }
                           Navigator.of(context).pop();
+                          try {
+                            await FirebaseAuth.instance.signOut();
+                            Get.back();
+                          } catch (e) {
+                            print("Error signing out: $e");
+                          }
+
                         },
                         child: const Text('Yes'),
                       ),
