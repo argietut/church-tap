@@ -46,3 +46,8 @@ The application uses the **Model-View-Presenter (MVP)** architectural pattern, i
 5. Run the app on your emulator or device:
     ```bash
    flutter run
+## Testing
+ Comprehensive unit and system testing have been performed to ensure all functionalities are working as expected. Below are key testing highlights:
+- Usability Tests: High ratings in ease of use, flexibility, and overall user satisfaction.
+- User Acceptance Testing: Admins and members have validated the app’s functionality, achieving a 100% success rate during the final stages of testing.
+    
