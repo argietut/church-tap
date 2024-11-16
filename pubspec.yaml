@@ -16,7 +16,7 @@ dependencies:
 
 
   cupertino_icons: ^1.0.6
-  intl: 0.18.1
+  intl: 0.19.0
   syncfusion_flutter_datepicker: ^24.1.47
   table_calendar: ^3.0.3
   firebase_core: ^2.24.2
@@ -49,6 +49,10 @@ dependencies:
   awesome_notifications: ^0.8.2
   flutter_local_notifications: ^17.0.0
   firebase_messaging: ^14.9.2
+  archive: ^3.3.0
+  ml_dataframe: ^1.5.0
+  ml_preprocessing: ^7.0.2
+
 
 dev_dependencies:
   flutter_test:
