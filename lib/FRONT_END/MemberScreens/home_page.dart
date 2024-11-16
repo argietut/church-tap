@@ -293,7 +293,6 @@ class _MemberHomePageState extends State<MemberHomePage> {
                 ],
               ),
             ),
-
           ],
         ),
       ),
