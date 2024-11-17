@@ -145,12 +145,12 @@ class _EventPageState extends State<EventPage> {
                 ),
                 IconButton(
                   onPressed: () {
-                   Navigator.push(context,
-                     MaterialPageRoute(
-                         builder: (context) =>
-                         const HistoryPage()
-                     ),
-                   );
+                    Navigator.push(context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                          const HistoryPage()
+                      ),
+                    );
                   },
                   icon: const Icon(Icons.history),
                 ),
@@ -196,8 +196,8 @@ class _EventPageState extends State<EventPage> {
                             child: Text(
                               'No approved appointment...',
                               style: TextStyle(
-                                fontSize: 18,
-                                color: appGrey
+                                  fontSize: 18,
+                                  color: appGrey
                               ),
                             ),
                           );
@@ -293,8 +293,8 @@ class _EventPageState extends State<EventPage> {
                       child: Text(
                         'No pending appointment...',
                         style: TextStyle(
-                          fontSize: 18,
-                          color: appGrey
+                            fontSize: 18,
+                            color: appGrey
                         ),
                       ),
                     );

@@ -3,10 +3,11 @@ import 'package:bethel_app_final/BACK_END/Services/Functions/Users.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/home_page.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/profile_page.dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/widget_member/Calendar.dart';
-import 'package:bethel_app_final/FRONT_END/MemberScreens/eventPage.dart';
+import 'package:bethel_app_final/FRONT_END/MemberScreens/eventPage .dart';
 import 'package:bethel_app_final/FRONT_END/MemberScreens/NotificationTab.dart';
 import 'package:bethel_app_final/FRONT_END/constant/color.dart';
 import 'package:flutter/material.dart';
+import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -16,26 +17,30 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _currentTab = 0;
-  int _notificationCount = 0; // Variable to store notification count
-
-  final List<StatefulWidget> _children = [
+  int _bottomNavIndex = 0; // To track the current tab
+  int _notificationCount = 0; // Notification count
+  final List<Widget> _children = [
     const MemberHomePage(),
     const EventPage(),
-    const NotificationTab(), // Add NotificationTab instance here
+    const NotificationTab(),
     const Profile(),
+  ];
+
+  // Icon list for the bottom navigation bar
+  final List<IconData> _iconList = [
+    Icons.home_sharp,
+    Icons.event,
+    Icons.notifications,
+    Icons.person,
   ];
 
   @override
   void initState() {
     super.initState();
-    // Initialize notification count
     _updateNotificationCount();
   }
 
-  // Method to update notification count
   void _updateNotificationCount() {
-    // Subscribe to notification stream and count unread notifications
     UserStorage().getNotification(TapAuth().auth.currentUser!.uid).listen((snapshot) {
       setState(() {
         _notificationCount = snapshot.docs.length;
@@ -46,139 +51,44 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: appGreen2,
+
       body: SafeArea(
-        child: _children[_currentTab],
+        child: _children[_bottomNavIndex],
       ),
-      resizeToAvoidBottomInset: true,
-      bottomNavigationBar: BottomAppBar(
-        shape: const CircularNotchedRectangle(),
-        color: appGreen2,
-        child: BottomNavigationBar(
-          elevation: 6,
-          backgroundColor: appGreen2,
-          selectedItemColor: appWhite,
-          unselectedItemColor: appWhite,
-          type: BottomNavigationBarType.fixed,
-          iconSize: 20.0,
-          selectedFontSize: 12.0,
-          unselectedFontSize: 12.0,
-          onTap: (int value) {
-            setState(() {
-              _currentTab = value;
-            });
-          },
-          currentIndex: _currentTab,
-          items: [
-            const BottomNavigationBarItem(
-              icon: Icon(
-                Icons.home,
-                size: 20,
-              ),
-              label: 'Home',
-              activeIcon: Text(
-                "",
-                style: TextStyle(
-                  fontSize: 8,
-                  color: appWhite,
-                ),
-              ),
-            ),
-            const BottomNavigationBarItem(
-              icon: Icon(
-                Icons.event_available,
-                size: 20,
-              ),
-              label: 'Events',
-              activeIcon: Text(
-                "",
-                style: TextStyle(
-                  fontSize: 8,
-                  color: appWhite,
-                ),
-              ),
-            ),
-            BottomNavigationBarItem(
-              icon: Stack(
-                children: [
-                  const Icon(
-                    Icons.notifications,
-                    size: 20,
-                  ),
-                  if (_notificationCount > 0)
-                    Positioned(
-                      right: 0,
-                      child: Container(
-                        padding: const EdgeInsets.all(2),
-                        decoration: BoxDecoration(
-                          color: Colors.red,
-                          borderRadius: BorderRadius.circular(6),
-                        ),
-                        constraints: const BoxConstraints(
-                          minWidth: 16,
-                          minHeight: 16,
-                        ),
-                        child: Text(
-                          '$_notificationCount',
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 10,
-                          ),
-                        ),
-                      ),
-                    ),
-                ],
-              ),
-              label: 'Notifications',
-              activeIcon: const Text(
-                "",
-                style: TextStyle(
-                  fontSize: 8,
-                  color: appWhite,
-                ),
-              ),
-            ),
-            const BottomNavigationBarItem(
-              icon: Icon(
-                Icons.person,
-                size: 20,
-              ),
-              label: 'Profile',
-              activeIcon: Text(
-                "",
-                style: TextStyle(
-                  fontSize: 8,
-                  color: appWhite,
-                ),
-              ),
-            ),
-          ],
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: appWhite,
+        elevation: 0,
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const CustomCalendar(type: "members")),
+          );
+        },
+        shape: RoundedRectangleBorder(
+          side: const BorderSide(width: 3, color: appGreen),
+          borderRadius: BorderRadius.circular(100),
+        ),
+        child: const Icon(
+          Icons.add,
+          color: appGreen,
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: Container(
-        margin: const EdgeInsets.only(top: 10),
-        height: 64,
-        width: 64,
-        child: FloatingActionButton(
-          backgroundColor: appWhite,
-          elevation: 0,
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const CustomCalendar(type: "members")),
-            );
-          },
-          shape: RoundedRectangleBorder(
-            side: const BorderSide(width: 3, color: appGreen),
-            borderRadius: BorderRadius.circular(100),
-          ),
-          child: const Icon(
-            Icons.add,
-            color: appGreen,
-          ),
-        ),
+      bottomNavigationBar: AnimatedBottomNavigationBar(
+        backgroundColor: appGreen2,
+        icons: _iconList,
+        activeIndex: _bottomNavIndex,
+        gapLocation: GapLocation.center,
+        notchSmoothness: NotchSmoothness.verySmoothEdge,
+        onTap: (index) {
+          setState(() {
+            _bottomNavIndex = index;
+          });
+        },
+        activeColor: appBlack,
+        inactiveColor: appWhite,
+        leftCornerRadius: 32,
+        rightCornerRadius: 32,
       ),
     );
   }
