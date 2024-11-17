@@ -53,6 +53,7 @@ dependencies:
   ml_dataframe: ^1.5.0
   ml_preprocessing: ^7.0.2
   animated_bottom_navigation_bar: ^1.3.3
+  buttons_flutter: ^0.0.2+1
 
 
 dev_dependencies:
@@ -70,10 +71,6 @@ flutter:
   
   assets:
     - assets/images/
-    - assets/images/home.png
-    - assets/images/calendar1.png
-    - assets/images/bell.png
-    - assets/images/settings.png
 
 
 

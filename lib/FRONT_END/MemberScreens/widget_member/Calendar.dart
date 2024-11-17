@@ -72,7 +72,7 @@ class _CustomCalendarState extends State<CustomCalendar> {
               ),
               FutureBuilder(
                 future:
-                    Future.wait([_pendingDate, _disabledDate, _approvedDate]),
+                Future.wait([_pendingDate, _disabledDate, _approvedDate]),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Center(
@@ -161,7 +161,7 @@ class _CustomCalendarState extends State<CustomCalendar> {
                         disabledBuilder: (context, day, focusedDay) {
                           return Container(
                             decoration:
-                                const BoxDecoration(color: Colors.black26),
+                            const BoxDecoration(color: Colors.black26),
                             child: Center(
                               child: Text(
                                 "${day.day}",
@@ -181,7 +181,7 @@ class _CustomCalendarState extends State<CustomCalendar> {
                                     border: Border.all(
                                         color: Colors.black26,
                                         strokeAlign:
-                                            BorderSide.strokeAlignInside)),
+                                        BorderSide.strokeAlignInside)),
                                 child: Center(
                                   child: Text(
                                     "${day.day}",
@@ -201,7 +201,7 @@ class _CustomCalendarState extends State<CustomCalendar> {
                                     border: Border.all(
                                         color: Colors.black26,
                                         strokeAlign:
-                                            BorderSide.strokeAlignInside)),
+                                        BorderSide.strokeAlignInside)),
                                 child: Center(
                                   child: Text(
                                     "${day.day}",
@@ -257,25 +257,31 @@ class _CustomCalendarState extends State<CustomCalendar> {
       ),
       onPressed: () {
         Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => AddAppointment(
-                  firstDate: DateTime.utc(currentYear, 1, 1),
-                  lastDate: DateTime(currentYear + 1, 1, 1, 0),
-                  selectedDate: _selectedDay,
-                  type: 'members'),
-            ),
+          context,
+          MaterialPageRoute(
+            builder: (context) => AddAppointment(
+                firstDate: DateTime.utc(currentYear, 1, 1),
+                lastDate: DateTime(currentYear + 1, 1, 1, 0),
+                selectedDate: _selectedDay,
+                type: 'members'),
+          ),
         );
       },
       child: const Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          Icon(
+            Icons.event,
+            color: appBlack,
+
+          ),
 
           SizedBox(width: 10),
           Center(child:Text(
             "  Appointment",
             style: TextStyle(color: appBlack,
-                fontSize: 14),
+                fontSize: 20
+            ),
           ),)
 
         ],
@@ -314,16 +320,21 @@ class _CustomCalendarState extends State<CustomCalendar> {
       child: const Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          Icon(
+            Icons.event,
+            color: appBlack,
+
+          ),
 
           SizedBox(width: 10),
           Center(child:Text(
             "  Events",
             style: TextStyle(
                 color: Colors.black,
-                fontSize: 14
+                fontSize: 20
             ),
           ),)
-      ,
+          ,
         ],
       ),
     );
