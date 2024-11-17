@@ -81,6 +81,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.1"
+  buttons_flutter:
+    dependency: "direct main"
+    description:
+      name: buttons_flutter
+      sha256: "0a8446f30fc5210187e876b030feaa66465a0cfac17f27f6dad3c70c62853e79"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.2+1"
   characters:
     dependency: transitive
     description:
