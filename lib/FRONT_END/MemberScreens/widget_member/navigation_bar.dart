@@ -26,12 +26,11 @@ class _HomePageState extends State<HomePage> {
     const Profile(),
   ];
 
-  // Icon list for the bottom navigation bar
-  final List<IconData> _iconList = [
-    Icons.home_sharp,
-    Icons.event,
-    Icons.notifications,
-    Icons.person,
+  final List<Map<String, dynamic>> _navItems = [
+    {"icon": Icons.home_sharp, "label": "Home"},
+    {"icon": Icons.event, "label": "Events"},
+    {"icon": Icons.notifications, "label": "Notifications"},
+    {"icon": Icons.person, "label": "Profile"},
   ];
 
   @override
@@ -51,7 +50,6 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       body: SafeArea(
         child: _children[_bottomNavIndex],
       ),
@@ -74,21 +72,41 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: AnimatedBottomNavigationBar(
+      bottomNavigationBar: AnimatedBottomNavigationBar.builder(
         backgroundColor: appGreen2,
-        icons: _iconList,
+        itemCount: _navItems.length,
+        tabBuilder: (int index, bool isActive) {
+          final color = isActive ? appBlack : appWhite.withOpacity(0.6);
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                _navItems[index]["icon"],
+                size: 24,
+                color: color,
+              ),
+              const SizedBox(height: 4),
+              Text(
+                _navItems[index]["label"],
+                style: TextStyle(
+                  fontSize: 12,
+                  color: color,
+                ),
+              ),
+            ],
+          );
+        },
         activeIndex: _bottomNavIndex,
         gapLocation: GapLocation.center,
         notchSmoothness: NotchSmoothness.verySmoothEdge,
+        leftCornerRadius: 32,
+        rightCornerRadius: 32,
         onTap: (index) {
           setState(() {
             _bottomNavIndex = index;
           });
         },
-        activeColor: appBlack,
-        inactiveColor: appWhite,
-        leftCornerRadius: 32,
-        rightCornerRadius: 32,
       ),
     );
   }
