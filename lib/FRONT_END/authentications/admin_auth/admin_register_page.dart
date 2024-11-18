@@ -128,6 +128,7 @@ class _AdminRegisterPageState extends State<AdminRegisterPage> {
       print(e.toString());
       // Handle exceptions if necessary
     }
+
   }
 
   @override

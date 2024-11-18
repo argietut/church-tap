@@ -4,6 +4,7 @@ import 'package:bethel_app_final/FRONT_END/authentications/auth_classes/my_textf
 import 'package:bethel_app_final/FRONT_END/authentications/member_auth/member_login_page.dart';
 import 'package:bethel_app_final/FRONT_END/constant/color.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class MemberRegisterPage extends StatefulWidget {
   final void Function()? onTap;
@@ -114,13 +115,15 @@ class _MemberRegisterPageState extends State<MemberRegisterPage> {
 
       showDialog(
         context: context,
-        barrierDismissible: true,
+        barrierDismissible: false,
         builder: (BuildContext context) {
-          return const AlertDialog(
-            content: SizedBox(
-              height: 50,
-              child: Center(
-                child: CircularProgressIndicator(),
+          return Dialog(
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            child: Center(
+              child: LoadingAnimationWidget.staggeredDotsWave(
+                color: Colors.blueAccent,
+                size: 50,
               ),
             ),
           );
