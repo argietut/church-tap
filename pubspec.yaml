@@ -54,6 +54,7 @@ dependencies:
   ml_preprocessing: ^7.0.2
   animated_bottom_navigation_bar: ^1.3.3
   buttons_flutter: ^0.0.2+1
+  loading_animation_widget: ^1.3.0
 
 
 dev_dependencies:

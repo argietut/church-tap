@@ -10,6 +10,7 @@ import 'package:bethel_app_final/FRONT_END/authentications/auth_classes/my_textf
 import 'package:bethel_app_final/FRONT_END/authentications/forgot_password.dart';
 import 'package:bethel_app_final/FRONT_END/constant/color.dart';
 import 'package:get/get.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class MemberLoginPage extends StatefulWidget {
   final void Function()? onTap;
@@ -53,53 +54,56 @@ class _MemberLoginPageState extends State<MemberLoginPage> {
       if (email.isEmpty || password.isEmpty) {
         showSnackbar('Please fill out all fields to proceed. Please try again!',
             backgroundColor: Colors.red);
+        setState(() {
+          _loading = false;
+        });
         return;
       }
 
       try {
         bool loginSuccessful = await tapAuth.loginUserAuth(email, password);
 
+        // Show loading animation dialog
         showDialog(
           context: context,
-          barrierDismissible: true,
+          barrierDismissible: false,
           builder: (BuildContext context) {
-            return const AlertDialog(
-              content: SizedBox(
-                height: 50,
-                child: Center(
-                  child: CircularProgressIndicator(),
+            return Dialog(
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              child: Center(
+                child: LoadingAnimationWidget.staggeredDotsWave(
+                  color: Colors.blueAccent,
+                  size: 50,
                 ),
               ),
             );
           },
         );
 
-        await Future.delayed(const Duration(seconds: 1));
+
+        await Future.delayed(const Duration(seconds: 1)); // Simulate processing
+
+        Navigator.of(context).pop(); // Dismiss the loading dialog
 
         if (!loginSuccessful) {
-          showSnackbar('Your account is not verified yet. Please check your email and verify your account.',
-              backgroundColor: Colors.red);
+          showSnackbar(
+            'Your account is not verified yet. Please check your email and verify your account.',
+            backgroundColor: Colors.red,
+          );
         } else {
           bool security = await storage.checkAdmins(tapAuth.auth.currentUser!.uid);
           print(security);
-          if(security  == true) {
+          if (security == true) {
             await Future.delayed(const Duration(milliseconds: 100));
             await Get.to(const AdminNavigationPage());
-          }
-         else{
+          } else {
             await Future.delayed(const Duration(milliseconds: 100));
             await Get.to(const HomePage());
           }
-
-
-
-
-          setState(() {
-            _loading = false;
-          });
         }
       } on Exception catch (e) {
-        // Catch exceptions thrown by loginUserAuth
+        // Handle login exceptions
         String errorMessage = 'An error occurred. Please try again later.';
         if (e.toString() == 'Incorrect email') {
           errorMessage = 'Incorrect email. Please check your email and try again.';
@@ -110,14 +114,17 @@ class _MemberLoginPageState extends State<MemberLoginPage> {
       }
     } catch (e) {
       print("Error occurred: $e");
-      showSnackbar('An error occurred. Please try again later.',
-          backgroundColor: Colors.red);
+      showSnackbar(
+        'An error occurred. Please try again later.',
+        backgroundColor: Colors.red,
+      );
     } finally {
       setState(() {
-        _loading = false; // Stop circular loading
+        _loading = false;
       });
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
