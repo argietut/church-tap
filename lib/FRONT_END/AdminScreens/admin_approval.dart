@@ -4,6 +4,7 @@ import 'package:bethel_app_final/FRONT_END/authentications/auth_classes/error_in
 import 'package:bethel_app_final/FRONT_END/constant/color.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:lottie/lottie.dart';
 
 class AdminApproval extends StatefulWidget {
   const AdminApproval({Key? key}) : super(key: key);
@@ -244,6 +245,30 @@ class _AdminApprovalState extends State<AdminApproval> {
                             trailing: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
+                                IconButton(
+                                  icon: SizedBox(
+                                    height: 40, // Adjust size as needed
+                                    width: 40,
+                                    child: Lottie.asset(
+                                      'assets/animations/AnimationSuggestion2.json',
+                                      repeat: true,
+                                      animate: true,
+                                    ),
+                                  ),
+                            onPressed: () {
+                              // Show a message that says "This appointment is priority"
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: const Text(
+                                    "This appointment is priority",
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                  duration: const Duration(seconds: 2),
+                                ),
+                              );
+                            },
+
+                                ),
                                 IconButton(
                                   icon: const Icon(Icons.info_outline),
                                   onPressed: () {
